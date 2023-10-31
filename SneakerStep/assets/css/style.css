@@ -2117,6 +2117,7 @@ a.bttn:focus {
 .blog .item-blog .text-blog {
     padding: 40px 45px;
     cursor: pointer;
+    height: 310px; /* Вот эту строку добавил сам, чтобы настроить высоту блока. Может повлиять на меньгих экранах */
 }
 
 @media only screen and (max-width: 769px) {
@@ -2127,14 +2128,14 @@ a.bttn:focus {
 }
 
 .blog .item-blog .text-blog a {
-    font-size: 16px;
+    font-size: 18px;
     color: #111111;
     font-weight: 500;
     cursor: pointer;
 }
 
 .blog .item-blog .text-blog p {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 300;
     margin-top: 15px;
 }
@@ -7930,8 +7931,9 @@ footer form i {
 }
 
 .out_team .title-top p {
+    text-align: justify;
     margin: 0 auto;
-    width: 39%;
+    width: 50%;
     line-height: 28px;
 }
 
