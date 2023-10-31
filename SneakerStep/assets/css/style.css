@@ -5910,6 +5910,9 @@ footer form i {
 }
 
 .quick-left .price-detail-prd2 li:last-child {
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: -10px;
     float: none;
 }
 
@@ -5975,6 +5978,7 @@ footer form i {
 
 .quick-left .side-product .group-size {
     display: inline;
+    width: 50%;
 }
 
 .quick-left .side-product .group-size li a:hover {
@@ -5998,7 +6002,7 @@ footer form i {
 }
 
 .quick-left .side-product h4 {
-    width: 15%;
+    width: 30%;
     display: inline-block;
     font-size: 14px;
     font-weight: 400;
@@ -6090,7 +6094,7 @@ footer form i {
 }
 
 .quick-left .add-to-bag .add {
-    width: 200px;
+    width: 100%;
     font-size: 14px;
     text-transform: uppercase;
     font-weight: 400;
@@ -6099,7 +6103,7 @@ footer form i {
 
 .quick-left .add-to-bag .add .icon {
     font-size: 22px;
-    margin-right: 10px;
+    margin-left: 18px;
 }
 
 .quick-left .add-to-bag .add span {
