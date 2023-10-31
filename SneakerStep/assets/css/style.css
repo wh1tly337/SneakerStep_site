@@ -2576,7 +2576,7 @@ a.bttn:focus {
 .item-logo {
     text-align: left;
     padding-left: 0;
-    margin-top: 11px;
+    margin-top: 0;
 }
 
 .item-icon {
