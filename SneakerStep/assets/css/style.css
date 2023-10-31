@@ -49,7 +49,7 @@ button {
 
 h3 {
     font-size: 32px;
-    font-weight: 500px;
+    font-weight: 500;
     color: #111111;
     text-transform: uppercase;
 }
@@ -241,7 +241,7 @@ li {
     background-color: white;
     overflow-x: hidden;
     transition: 0.5s;
-    box-shadow: 10px 0px 10px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 0 10px -10px rgba(0, 0, 0, 0.75);
     padding: 25px 25px 25px 25px;
 }
 
@@ -296,7 +296,7 @@ a.bttn:focus {
     text-align: center;
     width: 90px;
     font-weight: 400;
-    padding: 10px 0px;
+    padding: 10px 0;
     border: 1px solid #e5e5e5;
     position: relative;
 }
@@ -404,10 +404,7 @@ a.bttn:focus {
 }
 
 .btn-sm {
-    padding-top: 2px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 0;
+    padding: 2px 5px 0;
     font-size: 14px;
     outline: none;
 }
@@ -592,7 +589,7 @@ a.bttn:focus {
     font-weight: 400;
     position: relative;
     padding-bottom: 25px;
-    margin-top: 0px;
+    margin-top: 0;
     text-align: left;
 }
 
@@ -700,10 +697,9 @@ a.bttn:focus {
     text-transform: uppercase;
     color: white !important;
     background-color: #111111;
-    padding: 10px 20px 10px 20px;
     font-weight: 400;
     font-size: 14px !important;
-    padding-top: 13px;
+    padding: 13px 20px 10px;
     text-align: center;
     transition: all 0.3s ease;
     margin-bottom: 10px;
@@ -742,7 +738,7 @@ a.bttn:focus {
     opacity: 1;
     visibility: visible;
     transition: all 0.5s ease 0s;
-    padding: 10px 30px 10px 0px;
+    padding: 10px 30px 10px 0;
     z-index: 2;
     top: 34px;
     background-color: white;
@@ -792,12 +788,12 @@ a.bttn:focus {
 
 .header .header-mobi .icon-hd-mb .icon-hd-mb-right .js-open-search input {
     width: auto;
-    right: 0px;
+    right: 0;
     position: absolute;
     top: 45px;
     z-index: 2;
     border: 1px solid #e5e5e5;
-    border-radius: 0px;
+    border-radius: 0;
     box-shadow: none;
     text-align: left;
     padding-left: 15px;
@@ -921,7 +917,7 @@ a.bttn:focus {
     position: absolute;
     top: 40%;
     left: 90%;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     font-size: 12px;
     font-weight: 400;
     color: #111111;
@@ -933,8 +929,8 @@ a.bttn:focus {
 
 .header .header-main {
     text-align: center;
-    padding-top: 0px;
-    border-top: 0px solid #e5e5e5;
+    padding-top: 0;
+    border-top: 0 solid #e5e5e5;
 }
 
 .header .header-main .level1 {
@@ -1046,7 +1042,7 @@ a.bttn:focus {
     font-weight: 400;
     position: relative;
     padding-bottom: 25px;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .header .header-main .level1 .level11 .hover-menu-home .item-menu-home h4:after {
@@ -1092,7 +1088,7 @@ a.bttn:focus {
     position: absolute;
     border-radius: 0;
     border: 0;
-    padding: 30px 0px 15px 30px;
+    padding: 30px 0 15px 30px;
     background-color: white;
     width: 137px;
     box-shadow: 1px 1px 10px -4px;
@@ -1125,7 +1121,7 @@ a.bttn:focus {
 }
 
 .header .header-main .level1_h3 {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .header .header-main .level1_h1 {
@@ -1157,7 +1153,7 @@ a.bttn:focus {
 .header-h2 .header-top {
     padding-bottom: 30px;
     border-bottom: 1px solid #e5e5e5;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .header-h2 .header-top .icon-left {
@@ -1307,7 +1303,6 @@ a.bttn:focus {
 }
 
 .header-h3 .header-top-h3 .lg-ic a p {
-    font-size: 12px;
     font-size: 12px;
     color: #444444;
     line-height: 1;
@@ -1592,7 +1587,7 @@ a.bttn:focus {
 /* 11. BANNER-TOP  */
 .banner-top {
     background-color: #eeeeee;
-    padding: 20px 0px 10px 0px;
+    padding: 20px 0 10px 0;
     margin-top: -30px;
 }
 
@@ -1872,7 +1867,6 @@ a.bttn:focus {
     font-weight: 400;
     text-transform: uppercase;
     color: #333333;
-    cursor: pointer;
     transition: 0.5s all ease;
 }
 
@@ -1949,7 +1943,6 @@ a.bttn:focus {
     font-weight: 400;
     text-transform: uppercase;
     color: #333333;
-    cursor: pointer;
     background-color: #111111;
     color: #dddddd;
 }
@@ -1974,7 +1967,7 @@ a.bttn:focus {
 
 @media (max-width: 991px) {
     .blog3 {
-        padding-top: 0px;
+        padding-top: 0;
     }
 }
 
@@ -2789,7 +2782,7 @@ a.bttn:focus {
 }
 
 .content-details-product .left-slidebar .options .item-brand ul li:last-child {
-    border-right: 0px;
+    border-right: 0;
 }
 
 @media only screen and (max-width: 991px) {
@@ -2873,7 +2866,7 @@ a.bttn:focus {
 .content-details-product .right-content .nav-tabs li.active a,
 .content-details-product .right-content .nav-tabs li.active a:focus,
 .content-details-product .right-content .nav-tabs li.active a:hover {
-    border: 0px solid #ddd;
+    border: 0 solid #ddd;
     border-right: 2px solid #888888;
 }
 
@@ -2919,7 +2912,7 @@ a.bttn:focus {
     padding-top: 4px;
     z-index: 1;
     background-color: white;
-    box-shadow: 0px 2px 9px -4px;
+    box-shadow: 0 2px 9px -4px;
 }
 
 .content-details-product .right-content .quick-shop .product-lable span {
@@ -2998,7 +2991,7 @@ a.bttn:focus {
 
 @media only screen and (max-width: 991px) {
     .content-slidebar {
-        margin-top: 0px;
+        margin-top: 0;
     }
 }
 
@@ -3023,10 +3016,8 @@ a.bttn:focus {
 
 .category p {
     text-align: center;
-    margin: 0 auto;
     width: 50%;
-    margin-top: 25px;
-    margin-bottom: 52px;
+    margin: 25px auto 52px;
     line-height: 25px;
 }
 
@@ -3048,7 +3039,7 @@ a.bttn:focus {
 }
 
 .category .item .img-category:hover {
-    box-shadow: 0px 8px 33px 0px rgba(0, 0, 0, 0.13);
+    box-shadow: 0 8px 33px 0 rgba(0, 0, 0, 0.13);
 }
 
 .category .item .img-category img {
@@ -3364,7 +3355,7 @@ a.bttn:focus {
     height: 50px;
     background-color: white;
     width: 50px;
-    border-radius: 0px;
+    border-radius: 0;
     margin-bottom: 5px;
     padding: 0;
     outline: none;
@@ -3566,7 +3557,7 @@ a.bttn:focus {
 }
 
 .products .list-item .title ul li:last-child {
-    border-right: 0px;
+    border-right: 0;
 }
 
 .products .list-item .title .share-product {
@@ -3607,8 +3598,7 @@ a.bttn:focus {
 
 .product-v1 .title-top p {
     width: 39%;
-    margin: 0 auto;
-    margin-bottom: 33px;
+    margin: 0 auto 33px;
     line-height: 25px;
 }
 
@@ -3625,8 +3615,8 @@ a.bttn:focus {
 }
 
 .product-v1 .tab-content .js-mobi-product {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 .product-v1 .tab-content .js-mobi-product button {
@@ -3668,7 +3658,7 @@ a.bttn:focus {
 
 .products-v1 .item .icon-prd {
     bottom: 3%;
-    right: 0%;
+    right: 0;
 }
 
 .products-v1 .item:hover .icon-prd {
@@ -3839,7 +3829,7 @@ a.bttn:focus {
 }
 
 .product-tab-slide .tab-ul .nav-tabs {
-    border-bottom: 0px solid #ddd;
+    border-bottom: 0 solid #ddd;
 }
 
 .product-tab-slide .tab-ul .nav-tabs li {
@@ -3900,7 +3890,7 @@ a.bttn:focus {
     opacity: 0;
     transition: all 0.25s ease;
     outline: none;
-    box-shadow: 2px 2px 9px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 2px 2px 9px 0 rgba(0, 0, 0, 0.15);
 }
 
 .product-tab-slide .tab-content .js-tab-product button:before {
@@ -4005,7 +3995,7 @@ a.bttn:focus {
     padding-top: 4px;
     z-index: 1;
     background-color: white;
-    box-shadow: 0px 2px 9px -4px;
+    box-shadow: 0 2px 9px -4px;
 }
 
 .product-tab-slide .tab-content .item .product .product-lable span {
@@ -4025,7 +4015,7 @@ a.bttn:focus {
     z-index: 1;
     background-color: #111111;
     color: #dddddd;
-    box-shadow: 0px 2px 9px -4px;
+    box-shadow: 0 2px 9px -4px;
 }
 
 .product-tab-slide .tab-content .item .product .product-lable-new span {
@@ -4067,7 +4057,7 @@ a.bttn:focus {
 .product-tab-slide .tab-content .item .product .icon-prd {
     position: absolute;
     bottom: 3%;
-    right: 0%;
+    right: 0;
     transition: all 0.4s ease 0s;
     opacity: 0;
 }
@@ -4076,7 +4066,7 @@ a.bttn:focus {
     height: 50px;
     background-color: white;
     width: 50px;
-    border-radius: 0px;
+    border-radius: 0;
     margin-bottom: 5px;
     padding: 0;
     outline: none;
@@ -4316,7 +4306,6 @@ a.bttn:focus {
     color: #dddddd;
     background-color: #111111;
     outline: none;
-    cursor: pointer;
 }
 
 .form-checkout {
@@ -4333,7 +4322,7 @@ a.bttn:focus {
 .form-checkout .form-details .creat-chk {
     width: 6%;
     height: 12px;
-    margin: 29px 3px 0 0px;
+    margin: 29px 3px 0 0;
 }
 
 @media only screen and (max-width: 992px) {
@@ -4375,7 +4364,7 @@ a.bttn:focus {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
-    top: 0% !important;
+    top: 0 !important;
 }
 
 .form-checkout .form-details .item-ip .dropdown-menu ul li a:focus {
@@ -4465,7 +4454,7 @@ a.bttn:focus {
 }
 
 .form-checkout .form-details .check-right .order .cart-table tr td {
-    padding: 15px 0px 20px 0;
+    padding: 15px 0 20px 0;
 }
 
 .form-checkout .form-details .check-right .order .cart-table tr td:last-child {
@@ -4534,7 +4523,6 @@ a.bttn:focus {
     color: white;
     background-color: #111111;
     outline: none;
-    cursor: pointer;
 }
 
 .form-checkout .method {
@@ -4558,7 +4546,7 @@ a.bttn:focus {
     height: 12px;
     font-size: 13px;
     font-weight: 400;
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 .form-checkout .method form p {
@@ -4619,7 +4607,7 @@ a.bttn:focus {
 .form-checkout form input {
     width: 6%;
     height: 12px;
-    margin-left: 0px;
+    margin-left: 0;
     margin-right: 7px;
 }
 
@@ -4674,7 +4662,7 @@ a.bttn:focus {
     border: medium none;
     left: 50%;
     height: 38px;
-    padding: 0px;
+    padding: 0;
     text-align: center;
     font-size: 14px;
     color: #bcbcbc;
@@ -5087,7 +5075,7 @@ a.bttn:focus {
     font-weight: 400;
     position: relative;
     padding-bottom: 25px;
-    margin-top: 0px;
+    margin-top: 0;
     text-align: left;
 }
 
@@ -5227,7 +5215,7 @@ a.bttn:focus {
 
 @media screen and (max-width: 992px) {
     #comming_soon_page .comming {
-        margin-top: 0px;
+        margin-top: 0;
         padding-top: 150px;
         padding-bottom: 50px;
     }
@@ -5246,7 +5234,7 @@ a.bttn:focus {
 #comming_soon_page .comming ul {
     margin-top: 30px;
     margin-bottom: 33px;
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 #comming_soon_page .comming ul li {
@@ -5268,7 +5256,7 @@ a.bttn:focus {
 @media screen and (max-width: 600px) {
     #comming_soon_page .comming ul li p {
         width: 60px;
-        margin: 0px;
+        margin: 0;
     }
 }
 
@@ -5296,7 +5284,7 @@ a.bttn:focus {
 
 @media (max-width: 600px) {
     #comming_soon_page .comming ul li span {
-        margin: 0px;
+        margin: 0;
     }
 }
 
@@ -5721,7 +5709,7 @@ footer form i {
 .tab-details .tab-ul .nav-tabs > li.active > a,
 .tab-details .tab-ul .nav-tabs > li.active > a:focus,
 .tab-details .tab-ul .nav-tabs > li.active > a:hover {
-    border: 0px solid #ddd;
+    border: 0 solid #ddd;
     border-right: 2px solid #888888;
 }
 
@@ -5748,7 +5736,7 @@ footer form i {
 
 @media (max-width: 480px) {
     .tab-details .tab-ul ul li a {
-        padding: 0px 7px 0 7px;
+        padding: 0 7px 0 7px;
         font-size: 14px;
     }
 }
@@ -5864,7 +5852,7 @@ footer form i {
 }
 
 .quick-left ul li:last-child {
-    border-right: 0px;
+    border-right: 0;
 }
 
 .quick-left .ul-tag li {
@@ -5886,7 +5874,7 @@ footer form i {
 }
 
 .quick-left .price li {
-    border-right: 0px solid #888888;
+    border-right: 0 solid #888888;
     font-size: 13px;
     color: #111111;
     font-weight: 400;
@@ -6089,7 +6077,7 @@ footer form i {
     background-color: #888888;
     display: inline-block;
     position: absolute;
-    top: 0px;
+    top: 0;
     left: 25%;
 }
 
@@ -6130,7 +6118,7 @@ footer form i {
 .quick-left .js-slideshow-product-details button {
     z-index: 999;
     background-color: white;
-    box-shadow: 2px 3px 15px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 3px 15px 0 rgba(0, 0, 0, 0.2);
     height: 50px;
     width: 50px;
     transition: all 0.25s ease;
@@ -6231,7 +6219,7 @@ footer form i {
 }
 
 .quick-shop-v1 .qs-right .img-prd-details:hover {
-    box-shadow: 0px 3px 10px -5px;
+    box-shadow: 0 3px 10px -5px;
 }
 
 .quick-shop-v1 .qs-right .lable {
@@ -6244,7 +6232,7 @@ footer form i {
     padding-top: 4px;
     z-index: 1;
     background-color: white;
-    box-shadow: 0px 2px 9px -4px;
+    box-shadow: 0 2px 9px -4px;
 }
 
 .quick-shop-v1 .qs-right .lable span {
@@ -6354,7 +6342,7 @@ footer form i {
     width: 1080px;
     opacity: 0;
     visibility: hidden;
-    box-shadow: 0 0px 25px -10px;
+    box-shadow: 0 0 25px -10px;
     transition: 0.5s all ease;
 }
 
@@ -6388,7 +6376,7 @@ footer form i {
 
 .group-menu .filter .hover-filter .category-details .item ul li {
     display: block;
-    padding: 0px;
+    padding: 0;
     line-height: 35px;
 }
 
@@ -6508,8 +6496,8 @@ footer form i {
     height: 18px;
     content: '';
     position: absolute;
-    left: 0%;
-    top: 0%;
+    left: 0;
+    top: 0;
     border: 1px solid #e5e5e5;
     border-radius: 50%;
     transition: all 0.1s ease 0s;
@@ -6534,7 +6522,7 @@ footer form i {
 }
 
 .group-menu .filter .hover-filter .options .item-brand ul li:last-child {
-    border-right: 0px;
+    border-right: 0;
 }
 
 .group-menu .filter:hover .hover-filter {
@@ -6569,8 +6557,8 @@ footer form i {
 }
 
 .js-banner-promotion .container-fluid {
-    padding-right: 0px;
-    padding-left: 0px;
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .js-banner-promotion .banner-left {
@@ -6716,7 +6704,6 @@ footer form i {
     font-weight: 400;
     text-transform: uppercase;
     color: #333333;
-    cursor: pointer;
     transition: all 0.5s ease;
 }
 
@@ -6775,7 +6762,6 @@ footer form i {
     font-weight: 400;
     text-transform: uppercase;
     color: #333333;
-    cursor: pointer;
     transition: all 0.5s ease;
 }
 
@@ -6823,7 +6809,7 @@ footer form i {
 
 .js-banner-promotion .item-banner .img-banner-right-bt .title-banner-right-bt h3 {
     text-transform: none;
-    margin-top: 0px;
+    margin-top: 0;
     font-size: 48px;
 }
 
@@ -6836,9 +6822,9 @@ footer form i {
 .js-banner-promotion .item-banner .img-banner-right-bt .title-banner-right-bt h3:after {
     position: absolute;
     margin: auto;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;
     height: 3px;
     width: 80px;
     background: #111111;
@@ -7111,7 +7097,7 @@ footer form i {
     padding-top: 4px;
     z-index: 1;
     background-color: white;
-    box-shadow: 0px 2px 9px -4px;
+    box-shadow: 0 2px 9px -4px;
 }
 
 .special .home-2 .item .product .product-lable span {
@@ -7131,7 +7117,7 @@ footer form i {
     z-index: 1;
     background-color: #111111;
     color: #dddddd;
-    box-shadow: 0px 2px 9px -4px;
+    box-shadow: 0 2px 9px -4px;
 }
 
 .special .home-2 .item .product .product-lable-new span {
@@ -7159,7 +7145,7 @@ footer form i {
     height: 50px;
     background-color: white;
     width: 50px;
-    border-radius: 0px;
+    border-radius: 0;
     margin-bottom: 5px;
     padding: 0;
     outline: none;
@@ -7353,7 +7339,7 @@ footer form i {
     padding-top: 4px;
     z-index: 1;
     background-color: white;
-    box-shadow: 0px 2px 9px -4px;
+    box-shadow: 0 2px 9px -4px;
 }
 
 .special .home-2-v2 .item .product .product-lable span {
@@ -7373,7 +7359,7 @@ footer form i {
     z-index: 1;
     background-color: #111111;
     color: #dddddd;
-    box-shadow: 0px 2px 9px -4px;
+    box-shadow: 0 2px 9px -4px;
 }
 
 .special .home-2-v2 .item .product .product-lable-new span {
@@ -7401,7 +7387,7 @@ footer form i {
     height: 50px;
     background-color: white;
     width: 50px;
-    border-radius: 0px;
+    border-radius: 0;
     margin-bottom: 5px;
     padding: 0;
     outline: none;
@@ -7493,8 +7479,8 @@ footer form i {
 
 @media only screen and (max-width: 1024px) {
     .testimonial .slider .row {
-        padding-right: 0px;
-        padding-left: 0px;
+        padding-right: 0;
+        padding-left: 0;
     }
 }
 
@@ -7665,11 +7651,11 @@ footer form i {
     }
 
     .slideshow button .slick-prev {
-        left: 0px;
+        left: 0;
     }
 
     .slideshow button .slick-next {
-        right: 0px;
+        right: 0;
     }
 
     .slideshow button:before {
@@ -7775,7 +7761,7 @@ footer form i {
     font-weight: 500;
     text-transform: inherit;
     font-size: 60px;
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 10px;
 }
 
