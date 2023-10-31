@@ -4531,14 +4531,14 @@ a.bttn:focus {
 }
 
 .form-checkout .method p {
-    margin-left: 34px;
+    margin-left: 15px;
     margin-top: 10px;
     margin-bottom: 20px;
 }
 
 .form-checkout .method h3 {
     font-size: 16px;
-    margin-top: 53px;
+    margin-top: 50px;
 }
 
 .form-checkout .method form input {
@@ -4546,13 +4546,21 @@ a.bttn:focus {
     height: 12px;
     font-size: 13px;
     font-weight: 400;
-    margin-left: 0;
+    margin-left: 15px;
 }
 
 .form-checkout .method form p {
     font-weight: 300;
     font-size: 13px;
     line-height: 25px;
+}
+
+.form-checkout .method form label {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 15px;
+    width: 400px;
+    margin-left: 15px;
 }
 
 .form-checkout .login {
@@ -4607,8 +4615,8 @@ a.bttn:focus {
 .form-checkout form input {
     width: 6%;
     height: 12px;
-    margin-left: 0;
-    margin-right: 7px;
+    margin-left: 15px;
+    margin-right: 0;
 }
 
 .form-your-cart {
