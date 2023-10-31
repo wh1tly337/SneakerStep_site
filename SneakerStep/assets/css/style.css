@@ -4924,7 +4924,7 @@ a.bttn:focus {
 }
 
 .form-your-cart .form-total-right button {
-    height: 40px;
+    height: 100%;
     border-radius: 0;
     text-transform: uppercase;
     color: #dddddd;
