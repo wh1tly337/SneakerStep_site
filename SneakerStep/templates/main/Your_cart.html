@@ -1,5 +1,6 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <title> Your cart</title>
@@ -34,22 +35,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3 item-logo">
-                    <a href="Home.html"><img src="{% static 'main/images/logo.png'%}" width="112" height="63" alt=""></a>
+                    <a href="/"><img src="{% static 'main/images/logo.png'%}" width="112" height="63" alt=""></a>
                 </div>
                 <div class="col-md-6">
                     <div class="header-main">
                         <ul class="level1 level1_h1">
                             <li class="level11">
-                                <a href="Home.html">Главная</a>
+                                <a href="/">Главная</a>
                             </li>
                             <li class="level11">
-                                <a href="Catalog.html">Каталог</a>
+                                <a href="/catalog">Каталог</a>
                             </li>
                             <li class="level11">
                                 <a href="#">Информация</a>
                                 <ul class="hover-blog">
-                                    <li><a href="About_us.html">О нас</a></li>
-                                    <li><a href="Contact_us.html">Контакты</a></li>
+                                    <li><a href="/about_us">О нас</a></li>
+                                    <li><a href="/contact_us">Контакты</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -58,7 +59,7 @@
                 <div class="col-md-3 icon-header-right item-icon">
                     <ul>
                         <li class="hover-cart-user">
-                            <a class="hover-icon-cart" href="Your_cart.html">
+                            <a class="hover-icon-cart" href="/your_cart">
                                 <span class="icon icon-ecommerce-basket"></span>
                                 <p>2</p>
                             </a>
@@ -99,8 +100,8 @@
                                     </div>
                                 </div>
                                 <div class="actions">
-                                    <a class="btn-checkout" href="Chect_out.html">Оплатить</a>
-                                    <a class="btn-cart" href="Your_cart.html">Открыть</a>
+                                    <a class="btn-checkout" href="/chect_out">Оплатить</a>
+                                    <a class="btn-cart" href="/your_cart">Открыть</a>
                                 </div>
                             </div>
                         </li>
@@ -216,8 +217,8 @@
                     <h3 class="pull-right">Итого: £500</h3>
                 </div>
                 <div class="conti">
-                    <button onclick="document.location='Catalog.html'">Продолжить покупки</button>
-                    <button onclick="document.location='Your_cart.html'">Обновить корзину</button>
+                    <button onclick="document.location='/catalog'">Продолжить покупки</button>
+                    <button onclick="document.location='/your_cart'">Обновить корзину</button>
                 </div>
             </div>
             <div class="col-md-3">
@@ -227,7 +228,7 @@
                     <span>Доставка: </span>
                     <p>Стоимость доставки будет рассчитана после того, как вы укажете свой адрес</p>
                     <h3 style="margin-top: 26px; margin-bottom: 5px;border-bottom: 0;">Итого: £500</h3>
-                    <button onclick="document.location='Chect_out.html'">Перейти к оформлению заказа</button>
+                    <button onclick="document.location='/chect_out'">Перейти к оформлению заказа</button>
                 </div>
             </div>
         </div>
@@ -271,11 +272,11 @@
             <div class="col-md-2 col-sm-6 col-xs-12">
                 <h2>Наши услуги</h2>
                 <ul class="our-ser-pol">
-                    <li><a href="Home.html">Главаная</a></li>
-                    <li><a href="Catalog.html">Каталог</a></li>
-                    <li><a href="Your_cart.html">Корзина</a></li>
-                    <li><a href="About_us.html">О нас</a></li>
-                    <li><a href="Contact_us.html">Контакты</a></li>
+                    <li><a href="/">Главаная</a></li>
+                    <li><a href="/catalog">Каталог</a></li>
+                    <li><a href="/your_cart">Корзина</a></li>
+                    <li><a href="/about_us">О нас</a></li>
+                    <li><a href="/contact_us">Контакты</a></li>
                 </ul>
             </div>
             <div class="col-md-2 col-sm-6 col-xs-12">
