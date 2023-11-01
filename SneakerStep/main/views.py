@@ -31,3 +31,11 @@ def product_card(request):
 
 def your_cart(request):
     return render(template_name='main/cart.html', request=request)
+
+
+def refound(request):
+    return render(template_name='main/refound.html', request=request)
+
+
+def purchase(request):
+    return render(template_name='main/purchase.html', request=request)

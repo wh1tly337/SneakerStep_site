@@ -1,279 +1,95 @@
+{% extends 'main/stencil.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ru">
 
-<head>
-    <title>СникерШаг</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- GOOGLE FONT -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <!-- CSS LIBRARY -->
-    <link rel="stylesheet" type="text/css" href="{% static 'main/vendor/slick.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'main/vendor/slick-theme.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'main/vendor/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello-codes.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello-embedded.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello-ie7-codes.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello-ie7.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/ionicons.min.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/Pe-icon-7-stroke.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/styles_Ecommerce.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/jquery.fancybox.min.css' %}">
-    <!-- MAIN STYLE -->
-    <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}">
-</head>
+{% block banner %}
+    <section class="banner-top-v1 banner-blog  banner-checkout banner-about">
+        <h3>Информация о СникерШаг</h3>
+        <p>лучший интернет-магазин по продаже обуви</p>
+    </section>
+{% endblock %}
 
-<body>
-<!--   header -->
-<header class="header ">
-    <div class="header-top clearfix">
+{% block body %}
+    <section class="out-mission">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 item-logo">
-                    <a href="/"><img src="{% static 'main/images/logo.png' %}" width="112" height="63" alt=""></a>
+                <h3>наша миссия</h3>
+                <div class="col-md-6">
+                    <div class="prd-about">
+                        <img class="img-responsive" src="{% static 'main/images/About_us/out_miss.jpg' %}" alt="">
+                    </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="header-main">
-                        <ul class="level1 level1_h1">
-                            <li class="level11">
-                                <a href="/">Главная</a>
-                            </li>
-                            <li class="level11">
-                                <a href="/catalog">Каталог</a>
-                            </li>
-                            <li class="level11">
-                                <a href="#">Информация</a>
-                                <ul class="hover-blog">
-                                    <li><a href="/about_us">О нас</a></li>
-                                    <li><a href="/contact_us">Контакты</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <div class="item-text"><span>Добро пожаловать в мир SneakerShag, вашего надежного партнера в поиске идеальной обуви! Мы гордимся тем, что предоставляем вам доступ к самым модным и комфортным кроссовкам и кедам. Наш магазин - это место, где стиль встречается с функциональностью, и мы готовы поделиться с вами нашими ценностями и устроями.</span>
                     </div>
-                </div>
-                <div class="col-md-3 icon-header-right item-icon">
-                    <ul>
-                        <li class="hover-cart-user">
-                            <a class="hover-icon-cart" href="/your_cart">
-                                <span class="icon icon-ecommerce-basket"></span>
-                                <p>2</p>
-                            </a>
-                            <div class="submenu mini-cart">
-                                <h4 class="account">2 вещи</h4>
-                                <div class="product">
-                                    <div class="item clearfix">
-                                        <div class="img-prd">
-                                            <img class="img-responsive"
-                                                 src="{% static 'main/images/product-bag1.png' %}" alt="">
-                                        </div>
-                                        <div class="title">
-                                            <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                                            <div class="product-price"><p>₽3000</p></div>
-                                        </div>
-                                    </div>
-                                    <div class="item clearfix">
-                                        <div class="img-prd">
-                                            <img class="img-responsive"
-                                                 src="{% static 'main/images/product-bag2.png' %}" alt="">
-                                        </div>
-                                        <div class="title">
-                                            <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                                            <div class="product-price"><p>₽3000</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="menu-cart-total">
-                                    <div class="list-money">
-                                        <label>Цена:</label>
-                                        <span class="money">₽6000</span>
-                                    </div>
-                                    <div class="list-money">
-                                        <label>Доставка:</label>
-                                        <span class="money">₽300</span>
-                                    </div>
-                                    <div class="list-money">
-                                        <label>Итого:</label>
-                                        <span class="money">₽6300</span>
-                                    </div>
-                                </div>
-                                <div class="actions">
-                                    <a class="btn-checkout" href="/chect_out">Оплатить</a>
-                                    <a class="btn-cart" href="/your_cart">Открыть</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!--   header -->
-<!--  banner -->
-<section class="banner-top-v1 banner-blog  banner-checkout banner-about">
-    <h3>Информация о СникерШаг</h3>
-    <p>лучший интернет-магазин по продаже обуви</p>
-</section>
-<!-- end/ banner -->
-<!--out -->
-<section class="out-mission">
-    <div class="container">
-        <div class="row">
-            <h3>наша миссия</h3>
-            <div class="col-md-6">
-                <div class="prd-about">
-                    <img class="img-responsive" src="{% static 'main/images/About_us/out_miss.jpg' %}" alt="">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="item-text"><span>Добро пожаловать в мир SneakerShag, вашего надежного партнера в поиске идеальной обуви! Мы гордимся тем, что предоставляем вам доступ к самым модным и комфортным кроссовкам и кедам. Наш магазин - это место, где стиль встречается с функциональностью, и мы готовы поделиться с вами нашими ценностями и устроями.</span>
-                </div>
-                <div class="item-text"><span>Миссия SneakerShag - сделать вашу жизнь более комфортной и стильной, предлагая широкий выбор обуви, отвечающей самым современным требованиям. Мы стремимся к тому, чтобы каждый клиент, посещая наш магазин, мог найти обувь, которая подчеркивает его индивидуальность и позволяет чувствовать себя уверенно на каждом шагу.</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--end/out -->
-<!--  blog -->
-<section class="blog blog_about_us">
-    <div class="title-top">
-        <h3>что делает нас особенными?</h3>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="item-blog">
-                    <div class="img-blog">
-                        <img src="{% static 'main/images/About_us/service1.png' %}" alt="" class="img-responsive">
-                    </div>
-                    <div class="text-blog">
-                        <a class="topic">Качество в каждой детали</a>
-                        <p>Мы работаем только с проверенными производителями, чтобы предложить вам обувь высочайшего
-                            качества. В СникерШаг мы не идем на компромиссы, когда речь идет о комфорте и
-                            долговечности.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="item-blog">
-                    <div class="img-blog">
-                        <img src="{% static 'main/images/About_us/service2.png' %}" alt="" class="img-responsive">
-                    </div>
-                    <div class="text-blog">
-                        <a class="topic">Модный стиль</a>
-                        <p>Наша команда следит за последними трендами в мире обуви и предлагает вам самые стильные и
-                            актуальные модели. Независимо от того, ищете ли вы спортивные кроссовки, повседневные
-                            сникеры или обувь для особых случаев, у нас вы найдете именно то, что вам нужно.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="item-blog">
-                    <div class="img-blog">
-                        <img src="{% static 'main/images/About_us/service3.png' %}" alt="" class="img-responsive">
-                    </div>
-                    <div class="text-blog">
-                        <a class="topic">Разнообразие</a>
-                        <p>В СникерШаг мы понимаем, что у каждого покупателя свои предпочтения. Поэтому мы предлагаем
-                            широкий ассортимент обуви в разных стилях, размерах и цветах. У нас есть что-то для
-                            каждого.</p>
+                    <div class="item-text"><span>Миссия SneakerShag - сделать вашу жизнь более комфортной и стильной, предлагая широкий выбор обуви, отвечающей самым современным требованиям. Мы стремимся к тому, чтобы каждый клиент, посещая наш магазин, мог найти обувь, которая подчеркивает его индивидуальность и позволяет чувствовать себя уверенно на каждом шагу.</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!--  end/blog -->
-<section class="out_team">
-    <div class="title-top">
-        <h3>Мы заботимся о наших клиентах</h3>
-        <p>СникерШаг - это больше, чем просто магазин обуви. Мы стремимся создать сообщество, в котором наши клиенты
-            чувствуют себя как дома. Мы ценим вашу поддержку и готовы идти на дополнительные шаги, чтобы сделать вашу
-            покупку приятным и удовлетворительным опытом.
-            <br>
-            <br>
-            Спасибо, что выбрали СникерШаг. Мы надеемся, что вы найдете у нас идеальную обувь, которая будет
-            сопровождать вас на вашем пути к стилю и комфорту.</p>
-    </div>
-</section>
-<!-- footer -->
-<footer class="footerv2">
-    <div class="container ">
-        <div class="row">
-            <div class="col-md-5 col-sm-6 col-xs-12">
-                <div class="instagram">
-                    <h2>@instagram</h2>
-                    <ul>
-                        <li><a href="#"><img class="img-responsive"
-                                             src="{% static 'main/images/Home_03/instagram1_ft_home3.png' %}"
-                                             alt=""></a></li>
-                        <li><a href="#"><img class="img-responsive"
-                                             src="{% static 'main/images/Home_03/instagram2_ft_home3.png' %}"
-                                             alt=""></a></li>
-                        <li><a href="#"><img class="img-responsive"
-                                             src="{% static 'main/images/Home_03/instagram3_ft_home3.png' %}"
-                                             alt=""></a></li>
-                        <li><a href="#"><img class="img-responsive"
-                                             src="{% static 'main/images/Home_03/instagram4_ft_home3.png' %}"
-                                             alt=""></a></li>
-                    </ul>
-                    <ul class="coppy-right">
-                        <li>© 2023 <strong>СникерШаг</strong> |</li>
-                        <li>Все права защищены</li>
-                    </ul>
+    </section>
+    <!--end/out -->
+    <!--  blog -->
+    <section class="blog blog_about_us">
+        <div class="title-top">
+            <h3>что делает нас особенными?</h3>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="item-blog">
+                        <div class="img-blog">
+                            <img src="{% static 'main/images/About_us/service1.png' %}" alt="" class="img-responsive">
+                        </div>
+                        <div class="text-blog">
+                            <a class="topic">Качество в каждой детали</a>
+                            <p>Мы работаем только с проверенными производителями, чтобы предложить вам обувь высочайшего
+                                качества. В СникерШаг мы не идем на компромиссы, когда речь идет о комфорте и
+                                долговечности.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="item-blog">
+                        <div class="img-blog">
+                            <img src="{% static 'main/images/About_us/service2.png' %}" alt="" class="img-responsive">
+                        </div>
+                        <div class="text-blog">
+                            <a class="topic">Модный стиль</a>
+                            <p>Наша команда следит за последними трендами в мире обуви и предлагает вам самые стильные и
+                                актуальные модели. Независимо от того, ищете ли вы спортивные кроссовки, повседневные
+                                сникеры или обувь для особых случаев, у нас вы найдете именно то, что вам нужно.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="item-blog">
+                        <div class="img-blog">
+                            <img src="{% static 'main/images/About_us/service3.png' %}" alt="" class="img-responsive">
+                        </div>
+                        <div class="text-blog">
+                            <a class="topic">Разнообразие</a>
+                            <p>В СникерШаг мы понимаем, что у каждого покупателя свои предпочтения. Поэтому мы
+                                предлагаем
+                                широкий ассортимент обуви в разных стилях, размерах и цветах. У нас есть что-то для
+                                каждого.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-6 col-xs-12 ct">
-                <h2>Контакты</h2>
-                <ul>
-                    <li><strong><span class="pe-7s-map-marker"></span></strong> ул. 8 Марта, д. 62/45, Екатеринбург,
-                        Свердловская обл., 620144.
-                    </li>
-                    <li><strong><span class="pe-7s-call"></span></strong> +7 (922) 345-67-89</li>
-                    <li><strong><span class="pe-7s-mail"></span></strong> SneakerStep@mail.ru</li>
-                    <li><strong><span class="pe-7s-clock"></span></strong> 24 часа, Пн-Вс</li>
-                </ul>
-            </div>
-            <div class="col-md-2 col-sm-6 col-xs-12">
-                <h2>Наши услуги</h2>
-                <ul class="our-ser-pol">
-                    <li><a href="/">Главаная</a></li>
-                    <li><a href="/catalog">Каталог</a></li>
-                    <li><a href="/your_cart">Корзина</a></li>
-                    <li><a href="/about_us">О нас</a></li>
-                    <li><a href="/contact_us">Контакты</a></li>
-                </ul>
-            </div>
-            <div class="col-md-2 col-sm-6 col-xs-12">
-                <h2>Соц. сети</h2>
-                <ul class="our-ser-pol">
-                    <li><a href="#">ВКонтакте</a></li>
-                    <li><a href="#">Telegram</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Twitter</a></li>
-                </ul>
-            </div>
         </div>
-    </div>
-</footer>
-<!-- end/footer -->
-<!-- LOAD JQUERY -->
-<script src="{% static 'main/js/jquery-1.12.4.min.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDyCxHyc8z9gMA5IlipXpt0c33Ajzqix4"></script>
-<script src="{% static 'main/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'main/js/slick.min.js' %}"></script>
-<script src="{% static 'main/js/select.js' %}"></script>
-<script src="{% static 'main/js/jquery.fancybox.min.js' %}"></script>
-<script src="{% static 'main/js/bootstrap-slider.min.js' %}"></script>
-<!-- Custom jQuery -->
-<script src="{% static 'main/js/main.js' %}"></script>
-</body>
-
-</html>
+    </section>
+    <!--  end/blog -->
+    <section class="out_team">
+        <div class="title-top">
+            <h3>Мы заботимся о наших клиентах</h3>
+            <p>СникерШаг - это больше, чем просто магазин обуви. Мы стремимся создать сообщество, в котором наши клиенты
+                чувствуют себя как дома. Мы ценим вашу поддержку и готовы идти на дополнительные шаги, чтобы сделать
+                вашу
+                покупку приятным и удовлетворительным опытом.
+                <br>
+                <br>
+                Спасибо, что выбрали СникерШаг. Мы надеемся, что вы найдете у нас идеальную обувь, которая будет
+                сопровождать вас на вашем пути к стилю и комфорту.</p>
+        </div>
+    </section>
+{% endblock %}

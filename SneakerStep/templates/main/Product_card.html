@@ -1,325 +1,143 @@
+{% extends 'main/stencil.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ru">
 
-<head>
-    <title>СникерШаг</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- GOOGLE FONT -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <!-- CSS LIBRARY -->
-    <link rel="stylesheet" type="text/css" href="{% static 'main/vendor/slick.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'main/vendor/slick-theme.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'main/vendor/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello-codes.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello-embedded.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello-ie7-codes.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello-ie7.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/fontello.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/ionicons.min.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/Pe-icon-7-stroke.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/styles_Ecommerce.css' %}">
-    <link rel="stylesheet" href="{% static 'main/css/jquery.fancybox.min.css' %}">
-    <!-- MAIN STYLE -->
-    <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}">
-</head>
+{% block banner %}
+    <div class="banner-top">
+        <div class="container">
+            <ul>
+                <li><a href="/catalog">Каталог /</a></li>
+                <li><a href="#">** наименование товара ** </a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
 
-<body>
-<!-- header -->
-<header class="header ">
-    <div class="header-top clearfix">
+{% block body %}
+    <section class="quick-shop-v1 clearfix">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 item-logo">
-                    <a href="/"><img src="{% static 'main/images/logo.png' %}" width="112" height="63" alt=""></a>
-                </div>
-                <div class="col-md-6">
-                    <div class="header-main">
-                        <ul class="level1 level1_h1">
-                            <li class="level11">
-                                <a href="/">Главная</a>
-                            </li>
-                            <li class="level11">
-                                <a href="/catalog">Каталог</a>
-                            </li>
-                            <li class="level11">
-                                <a href="#">Информация</a>
-                                <ul class="hover-blog">
-                                    <li><a href="/about_us">О нас</a></li>
-                                    <li><a href="/contact_us">Контакты</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3 icon-header-right item-icon">
-                    <ul>
-                        <li class="hover-cart-user">
-                            <a class="hover-icon-cart" href="/your_cart">
-                                <span class="icon icon-ecommerce-basket"></span>
-                                <p>2</p>
-                            </a>
-                            <div class="submenu mini-cart">
-                                <h4 class="account">2 вещи</h4>
-                                <div class="product">
-                                    <div class="item clearfix">
-                                        <div class="img-prd">
-                                            <img class="img-responsive"
-                                                 src="{% static 'main/images/product-bag1.png' %}" alt="">
-                                        </div>
-                                        <div class="title">
-                                            <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                                            <div class="product-price"><p>₽3000</p></div>
-                                        </div>
-                                    </div>
-                                    <div class="item clearfix">
-                                        <div class="img-prd">
-                                            <img class="img-responsive"
-                                                 src="{% static 'main/images/product-bag2.png' %}" alt="">
-                                        </div>
-                                        <div class="title">
-                                            <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                                            <div class="product-price"><p>₽3000</p></div>
-                                        </div>
-                                    </div>
+                <div class="col-md-8 col-md-push-4 col-sm-12 col-xs-12 qs-right">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="slider-for-dt2">
+                                <div class="item"><img class="img-responsive"
+                                                       src="{% static 'main/images/Details_product2/product_details2.png' %}"
+                                                       alt="">
                                 </div>
-                                <div class="menu-cart-total">
-                                    <div class="list-money">
-                                        <label>Цена:</label>
-                                        <span class="money">₽6000</span>
-                                    </div>
-                                    <div class="list-money">
-                                        <label>Доставка:</label>
-                                        <span class="money">₽300</span>
-                                    </div>
-                                    <div class="list-money">
-                                        <label>Итого:</label>
-                                        <span class="money">₽6300</span>
-                                    </div>
+                                <div class="item"><img class="img-responsive"
+                                                       src="{% static 'main/images/Details_product2/product_details2.png' %}"
+                                                       alt="">
                                 </div>
-                                <div class="actions">
-                                    <a class="btn-checkout" href="/chect_out">Оплатить</a>
-                                    <a class="btn-cart" href="/your_cart">Открыть</a>
+                                <div class="item"><img class="img-responsive"
+                                                       src="{% static 'main/images/Details_product2/product_details2.png' %}"
+                                                       alt="">
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="slider-nav-dt2">
+                                <div class="item"><img class="img-responsive"
+                                                       src="{% static 'main/images/Details_product2/product_details2.png' %}"
+                                                       alt="">
+                                </div>
+                                <div class="item"><img class="img-responsive"
+                                                       src="{% static 'main/images/Details_product2/product_details2.png' %}"
+                                                       alt="">
+                                </div>
+                                <div class="item"><img class="img-responsive"
+                                                       src="{% static 'main/images/Details_product2/product_details2.png' %}"
+                                                       alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-pull-8 col-sm-12 col-xs-12 scr-3">
+                    <div class="quick-left">
+                        <h3>** наименование товара **</h3>
+                        <p class="pr-sku">ID: 1337</p>
+                        <ul class="price price-detail-prd2">
+                            <li>₽250</li>
+                            <!--<li>-->
+                            <!--    <del>₽3000</del>-->
+                            <!--</li>-->
+                        </ul>
+                        <div class="side-product">
+                            <h4>size: </h4>
+                            <div class="group-size">
+                                <ul>
+                                    <li><a href="#">36</a></li>
+                                    <li><a href="#">37</a></li>
+                                    <li><a href="#">38</a></li>
+                                    <li><a href="#">39</a></li>
+                                    <li><a href="#">40</a></li>
+                                    <li><a href="#">41</a></li>
+                                    <li><a href="#">42</a></li>
+                                    <li><a href="#">43</a></li>
+                                    <li><a href="#">44</a></li>
+                                    <li><a href="#">45</a></li>
+                                </ul>
+                                <!--<a href="#">Check your size</a>-->
+                            </div>
+                        </div>
+                        <div class="side-product">
+                            <h4>Кол-во: </h4>
+                            <div class="quantity">
+                                <button type="button" class="quantity-left-minus btn btn-number js-minus"
+                                        data-type="minus"
+                                        data-field="">
+                                    <span class="minus-icon"><i class="ion-ios-plus-empty"></i></span>
+                                </button>
+                                <input class="product_quantity_number js-number" name="number" type="text" value="1">
+                                <button type="button" class="quantity-right-plus btn btn-number js-plus"
+                                        data-type="plus"
+                                        data-field="">
+                                    <span class="plus-icon"><i class="ion-ios-minus-empty"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="add-to-bag">
+                            <button type="button" class="add">
+                                <span class="icon icon-ecommerce-basket"></span>
+                                <small class="line1"> </small>
+                                <span style="right: -20%;">Добавить в корзину</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end/quick-shop-v1 -->
+    <!-- tab-details-prd2 -->
+    <div class="tab-details-prd2">
+        <div class="container">
+            <div class="tab-details">
+                <div class="tab-ul">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#details" role="tab" data-toggle="tab" class="font-tab">Описание товара</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#faqs" role="tab" data-toggle="tab" class="font-tab">Вопросы</a>
                         </li>
                     </ul>
                 </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- end/header -->
-<!-- banner -->
-<div class="banner-top">
-    <div class="container">
-        <ul>
-            <li><a href="/catalog">Каталог /</a></li>
-            <li><a href="#">** наименование товара ** </a></li>
-        </ul>
-    </div>
-</div>
-<!-- end/banner -->
-<!-- quick-shop-v1 -->
-<section class="quick-shop-v1 clearfix">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-push-4 col-sm-12 col-xs-12 qs-right">
-                <div class="row">
-                    <div class="col-md-8 col-sm-8 col-xs-12">
-                        <div class="slider-for-dt2">
-                            <div class="item"><img class="img-responsive"
-                                                   src="{% static 'main/images/Details_product2/product_details2.png' %}"
-                                                   alt="">
-                            </div>
-                            <div class="item"><img class="img-responsive"
-                                                   src="{% static 'main/images/Details_product2/product_details2.png' %}"
-                                                   alt="">
-                            </div>
-                            <div class="item"><img class="img-responsive"
-                                                   src="{% static 'main/images/Details_product2/product_details2.png' %}"
-                                                   alt="">
-                            </div>
-                        </div>
+                <div class="tab-content ">
+                    <div role="tabpanel" class="tab-pane fade in active" id="details">
+                        <span>Какая-то важная информация</span>
+                        <p>Заголовок</p>
+                        <span>Еще больше важной информации</span>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-12">
-                        <div class="slider-nav-dt2">
-                            <div class="item"><img class="img-responsive"
-                                                   src="{% static 'main/images/Details_product2/product_details2.png' %}"
-                                                   alt="">
-                            </div>
-                            <div class="item"><img class="img-responsive"
-                                                   src="{% static 'main/images/Details_product2/product_details2.png' %}"
-                                                   alt="">
-                            </div>
-                            <div class="item"><img class="img-responsive"
-                                                   src="{% static 'main/images/Details_product2/product_details2.png' %}"
-                                                   alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-md-pull-8 col-sm-12 col-xs-12 scr-3">
-                <div class="quick-left">
-                    <h3>** наименование товара **</h3>
-                    <p class="pr-sku">ID: 1337</p>
-                    <ul class="price price-detail-prd2">
-                        <li>₽250</li>
-                        <!--<li>-->
-                        <!--    <del>₽3000</del>-->
-                        <!--</li>-->
-                    </ul>
-                    <div class="side-product">
-                        <h4>size: </h4>
-                        <div class="group-size">
-                            <ul>
-                                <li><a href="#">36</a></li>
-                                <li><a href="#">37</a></li>
-                                <li><a href="#">38</a></li>
-                                <li><a href="#">39</a></li>
-                                <li><a href="#">40</a></li>
-                                <li><a href="#">41</a></li>
-                                <li><a href="#">42</a></li>
-                                <li><a href="#">43</a></li>
-                                <li><a href="#">44</a></li>
-                                <li><a href="#">45</a></li>
-                            </ul>
-                            <!--<a href="#">Check your size</a>-->
-                        </div>
-                    </div>
-                    <div class="side-product">
-                        <h4>Кол-во: </h4>
-                        <div class="quantity">
-                            <button type="button" class="quantity-left-minus btn btn-number js-minus" data-type="minus"
-                                    data-field="">
-                                <span class="minus-icon"><i class="ion-ios-plus-empty"></i></span>
-                            </button>
-                            <input class="product_quantity_number js-number" name="number" type="text" value="1">
-                            <button type="button" class="quantity-right-plus btn btn-number js-plus" data-type="plus"
-                                    data-field="">
-                                <span class="plus-icon"><i class="ion-ios-minus-empty"></i></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="add-to-bag">
-                        <button type="button" class="add">
-                            <span class="icon icon-ecommerce-basket"></span>
-                            <small class="line1"> </small>
-                            <span style="right: -20%;">Добавить в корзину</span>
-                        </button>
+                    <div role="tabpanel" class="tab-pane fade" id="faqs">
+                        <span>Если у вас появились какие либо вопросы, вы можете задать их перейдя <a
+                            href="/contact_us">по этой ссылке</a>.
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-<!-- end/quick-shop-v1 -->
-<!-- tab-details-prd2 -->
-<div class="tab-details-prd2">
-    <div class="container">
-        <div class="tab-details">
-            <div class="tab-ul">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#details" role="tab" data-toggle="tab" class="font-tab">Описание товара</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#faqs" role="tab" data-toggle="tab" class="font-tab">Вопросы</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tab-content ">
-                <div role="tabpanel" class="tab-pane fade in active" id="details">
-                    <span>Какая-то важная информация</span>
-                    <p>Заголовок</p>
-                    <span>Еще больше важной информации</span>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="faqs">
-                    <span>Если у вас появились какие либо вопросы, вы можете задать их перейдя <a href="/contact_us">по этой ссылке</a>.</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end/tab-details-prd2 -->
-<label>ㅤ</label> <!--  невидимый символ для создания небольшого отступа на сайте -->
-<!-- footer -->
-<footer class="footerv2">
-    <div class="container ">
-        <div class="row">
-            <div class="col-md-5 col-sm-6 col-xs-12">
-                <div class="instagram">
-                    <h2>@instagram</h2>
-                    <ul>
-                        <li><a href="#"><img class="img-responsive"
-                                             src="{% static 'main/images/Home_03/instagram1_ft_home3.png' %}"
-                                             alt=""></a></li>
-                        <li><a href="#"><img class="img-responsive"
-                                             src="{% static 'main/images/Home_03/instagram2_ft_home3.png' %}"
-                                             alt=""></a></li>
-                        <li><a href="#"><img class="img-responsive"
-                                             src="{% static 'main/images/Home_03/instagram3_ft_home3.png' %}"
-                                             alt=""></a></li>
-                        <li><a href="#"><img class="img-responsive"
-                                             src="{% static 'main/images/Home_03/instagram4_ft_home3.png' %}"
-                                             alt=""></a></li>
-                    </ul>
-                    <ul class="coppy-right">
-                        <li>© 2023 <strong>СникерШаг</strong> |</li>
-                        <li>Все права защищены</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12 ct">
-                <h2>Контакты</h2>
-                <ul>
-                    <li><strong><span class="pe-7s-map-marker"></span></strong> ул. 8 Марта, д. 62/45, Екатеринбург,
-                        Свердловская обл., 620144.
-                    </li>
-                    <li><strong><span class="pe-7s-call"></span></strong> +7 (922) 345-67-89</li>
-                    <li><strong><span class="pe-7s-mail"></span></strong> SneakerStep@mail.ru</li>
-                    <li><strong><span class="pe-7s-clock"></span></strong> 24 часа, Пн-Вс</li>
-                </ul>
-            </div>
-            <div class="col-md-2 col-sm-6 col-xs-12">
-                <h2>Наши услуги</h2>
-                <ul class="our-ser-pol">
-                    <li><a href="/">Главаная</a></li>
-                    <li><a href="/catalog">Каталог</a></li>
-                    <li><a href="/your_cart">Корзина</a></li>
-                    <li><a href="/about_us">О нас</a></li>
-                    <li><a href="/contact_us">Контакты</a></li>
-                </ul>
-            </div>
-            <div class="col-md-2 col-sm-6 col-xs-12">
-                <h2>Соц. сети</h2>
-                <ul class="our-ser-pol">
-                    <li><a href="#">ВКонтакте</a></li>
-                    <li><a href="#">Telegram</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Twitter</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- end/footer -->
-<!-- LOAD JQUERY -->
-<script src="{% static 'main/js/jquery-1.12.4.min.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDyCxHyc8z9gMA5IlipXpt0c33Ajzqix4"></script>
-<script src="{% static 'main/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'main/js/slick.min.js' %}"></script>
-<script src="{% static 'main/js/select.js' %}"></script>
-<script src="{% static 'main/js/jquery.fancybox.min.js' %}"></script>
-<script src="{% static 'main/js/bootstrap-slider.min.js' %}"></script>
-<!-- Custom jQuery -->
-<script src="{% static 'main/js/main.js' %}"></script>
-</body>
-
-</html>
+    <!-- end/tab-details-prd2 -->
+    <label>ㅤ</label> <!--  невидимый символ для создания небольшого отступа на сайте -->
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'main/stencil.html' %}
+{% load static %}
+
+{% block title %}
+    Спасибо!
+{% endblock %}
+
+{% block body %}
+    <section class="comming">
+        <h3 style="margin: 100px 0 20px; text-align: center">
+            Спасибо за покупку!
+        </h3>
+        <p style="margin: 20px 0 20px; text-align: center">
+            Чек с подтверждением придет на указанную почту
+        </p>
+        <p style="margin: 20px 0 100px; text-align: center">
+            Пока ждете посылку можете <a href="/catalog">прикупить</a> еще что-нибудь)
+        </p>
+    </section>
+{% endblock %}
+
+{% block footer %}
+    <footer class="footerv1">
+        <div class="content">
+            <ul>
+                <li><a href="/">Главаная</a></li>
+                <li><a href="/catalog">Каталог</a></li>
+                <li><a href="/your_cart">Корзина</a></li>
+                <li><a href="/about_us">О нас</a></li>
+                <li><a href="/contact_us">Контакты</a></li>
+            </ul>
+            <div class="iconft">
+                <a href="#"><i class="fa fa-vk"></i></a>
+                <a href="#"><i class="fa fa-telegram"></i></a>
+                <a href="#"><i class="fa fa-facebook-f"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+            </div>
+            <span>Горячая Линия: +7 (922) 345-67-89</span>
+        </div>
+    </footer>
+{% endblock %}
