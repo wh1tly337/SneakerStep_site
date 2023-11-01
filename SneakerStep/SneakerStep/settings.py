@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -25,11 +24,10 @@ SECRET_KEY = 'django-insecure-j$81jxq)zb3-*qea9@1msgx!k5amqvl9!)5wkn(zyq5n6*3c_*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Хосты, ссылки на которых может распологаться мой сайт при выкладке в прод
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Основной файл urls для всего проекта
 ROOT_URLCONF = 'SneakerStep.urls'
 
 TEMPLATES = [
@@ -67,8 +66,8 @@ TEMPLATES = [
     },
 ]
 
+# нужно для выкладки сайта в прод
 WSGI_APPLICATION = 'SneakerStep.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -79,7 +78,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -99,7 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -110,7 +107,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
