@@ -2,32 +2,32 @@ from django.shortcuts import render
 
 
 def home(request):
-    return render(template_name='main/Home.html', request=request)
+    return render(template_name='main/home.html', request=request)
 
 
 def catalog(request):
-    return render(template_name='main/Catalog.html', request=request)
+    return render(template_name='main/shoe_catalog.html', request=request)
 
 
 def about_us(request):
-    return render(template_name='main/About_us.html', request=request)
+    return render(template_name='main/about_us.html', request=request)
 
 
 def chect_out(request):
-    return render(template_name='main/Chect_out.html', request=request)
+    return render(template_name='main/out_form.html', request=request)
 
 
-def comming_soon_page(request):
-    return render(template_name='main/Comming_soon_page.html', request=request)
+def comming_soon(request):
+    return render(template_name='main/comming_soon.html', request=request)
 
 
 def contact_us(request):
-    return render(template_name='main/Contact_us.html', request=request)
+    return render(template_name='main/contact_us.html', request=request)
 
 
 def product_card(request):
-    return render(template_name='main/Product_card.html', request=request)
+    return render(template_name='main/product_card.html', request=request)
 
 
 def your_cart(request):
-    return render(template_name='main/Your_cart.html', request=request)
+    return render(template_name='main/cart.html', request=request)
