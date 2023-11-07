@@ -2,24 +2,26 @@ from django.db import models
 from django.core.validators import RegexValidator
 
 
+def user_directory_path(instance, filename):
+    return 'static/main/images_new/assortment/{0}/{1}'.format(instance.id, filename)
+
+
 class AssortmentAdding(models.Model):
     id = models.AutoField('ID вещи', primary_key=True)
     name = models.CharField('Название', max_length=50)
-    price = models.DecimalField('Цена', decimal_places=2, max_digits=6)
+    price = models.DecimalField('Цена', decimal_places=2, max_digits=10)
     # [36, 37, 38, 39, 40, 41, 42, 43, 44, 45]
-    sizes = [36, 37, 38, 39, 40, 41, 42, 43, 44, 45]
-    # TODO придумать как передавать массив
+    sizes = models.CharField('Размеры', max_length=50, default='36 37 38 39 40 41 42 43 44 45')
     description = models.TextField('Описание')
     main_image = models.ImageField(
         verbose_name='Главное изображение',
-        upload_to=f"static/main/images_new/assortment/")
-    # TODO придумать как создавать папку по имени или id
+        upload_to=user_directory_path)
     second_image = models.ImageField(
         verbose_name='Втророе изображение',
-        upload_to=f"static/main/images_new/assortment/")
+        upload_to=user_directory_path)
     third_image = models.ImageField(
         verbose_name='Третье изображение',
-        upload_to=f"static/main/images_new/assortment/")
+        upload_to=user_directory_path)
     date = models.DateField('Дата добавления')
 
     def __str__(self):
@@ -67,3 +69,6 @@ class Orders(models.Model):
     class Meta:
         verbose_name = 'Заказы'
         verbose_name_plural = 'Заказы'
+
+# class HomePageUpdater(models.Model):
+#     id = models.AutoField('ID вещи', primary_key=True)

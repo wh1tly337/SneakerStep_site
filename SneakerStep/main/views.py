@@ -1,8 +1,11 @@
 from django.shortcuts import render
+from .models import AssortmentAdding
 
 
 def home(request):
-    return render(template_name='main/home.html', request=request)
+    items = AssortmentAdding.objects.all()
+
+    return render(request, 'main/home.html', {'items': items})
 
 
 def catalog(request):
