@@ -9,7 +9,7 @@ def user_directory_path(instance, filename):
 class AssortmentAdding(models.Model):
     id = models.AutoField('ID вещи', primary_key=True)
     name = models.CharField('Название', max_length=50)
-    price = models.DecimalField('Цена', decimal_places=2, max_digits=10)
+    price = models.IntegerField('Цена')
     # [36, 37, 38, 39, 40, 41, 42, 43, 44, 45]
     sizes = models.CharField('Размеры', max_length=50, default='36 37 38 39 40 41 42 43 44 45')
     description = models.TextField('Описание')

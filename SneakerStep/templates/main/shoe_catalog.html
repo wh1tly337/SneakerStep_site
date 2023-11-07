@@ -45,284 +45,41 @@
     <section class="products products-v1">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12 item">
-                    <div class="img-product">
-                        <a href="#"><img class="img-responsive"
-                                         src="{% static 'main/images/Product4_Columns/product4_columns1.png' %}"
-                                         alt=""></a>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
+                {% for el in items %}
+                    <div class="col-md-3 col-sm-6 col-xs-12 item">
+                        <div class="img-product">
+                            <a href="product_card/id={{ el.id }}">
+                                <img class="img-responsive" src="{{ el.main_image }}" alt="">
+                            </a>
+                            <div class="icon-prd">
+                                <div class="add-to-bag">
+                                    <button type="button" class="add">
+                                        <span class="icon icon-ecommerce-basket"></span>
+                                        <small class="line1"> </small>
+                                        <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="title">
+                            <h4 class="product-name"><a href="#">{{ el.name }}</a></h4>
+                            <span class="prosuct-price"><b>₽{{ el.price }}</b></span>
+                            <span class="sk">ID: {{ el.id }}</span>
+                            <p class="title-list">
+                                <span>Инофрмация о товаре</span>{{ el.description }}
+                            </p>
+                            <div class="icon-prd">
+                                <div class="add-to-bag">
+                                    <button type="button" class="add">
+                                        <span class="icon icon-ecommerce-basket"></span>
+                                        <small class="line1"> </small>
+                                        <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="title">
-                        <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                        <span class="prosuct-price"><b>₽3000</b></span>
-                        <span class="sk">ID: 1337</span>
-                        <p class="title-list">
-                            <span>Инофрмация о товаре</span> Очень крутой товар, советую для покупи от всей души
-                        </p>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3 col-sm-6 col-xs-12 item">
-                    <div class="img-product">
-                        <a href="#"><img class="img-responsive"
-                                         src="{% static 'main/images/Product4_Columns/product4_columns2.png' %}"
-                                         alt=""></a>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="title">
-                        <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                        <span class="prosuct-price"><b>₽3000</b></span>
-                        <span class="sk">ID: 1337</span>
-                        <p class="title-list">
-                            <span>Инофрмация о товаре</span> Очень крутой товар, советую для покупи от всей души
-                        </p>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3 col-sm-6 col-xs-12 item">
-                    <div class="img-product">
-                        <a href="#"><img class="img-responsive"
-                                         src="{% static 'main/images/Product4_Columns/product4_columns3.png' %}"
-                                         alt=""></a>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="title">
-                        <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                        <span class="prosuct-price"><b>₽3000</b></span>
-                        <span class="sk">ID: 1337</span>
-                        <p class="title-list">
-                            <span>Инофрмация о товаре</span> Очень крутой товар, советую для покупи от всей души
-                        </p>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3 col-sm-6 col-xs-12 item">
-                    <div class="img-product">
-                        <a href="#"><img class="img-responsive"
-                                         src="{% static 'main/images/Product4_Columns/product4_columns4.png' %}"
-                                         alt=""></a>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="title">
-                        <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                        <span class="prosuct-price"><b>₽3000</b></span>
-                        <span class="sk">ID: 1337</span>
-                        <p class="title-list">
-                            <span>Инофрмация о товаре</span> Очень крутой товар, советую для покупи от всей души
-                        </p>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3 col-sm-6 col-xs-12 item">
-                    <div class="img-product">
-                        <a href="#"><img class="img-responsive"
-                                         src="{% static 'main/images/Product4_Columns/product4_columns5.png' %}"
-                                         alt=""></a>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="title">
-                        <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                        <span class="prosuct-price"><b>₽3000</b></span>
-                        <span class="sk">ID: 1337</span>
-                        <p class="title-list">
-                            <span>Инофрмация о товаре</span> Очень крутой товар, советую для покупи от всей души
-                        </p>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3 col-sm-6 col-xs-12 item">
-                    <div class="img-product">
-                        <a href="#"><img class="img-responsive"
-                                         src="{% static 'main/images/Product4_Columns/product4_columns6.png' %}"
-                                         alt=""></a>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="title">
-                        <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                        <span class="prosuct-price"><b>₽3000</b></span>
-                        <span class="sk">ID: 1337</span>
-                        <p class="title-list">
-                            <span>Инофрмация о товаре</span> Очень крутой товар, советую для покупи от всей души
-                        </p>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3 col-sm-6 col-xs-12 item">
-                    <div class="img-product">
-                        <a href="#"><img class="img-responsive"
-                                         src="{% static 'main/images/Product4_Columns/product4_columns7.png' %}"
-                                         alt=""></a>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="title">
-                        <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                        <span class="prosuct-price"><b>₽3000</b></span>
-                        <span class="sk">ID: 1337</span>
-                        <p class="title-list">
-                            <span>Инофрмация о товаре</span> Очень крутой товар, советую для покупи от всей души
-                        </p>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3 col-sm-6 col-xs-12 item">
-                    <div class="img-product">
-                        <a href="#"><img class="img-responsive"
-                                         src="{% static 'main/images/Product4_Columns/product4_columns8.png' %}"
-                                         alt=""></a>
-                        <div class="icon-prd">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="title">
-                        <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                        <span class="prosuct-price"><b>₽3000</b></span>
-                        <span class="sk">ID: 1337</span>
-                        <p class="title-list">
-                            <span>Инофрмация о товаре</span> Очень крутой товар, советую для покупи от всей души
-                        </p>
-                        <div class="icon-prd" style="top: 60%;">
-                            <div class="add-to-bag">
-                                <button type="button" class="add">
-                                    <span class="icon icon-ecommerce-basket"></span>
-                                    <small class="line1"> </small>
-                                    <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

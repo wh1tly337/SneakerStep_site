@@ -95,7 +95,9 @@
                         <div class="item">
                             <div class="product">
                                 <div class="img-product">
-                                    <a href="#"><img class="img-responsive" src="{{ el.main_image }}" alt=""></a>
+                                    <a href="product_card/id={{ el.id }}">
+                                        <img class="img-responsive" src="{{ el.main_image }}" alt="">
+                                    </a>
                                 </div>
                                 <div class="icon-prd">
                                     <div class="table-cell-center">
@@ -106,8 +108,10 @@
                                 </div>
                             </div>
                             <div class="title ">
-                                <h4 class="product-name"><a href="#">{{ el.name }}</a></h4>
-                                <span class="prosuct-price"><b>{{ el.price }}</b></span>
+                                <h4 class="product-name">
+                                    <a href="product_card/id={{ el.id }}">{{ el.name }}</a>
+                                </h4>
+                                <span class="prosuct-price"><b>₽{{ el.price }}</b></span>
                             </div>
                         </div>
                     </div>

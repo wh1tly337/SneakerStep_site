@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import AssortmentAdding
+from django.views.generic import DetailView
 
 
 def home(request):
@@ -9,7 +10,9 @@ def home(request):
 
 
 def catalog(request):
-    return render(template_name='main/shoe_catalog.html', request=request)
+    items = AssortmentAdding.objects.all()
+
+    return render(request, 'main/shoe_catalog.html', {'items': items})
 
 
 def about_us(request):
@@ -28,8 +31,10 @@ def contact_us(request):
     return render(template_name='main/contact_us.html', request=request)
 
 
-def product_card(request):
-    return render(template_name='main/product_card.html', request=request)
+class ProductCard(DetailView):
+    model = AssortmentAdding
+    template_name = f"main/product_card.html"
+    context_object_name = 'item'
 
 
 def your_cart(request):
