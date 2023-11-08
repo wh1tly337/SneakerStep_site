@@ -46,39 +46,41 @@
         <div class="container">
             <div class="row">
                 {% for el in items %}
-                    <div class="col-md-3 col-sm-6 col-xs-12 item">
-                        <div class="img-product">
-                            <a href="product_id={{ el.id }}">
-                                <img class="img-responsive" src="{{ el.main_image }}" alt="">
-                            </a>
-                            <div class="icon-prd">
-                                <div class="add-to-bag">
-                                    <button type="button" class="add">
-                                        <span class="icon icon-ecommerce-basket"></span>
-                                        <small class="line1"> </small>
-                                        <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                    </button>
+                    {% if forloop.counter < 9 %}
+                        <div class="col-md-3 col-sm-6 col-xs-12 item">
+                            <div class="img-product">
+                                <a href="product_id={{ el.id }}">
+                                    <img class="img-responsive" src="{{ el.main_image }}" alt="">
+                                </a>
+                                <div class="icon-prd">
+                                    <div class="add-to-bag">
+                                        <button type="button" class="add">
+                                            <span class="icon icon-ecommerce-basket"></span>
+                                            <small class="line1"> </small>
+                                            <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="title">
+                                <h4 class="product-name"><a href="product_id={{ el.id }}">{{ el.name }}</a></h4>
+                                <span class="prosuct-price"><b>₽{{ el.price }}</b></span>
+                                <span class="sk">ID: {{ el.id }}</span>
+                                <p class="title-list">
+                                    <span>Инофрмация о товаре</span>{{ el.description }}
+                                </p>
+                                <div class="icon-prd">
+                                    <div class="add-to-bag">
+                                        <button type="button" class="add">
+                                            <span class="icon icon-ecommerce-basket"></span>
+                                            <small class="line1"> </small>
+                                            <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="title">
-                            <h4 class="product-name"><a href="product_id={{ el.id }}">{{ el.name }}</a></h4>
-                            <span class="prosuct-price"><b>₽{{ el.price }}</b></span>
-                            <span class="sk">ID: {{ el.id }}</span>
-                            <p class="title-list">
-                                <span>Инофрмация о товаре</span>{{ el.description }}
-                            </p>
-                            <div class="icon-prd">
-                                <div class="add-to-bag">
-                                    <button type="button" class="add">
-                                        <span class="icon icon-ecommerce-basket"></span>
-                                        <small class="line1"> </small>
-                                        <span class="txt-bag" style="right: -15%;">Добавить в корзину</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
