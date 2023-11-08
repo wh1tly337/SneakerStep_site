@@ -16,7 +16,6 @@ def catalog(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    print(page_obj)
     return render(
         request,
         'main/shoe_catalog.html',
