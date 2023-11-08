@@ -3,7 +3,7 @@ from django.core.validators import RegexValidator
 
 
 def user_directory_path(instance, filename):
-    return 'static/main/images_new/assortment/{0}/{1}'.format(instance.id, filename)
+    return 'static/main/images_new/assortment/{0}/{1}'.format(instance.name, filename)
 
 
 class AssortmentAdding(models.Model):
