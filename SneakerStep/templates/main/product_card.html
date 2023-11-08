@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block banner %}
+    <label style="margin-top: 5px">ㅤ</label> <!--  невидимый символ для создания небольшого отступа на сайте -->
     <div class="banner-top">
         <div class="container">
             <ul>
@@ -45,40 +46,23 @@
                             <li>₽{{ item.price }}</li>
                         </ul>
                         <div class="side-product">
-                            <h4>size: </h4>
-                            <div class="group-size">
-                                <ul>
-                                    <li><a href="#">36</a></li>
-                                    <li><a href="#">37</a></li>
-                                    <li><a href="#">38</a></li>
-                                    <li><a href="#">39</a></li>
-                                    <li><a href="#">40</a></li>
-                                    <li><a href="#">41</a></li>
-                                    <li><a href="#">42</a></li>
-                                    <li><a href="#">43</a></li>
-                                    <li><a href="#">44</a></li>
-                                    <li><a href="#">45</a></li>
-                                </ul>
-                                <!--<a href="#">Check your size</a>-->
-                            </div>
+                            <h4>Размер: </h4>
+                            <select title="Выберите размер" class="selectpicker">
+                                <option>36</option>
+                                <option>37</option>
+                                <option>38</option>
+                                <option>39</option>
+                                <option>40</option>
+                                <option>41</option>
+                                <option>42</option>
+                                <option>43</option>
+                                <option>44</option>
+                                <option>45</option>
+                            </select>
                         </div>
-                        <!--<div class="side-product">-->
-                        <!--    <h4>Кол-во: </h4>-->
-                        <!--    <div class="quantity">-->
-                        <!--        <button type="button" class="quantity-left-minus btn btn-number js-minus"-->
-                        <!--                data-type="minus"-->
-                        <!--                data-field="">-->
-                        <!--            <span class="minus-icon"><i class="ion-ios-plus-empty"></i></span>-->
-                        <!--        </button>-->
-                        <!--        <input class="product_quantity_number js-number" name="number" type="text" value="1">-->
-                        <!--        <button type="button" class="quantity-right-plus btn btn-number js-plus"-->
-                        <!--                data-type="plus"-->
-                        <!--                data-field="">-->
-                        <!--            <span class="plus-icon"><i class="ion-ios-minus-empty"></i></span>-->
-                        <!--        </button>-->
-                        <!--    </div>-->
-                        <!--</div>-->
-                        <div class="add-to-bag">
+                        <!--TODO вставить ссылку на гайд по подбору размера-->
+                        <div style="margin-top: 10px"><a href="">Как узнать свой размер?</a></div>
+                        <div class="add-to-bag" style="margin-top: 55%">
                             <button type="button" class="add">
                                 <span class="icon icon-ecommerce-basket"></span>
                                 <small class="line1"> </small>
