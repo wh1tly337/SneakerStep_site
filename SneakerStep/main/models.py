@@ -11,6 +11,7 @@ class AssortmentAdding(models.Model):
     name = models.CharField('Название', max_length=50)
     price = models.IntegerField('Цена')
     # [36, 37, 38, 39, 40, 41, 42, 43, 44, 45]
+    # TODO поменять на плейсхолдер
     sizes = models.CharField('Размеры', max_length=50, default='36 37 38 39 40 41 42 43 44 45')
     description = models.TextField('Описание')
     main_image = models.ImageField(
