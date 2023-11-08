@@ -45,8 +45,7 @@
     <section class="products products-v1">
         <div class="container">
             <div class="row">
-                {% for el in items %}
-                    {% if forloop.counter < 9 %}
+                {% for el in page_obj %}
                         <div class="col-md-3 col-sm-6 col-xs-12 item">
                             <div class="img-product">
                                 <a href="product_id={{ el.id }}">
@@ -80,7 +79,6 @@
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
                 {% endfor %}
             </div>
         </div>
@@ -90,12 +88,26 @@
     <div class="pagination-prd">
         <div class="pagination-container">
             <nav class="pagination">
-                <span class="prev"><a href="#" title=""><i class="fa fa-angle-left"></i></a></span>
-                <!--TODO не работет переключение страниц-->
+                {% if page_obj.has_previous %}
+                    <span class="prev">
+                        <a href="?page={{ page_obj.previous_page_number }}" title="">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    </span>
+                {% endif %}
                 <p>Страница: </p>
-                <span class="page"><a href="#" title="">1</a></span>
-                <span class="page"><a href="#" title="">2</a></span>
-                <span class="next"><a href="#" title=""><i class="fa fa-angle-right"></i></a></span>
+                {% for p in page_obj.paginator.page_range %}
+                    <span class="page">
+                        <a href="?page={{ p }}" title="">{{ p }}</a>
+                    </span>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <span class="next">
+                        <a href="?page={{ page_obj.next_page_number }}" title="">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </span>
+                {% endif %}
             </nav>
         </div>
     </div>

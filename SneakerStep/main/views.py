@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import AssortmentAdding
 from django.views.generic import DetailView
+from django.core.paginator import Paginator
 
 
 def home(request):
@@ -11,8 +12,16 @@ def home(request):
 
 def catalog(request):
     items = AssortmentAdding.objects.all()
+    paginator = Paginator(items, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
-    return render(request, 'main/shoe_catalog.html', {'items': items})
+    print(page_obj)
+    return render(
+        request,
+        'main/shoe_catalog.html',
+        {'items': items, 'page_obj': page_obj}
+    )
 
 
 def about_us(request):
