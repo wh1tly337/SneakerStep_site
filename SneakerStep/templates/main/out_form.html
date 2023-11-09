@@ -17,56 +17,100 @@
             <div class="row">
                 <div class="col-md-12 form-details">
                     <div class="col-md-6">
-                        <div class="">
-                            <h3>детали заказа</h3>
-                            <div class="col-md-6 item-ip">
-                                <label for="firstname"></label>
-                                <input type="text" id="firstname" name="firstname" placeholder="Имя">
-                            </div>
-                            <div class="col-md-6 item-ip">
-                                <label for="lastname"></label>
-                                <input type="text" id="lastname" name="lastname" placeholder="Фамилия">
-                            </div>
-                            <div class="col-md-12 item-ip">
-                                <label for="City"></label>
-                                <input type="text" id="City" name="City" placeholder="Город/Населенный пункт">
-                            </div>
-                            <div class="col-md-12 item-ip">
-                                <label for="postcode"></label>
-                                <input type="text" id="postcode" name="postcode" placeholder="Почтовый индекс">
-                            </div>
-                            <div class="col-md-12 item-ip">
-                                <label for="stressaddress"></label>
-                                <input type="text" id="stressaddress" name="stressaddress"
-                                       placeholder="Адрес">
-                            </div>
-                            <div class="col-md-6 item-ip">
-                                <label for="Phone"></label>
-                                <input type="text" id="Phone" name="Phone" placeholder="Номер телефона">
-                            </div>
-                            <div class="col-md-6 item-ip">
-                                <label for="Email"></label>
-                                <input type="text" id="Email" name="Email" placeholder="Электронная почта">
-                            </div>
-                        </div>
-                        <label>ㅤ</label> <!--  невидимый символ для создания небольшого отступа на сайте -->
-                        <div class="method">
+                        <form class="needs-validation" method="post">
+                            {% csrf_token %}
+                            <h3>Детали заказа</h3>
+                            {{ form.first_name }}
+                            {{ form.lastname }}
+                            {{ form.city }}
+                            {{ form.post_index }}
+                            {{ form.adres }}
+                            {{ form.phone_number }}
+                            {{ form.email }}
                             <h3>Способ оплаты</h3>
-                            <p>Поставьте галочку напротив интересуещего вас способа оплаты</p>
-                            <form><label>Оплата картой онлайн<input type="checkbox"></label></form>
-                            <form><label>Оплата картой при получении<input type="checkbox"></label></form>
-                            <form><label>Оплата наличными при получении<input type="checkbox"></label></form>
-                        </div>
-                        <form><label class="final_agree">Я прочитал и принимаю все правила и условия<input
-                            type="checkbox"></label>
-                        </form>
-                        <div class="btn-pay">
-                            <div class="btn-black" style="width: 170px">
-                                <span onclick="document.location='/purchase'">
-                                    Перейти к оплате
-                                </span>
+                            <p style="margin-left: 15px; ">Выберете один из нижепредложенных вариантов</p>
+                            {% for radio in form.payment_method %}
+                                <label for="{{ radio.id_for_label }}" class="rating-wrapper"
+                                       style="margin: 10px 0 0 15px">
+                                    {{ radio.choice_label }}
+                                    {{ radio.tag }}
+                                    <span class="radio-checkmark"></span>
+                                </label>
+                            {% endfor %}
+                            <label class="final_agree" style="margin: 30px 0 0 15px; ">
+                                Я прочитал и принимаю все правила и условия
+                                <input type="checkbox" style="margin-left: -3px" required>
+                            </label>
+                            <div style="margin: 30px 0 -40px 17px">
+                                <button class="button-57" role="button" type="submit">
+                                    <span class="text">Перейти к оплате</span>
+                                    <span>Отличный выбор!</span>
+                                </button>
                             </div>
-                        </div>
+                            <style>
+                                .button-57 {
+                                    position: relative;
+                                    overflow: hidden;
+                                    border: 1px solid #18181a;
+                                    color: #18181a;
+                                    display: inline-block;
+                                    font-size: 15px;
+                                    line-height: 15px;
+                                    padding: 18px 18px 17px;
+                                    text-decoration: none;
+                                    cursor: pointer;
+                                    background: #fff;
+                                    user-select: none;
+                                    -webkit-user-select: none;
+                                    touch-action: manipulation;
+                                }
+
+                                .button-57 span:first-child {
+                                    position: relative;
+                                    transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+                                    z-index: 10;
+                                }
+
+                                .button-57 span:last-child {
+                                    color: white;
+                                    display: block;
+                                    position: absolute;
+                                    bottom: 0;
+                                    transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
+                                    z-index: 100;
+                                    opacity: 0;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translateY(225%) translateX(-50%);
+                                    height: 14px;
+                                    line-height: 13px;
+                                }
+
+                                .button-57:after {
+                                    content: "";
+                                    position: absolute;
+                                    bottom: -50%;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    background-color: black;
+                                    transform-origin: bottom center;
+                                    transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+                                    transform: skewY(9.3deg) scaleY(0);
+                                    z-index: 50;
+                                }
+
+                                .button-57:hover:after {
+                                    transform-origin: bottom center;
+                                    transform: skewY(9.3deg) scaleY(2);
+                                }
+
+                                .button-57:hover span:last-child {
+                                    transform: translateX(-50%) translateY(-100%);
+                                    opacity: 1;
+                                    transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
+                                }</style>
+                        </form>
                     </div>
                     <div class="col-md-6 check-right">
                         <div class="order">

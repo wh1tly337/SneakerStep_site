@@ -1,7 +1,9 @@
-from django.shortcuts import render
-from .models import AssortmentAdding
-from django.views.generic import DetailView
 from django.core.paginator import Paginator
+from django.shortcuts import render, redirect
+from django.views.generic import DetailView
+
+from .forms import OrdersForm
+from .models import AssortmentAdding
 
 
 def home(request):
@@ -28,7 +30,16 @@ def about_us(request):
 
 
 def chect_out(request):
-    return render(template_name='main/out_form.html', request=request)
+    error = ''
+    if request.method == 'POST':
+        form = OrdersForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('purchase')
+
+    form = OrdersForm()
+
+    return render(request, 'main/out_form.html', {'form': form})
 
 
 def comming_soon(request):
