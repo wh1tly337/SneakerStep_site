@@ -21,7 +21,7 @@ class AssortmentAdding(models.Model):
     third_image = models.ImageField(
         verbose_name='Третье изображение',
         upload_to=user_directory_path)
-    date = models.DateField('Дата добавления')
+    date = models.DateTimeField('Дата добавления')
 
     def __str__(self):
         return f"ID товара: {str(self.id)}"
@@ -51,7 +51,7 @@ class Orders(models.Model):
     phone_number = models.CharField(verbose_name='Номер телефона', max_length=12)
     email = models.EmailField('Электронная почта')
     payment_method = models.CharField('Способ оплаты', max_length=30, default='OnlineCard')
-    start_date = models.DateField('Дата оформления заказа', default=django.utils.timezone.now)
+    start_date = models.DateTimeField('Дата оформления заказа', default=django.utils.timezone.now)
 
     def __str__(self):
         return f"ID заказа: {str(self.order_id)}"
@@ -63,7 +63,7 @@ class Orders(models.Model):
 
 class ContactUs(models.Model):
     contact_id = models.AutoField('ID обращения', primary_key=True)
-    contact_date = models.DateField('Дата обращения', default=django.utils.timezone.now)
+    contact_date = models.DateTimeField('Дата обращения', default=django.utils.timezone.now)
     contact_name = models.CharField('Имя', max_length=100)
     contact_email = models.EmailField('Электронная почта')
     contact_description = models.TextField('Обращение')
