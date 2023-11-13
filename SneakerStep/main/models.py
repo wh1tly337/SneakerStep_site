@@ -42,6 +42,7 @@ class Orders(models.Model):
 
     order_id = models.AutoField('ID заказа', primary_key=True)
     status = models.CharField('Статус заказа', choices=status_choices, max_length=10, default='Оформлен')
+    refound_description = models.TextField('Причина возврата', blank=True, null=True)
     items = models.CharField('ID заказанных вещей', max_length=100)
     first_name = models.CharField('Имя', max_length=50)
     lastname = models.CharField('Фамилия', max_length=50)
@@ -52,6 +53,7 @@ class Orders(models.Model):
     email = models.EmailField('Электронная почта')
     payment_method = models.CharField('Способ оплаты', max_length=30, default='OnlineCard')
     start_date = models.DateTimeField('Дата оформления заказа', default=django.utils.timezone.now)
+    end_date = models.DateTimeField('Дата завершения заказа', blank=True, null=True)
 
     def __str__(self):
         return f"ID заказа: {str(self.order_id)}"
