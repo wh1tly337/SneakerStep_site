@@ -60,5 +60,20 @@ class Orders(models.Model):
         verbose_name = 'Заказы'
         verbose_name_plural = 'Заказы'
 
+
+class ContactUs(models.Model):
+    contact_id = models.AutoField('ID обращения', primary_key=True)
+    contact_date = models.DateField('Дата обращения', default=django.utils.timezone.now)
+    contact_name = models.CharField('Имя', max_length=100)
+    contact_email = models.EmailField('Электронная почта')
+    contact_description = models.TextField('Обращение')
+
+    def __str__(self):
+        return self.contact_name
+
+    class Meta:
+        verbose_name = 'Обращение'
+        verbose_name_plural = 'Обращения'
+
 # class HomePageUpdater(models.Model):
 #     id = models.AutoField('ID вещи', primary_key=True)

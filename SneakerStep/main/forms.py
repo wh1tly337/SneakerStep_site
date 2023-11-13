@@ -1,4 +1,4 @@
-from .models import Orders
+from .models import Orders, ContactUs
 from django.forms import ModelForm, TextInput, RadioSelect
 
 
@@ -70,4 +70,36 @@ class OrdersForm(ModelForm):
                 'name': 'rating',
                 'style': 'margin-left: -5px'
             }, choices=choices)
+        }
+
+
+class ContactForm(ModelForm):
+    class Meta:
+        model = ContactUs
+        fields = [
+            'contact_name', 'contact_email', 'contact_description',
+        ]
+
+        widgets = {
+            'contact_name': TextInput(attrs={
+                'type': 'text',
+                'id': 'contact_name',
+                'name': 'contact_name',
+                'placeholder': 'Имя',
+                'style': 'width: 100%; height: 50px; font-weight: 300;'
+            }),
+            'contact_email': TextInput(attrs={
+                'type': 'text',
+                'id': 'contact_email',
+                'name': 'contact_email',
+                'placeholder': 'Электронная почта',
+                'style': 'width: 100%; height: 50px; font-weight: 300;'
+            }),
+            'contact_description': TextInput(attrs={
+                'type': 'text',
+                'id': 'contact_description',
+                'name': 'contact_description',
+                'placeholder': 'Ваше предложение',
+                'style': 'width: 100%; height: 150px; font-family: "Poppins", sans-serif; font-weight: 300;'
+            }),
         }

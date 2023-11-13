@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 
-from .forms import OrdersForm
+from .forms import OrdersForm, ContactForm
 from .models import AssortmentAdding
 
 
@@ -30,7 +30,6 @@ def about_us(request):
 
 
 def chect_out(request):
-    error = ''
     if request.method == 'POST':
         form = OrdersForm(request.POST)
         if form.is_valid():
@@ -47,7 +46,15 @@ def comming_soon(request):
 
 
 def contact_us(request):
-    return render(template_name='main/contact_us.html', request=request)
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('purchase')
+
+    form = ContactForm()
+
+    return render(request, 'main/contact_us.html', {'form': form})
 
 
 class ProductCard(DetailView):
