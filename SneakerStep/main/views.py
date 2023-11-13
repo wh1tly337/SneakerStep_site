@@ -1,9 +1,12 @@
+from datetime import datetime
+
+import pytz
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 
-from .forms import OrdersForm, ContactForm
-from .models import AssortmentAdding
+from .forms import OrdersForm, ContactForm, RefoundForm
+from .models import AssortmentAdding, Orders
 
 
 def home(request):
@@ -68,7 +71,38 @@ def your_cart(request):
 
 
 def refound(request):
-    return render(template_name='main/refound.html', request=request)
+    if request.method == 'POST':
+        form = RefoundForm(request.POST)
+        if form.is_valid():
+            info = Orders.objects.in_bulk()
+            first_name = info[form.cleaned_data['refound_id']].first_name
+            last_name = info[form.cleaned_data['refound_id']].last_name
+            phone = info[form.cleaned_data['refound_id']].phone_number
+            email = info[form.cleaned_data['refound_id']].email
+            if (
+                    phone == form.cleaned_data['phone_number']
+                    and email == form.cleaned_data['email']
+                    and first_name == form.cleaned_data['first_name']
+                    and last_name == form.cleaned_data['last_name']
+            ):
+                Orders.objects.filter(order_id=form.cleaned_data['refound_id']).update(
+                    status='Возврат',
+                    refound_description=form.cleaned_data['refound_description'],
+                    end_date=datetime.now(pytz.timezone('Asia/Yekaterinburg')).strftime("%Y-%m-%d %H:%M:%S")
+                )
+
+                return redirect('appeal')
+            else:
+                return render(request, 'main/refound.html', {
+                    'form': form,
+                    'error': 'Такого заказа нет, проверьте правильность введенных данных'
+                })
+
+        print(form.errors)
+
+    form = RefoundForm()
+
+    return render(request, 'main/refound.html', {'form': form})
 
 
 def purchase(request):

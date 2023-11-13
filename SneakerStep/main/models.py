@@ -1,5 +1,5 @@
 from django.db import models
-import django
+from django.utils import timezone
 
 
 def user_directory_path(instance, filename):
@@ -7,7 +7,7 @@ def user_directory_path(instance, filename):
 
 
 class AssortmentAdding(models.Model):
-    id = models.AutoField('ID вещи', primary_key=True)
+    id = models.IntegerField('ID товара', primary_key=True)
     name = models.CharField('Название', max_length=100)
     price = models.IntegerField('Цена')
     sizes = models.CharField('Размеры', max_length=50, default='36 37 38 39 40 41 42 43 44 45')
@@ -40,19 +40,20 @@ class Orders(models.Model):
         ('Возврат', 'Возврат'),
     )
 
-    order_id = models.AutoField('ID заказа', primary_key=True)
+    order_id = models.IntegerField('ID заказа', primary_key=True)
     status = models.CharField('Статус заказа', choices=status_choices, max_length=10, default='Оформлен')
+    refound_id = models.IntegerField('ID для оформления возврата', blank=True, null=True)
     refound_description = models.TextField('Причина возврата', blank=True, null=True)
     items = models.CharField('ID заказанных вещей', max_length=100)
     first_name = models.CharField('Имя', max_length=50)
-    lastname = models.CharField('Фамилия', max_length=50)
+    last_name = models.CharField('Фамилия', max_length=50)
     city = models.CharField('Город', max_length=50)
     post_index = models.CharField('Почтовый индекс', max_length=10)
     adres = models.CharField('Адрес', max_length=100)
     phone_number = models.CharField(verbose_name='Номер телефона', max_length=12)
     email = models.EmailField('Электронная почта')
     payment_method = models.CharField('Способ оплаты', max_length=30, default='OnlineCard')
-    start_date = models.DateTimeField('Дата оформления заказа', default=django.utils.timezone.now)
+    start_date = models.DateTimeField('Дата оформления заказа', default=timezone.now)
     end_date = models.DateTimeField('Дата завершения заказа', blank=True, null=True)
 
     def __str__(self):
@@ -64,8 +65,8 @@ class Orders(models.Model):
 
 
 class ContactUs(models.Model):
-    contact_id = models.AutoField('ID обращения', primary_key=True)
-    contact_date = models.DateTimeField('Дата обращения', default=django.utils.timezone.now)
+    contact_id = models.IntegerField('ID обращения', primary_key=True)
+    contact_date = models.DateTimeField('Дата обращения', default=timezone.now)
     contact_name = models.CharField('Имя', max_length=100)
     contact_email = models.EmailField('Электронная почта')
     contact_description = models.TextField('Обращение')
