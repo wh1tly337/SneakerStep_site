@@ -24,7 +24,7 @@ class AssortmentAdding(models.Model):
     date = models.DateField('Дата добавления')
 
     def __str__(self):
-        return self.name
+        return f"ID товара: {str(self.id)}"
 
     class Meta:
         verbose_name = 'Добавление ассортимента'
@@ -69,7 +69,7 @@ class ContactUs(models.Model):
     contact_description = models.TextField('Обращение')
 
     def __str__(self):
-        return self.contact_name
+        return f"ID обращения: {str(self.contact_id)}"
 
     class Meta:
         verbose_name = 'Обращение'
