@@ -10,7 +10,7 @@ class AdminAssortment(admin.ModelAdmin):
 
 
 class AdminOrders(admin.ModelAdmin):
-    list_display = ('order_id', 'status', 'first_name')
+    list_display = ('order_id', 'status', 'start_date', 'first_name')
     search_fields = (
         'order_id', 'items', 'first_name',
         'lastname', 'city', 'post_index',

@@ -50,7 +50,7 @@ def contact_us(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('purchase')
+            return redirect('appeal')
 
     form = ContactForm()
 
@@ -73,3 +73,7 @@ def refound(request):
 
 def purchase(request):
     return render(template_name='main/purchase.html', request=request)
+
+
+def appeal(request):
+    return render(template_name='main/appeal.html', request=request)

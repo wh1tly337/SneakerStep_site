@@ -11,5 +11,6 @@ urlpatterns = [
     path('product_id=<int:pk>', views.ProductCard.as_view(), name='product_card'),
     path('your_cart', views.your_cart, name='your_cart'),
     path('refound', views.refound, name='refound'),
-    path('purchase', views.purchase, name='purchase')
+    path('purchase', views.purchase, name='purchase'),
+    path('appeal', views.appeal, name='appeal')
 ]
