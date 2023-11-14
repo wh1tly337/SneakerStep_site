@@ -3,11 +3,7 @@ from .models import *
 
 
 class AdminAssortment(admin.ModelAdmin):
-    fields = (
-        'name', 'price', 'sizes',
-        'description', 'main_image', 'second_image',
-        'third_image', 'date'
-    )
+    exclude = ('id',)
     list_display = ('name', 'id', 'date', 'price')
     search_fields = ('id', 'name', 'price', 'description')
     list_filter = ('date',)
@@ -15,13 +11,7 @@ class AdminAssortment(admin.ModelAdmin):
 
 
 class AdminOrders(admin.ModelAdmin):
-    fields = (
-        'status', 'refound_description', 'items',
-        'first_name', 'last_name', 'city',
-        'post_index', 'adres', 'phone_number',
-        'email', 'payment_method', 'start_date',
-        'end_date'
-    )
+    exclude = ('order_id', 'refound_id')
     list_display = ('order_id', 'status', 'start_date', 'first_name')
     search_fields = (
         'order_id', 'items', 'first_name',
@@ -33,10 +23,7 @@ class AdminOrders(admin.ModelAdmin):
 
 
 class AdminContact(admin.ModelAdmin):
-    fields = (
-        'contact_name', 'contact_date', 'contact_email',
-        'contact_description'
-    )
+    exclude = ('contact_id',)
     list_display = ('contact_id', 'contact_name', 'contact_date', 'contact_email')
     search_fields = ('contact_id', 'contact_name', 'contact_description', 'contact_email')
     list_filter = ('contact_date',)
