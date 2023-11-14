@@ -86,7 +86,7 @@ def refound(request):
                     and last_name == form.cleaned_data['last_name']
             ):
                 Orders.objects.filter(order_id=form.cleaned_data['refound_id']).update(
-                    status='Возврат',
+                    status=Orders.REFOUND,
                     refound_description=form.cleaned_data['refound_description'],
                     end_date=datetime.now(pytz.timezone('Asia/Yekaterinburg')).strftime("%Y-%m-%d %H:%M:%S")
                 )
