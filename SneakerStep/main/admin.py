@@ -1,8 +1,10 @@
+import csv
 from datetime import datetime
 
 import pytz
 from django.contrib import admin
 from django.db.models import QuerySet
+from django.http import HttpResponse
 
 from .models import *
 
@@ -12,6 +14,7 @@ class AdminAssortment(admin.ModelAdmin):
     list_per_page = 8
 
     exclude = ('id',)
+    actions = ('make_csv',)
 
     list_display = ('name', 'id', 'price', 'date')
     search_fields = ('id', 'name', 'price', 'description')
@@ -19,13 +22,38 @@ class AdminAssortment(admin.ModelAdmin):
 
     empty_value_display = '-пусто-'
 
+    @admin.action(description='Создать CSV отчет')
+    def make_csv(self, request, qs: QuerySet):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="assortment.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow([
+            'ID товара', 'Название', 'Цена',
+            'Размеры', 'Описание', 'Главное изображение',
+            'Втророе изображение', 'Третье изображение', 'Дата добавления'
+        ])
+
+        items = AssortmentAdding.objects.all().values_list(
+            'id', 'name', 'price',
+            'sizes', 'description', 'main_image',
+            'second_image', 'third_image', 'date'
+        )
+        for item in items:
+            writer.writerow(item)
+
+        return response
+
 
 class AdminOrders(admin.ModelAdmin):
     ordering = ('-order_id',)
     list_per_page = 10
 
     exclude = ('order_id', 'refound_id')
-    actions = ('set_status_sent', 'set_status_completed', 'set_status_cancelled')
+    actions = (
+        'set_status_sent', 'set_status_completed',
+        'set_status_cancelled', 'make_csv'
+    )
 
     list_display = (
         'order_id', 'status', 'first_name',
@@ -73,6 +101,32 @@ class AdminOrders(admin.ModelAdmin):
             request,
             f"Статус 'Отменен' был применен к {count_updateted} записи(ям)"
         )
+
+    @admin.action(description='Создать CSV отчет')
+    def make_csv(self, request, qs: QuerySet):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow([
+            'ID заказа', 'Статус заказа', 'Причина возврата',
+            'ID заказанных вещей', 'Сумма заказа', 'Имя',
+            'Фамилия', 'Город', 'Почтовый индекс',
+            'Адрес', 'Номер телефона', 'Электронная почта',
+            'Способ оплаты', 'Дата оформления заказа', 'Дата обновления заказа'
+        ])
+
+        orders = Orders.objects.all().values_list(
+            'order_id', 'status', 'refound_description',
+            'items', 'final_price', 'first_name',
+            'last_name', 'city', 'post_index',
+            'adres', 'phone_number', 'email',
+            'payment_method', 'start_date', 'end_date'
+        )
+        for order in orders:
+            writer.writerow(order)
+
+        return response
 
 
 class AdminContact(admin.ModelAdmin):

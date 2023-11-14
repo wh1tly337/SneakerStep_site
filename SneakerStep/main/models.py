@@ -32,11 +32,11 @@ class AssortmentAdding(models.Model):
 
 
 class Orders(models.Model):
-    DECORATED = 'Decorated'
-    SENT = 'Sent'
-    COMPLETED = 'Completed'
-    CANCELLED = 'Cancelled'
-    REFOUND = 'Refund'
+    DECORATED = 'Оформлен'
+    SENT = 'Отправлен'
+    COMPLETED = 'Завершен'
+    CANCELLED = 'Отменен'
+    REFOUND = 'Возврат'
     STATUS_CHOICES = (
         (DECORATED, 'Оформлен'),
         (SENT, 'Отправлен'),
@@ -50,6 +50,7 @@ class Orders(models.Model):
     refound_id = models.IntegerField('ID для оформления возврата', blank=True, null=True)
     refound_description = models.TextField('Причина возврата', blank=True, null=True)
     items = models.CharField('ID заказанных вещей', max_length=100)
+    final_price = models.IntegerField('Сумма заказа', blank=True, null=True)
     first_name = models.CharField('Имя', max_length=50)
     last_name = models.CharField('Фамилия', max_length=50)
     city = models.CharField('Город', max_length=50)
@@ -57,7 +58,7 @@ class Orders(models.Model):
     adres = models.CharField('Адрес', max_length=100)
     phone_number = models.CharField(verbose_name='Номер телефона', max_length=12)
     email = models.EmailField('Электронная почта')
-    payment_method = models.CharField('Способ оплаты', max_length=30, default='OnlineCard')
+    payment_method = models.CharField('Способ оплаты', max_length=30, blank=True, null=True)
     start_date = models.DateTimeField('Дата оформления заказа', default=timezone.now)
     end_date = models.DateTimeField('Дата обновления заказа', blank=True, null=True)
 
