@@ -15,14 +15,9 @@
             <div class="row">
                 <div class="col-md-8 col-sm-7">
                     <div class="new">
-                        <p>Сортировка:</p>
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-                                style="border-color: white; outline:none; width: 140px; margin-left: 5px">
-                            <option value="1" selected>По популярности</option>
-                            <option value="2">По цене (по убыванию)</option>
-                            <option value="3">По цене (по врзрастанию)</option>
-                            <option value="4">По новизне</option>
-                        </select>
+                        <form method="GET" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            {{ form }}
+                        </form>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-5 ordering">
@@ -90,22 +85,38 @@
             <nav class="pagination">
                 {% if page_obj.has_previous %}
                     <span class="prev">
+                    {% if temp %}
+                        <a href="?page={{ page_obj.previous_page_number }}&sort_field={{ temp }}" title="">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    {% else %}
                         <a href="?page={{ page_obj.previous_page_number }}" title="">
                             <i class="fa fa-angle-left"></i>
                         </a>
+                    {% endif %}
                     </span>
                 {% endif %}
                 <p>Страница: </p>
                 {% for p in page_obj.paginator.page_range %}
                     <span class="page">
+                    {% if temp %}
+                        <a href="?page={{ p }}&sort_field={{ temp }}" title="">{{ p }}</a>
+                    {% else %}
                         <a href="?page={{ p }}" title="">{{ p }}</a>
+                    {% endif %}
                     </span>
                 {% endfor %}
                 {% if page_obj.has_next %}
                     <span class="next">
+                    {% if temp %}
+                        <a href="?page={{ page_obj.next_page_number }}&sort_field={{ temp }}" title="">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    {% else %}
                         <a href="?page={{ page_obj.next_page_number }}" title="">
                             <i class="fa fa-angle-right"></i>
                         </a>
+                    {% endif %}
                     </span>
                 {% endif %}
             </nav>

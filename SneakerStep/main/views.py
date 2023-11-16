@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 
-from .forms import OrdersForm, ContactForm, RefoundForm
+from .forms import OrdersForm, ContactForm, RefoundForm, CatalogForm
 from .models import AssortmentAdding, Orders
 
 
@@ -16,15 +16,35 @@ def home(request):
 
 
 def catalog(request):
-    items = AssortmentAdding.objects.all()
+    try:
+        temp = request.GET['sort_field']
+        form = CatalogForm(initial={'sort_field': temp})
+        choices = {
+            '1': AssortmentAdding.objects.all(),
+            '2': AssortmentAdding.objects.order_by('-price'),
+            '3': AssortmentAdding.objects.order_by('price'),
+            '4': AssortmentAdding.objects.order_by('-date'),
+        }
+        items = choices.get(temp)
+
+    except Exception:
+        temp = ''
+        form = CatalogForm()
+        items = AssortmentAdding.objects.all()
+
     paginator = Paginator(items, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    context = {
+        'items': items,
+        'form': form,
+        'temp': temp,
+        'page_obj': page_obj
+    }
+
     return render(
-        request,
-        'main/shoe_catalog.html',
-        {'items': items, 'page_obj': page_obj}
+        request, 'main/shoe_catalog.html', context
     )
 
 

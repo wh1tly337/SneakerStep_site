@@ -1,5 +1,24 @@
 from .models import Orders, ContactUs
+from django import forms
 from django.forms import ModelForm, TextInput, RadioSelect
+
+
+class CatalogForm(forms.Form):
+    sort_choices = (
+        ("1", "По популярности"),
+        ("2", "По цене (по убыванию)"),
+        ("3", "По цене (по возрастанию)"),
+        ("4", "По новизне"),
+    )
+
+    sort_field = forms.ChoiceField(
+        choices=sort_choices,
+        label=False,
+        widget=forms.Select(attrs={
+            'onchange': 'submit()',
+            'style': 'border-color: white; outline:none; width: 200px; margin-left: 5px'
+        })
+    )
 
 
 class OrdersForm(ModelForm):

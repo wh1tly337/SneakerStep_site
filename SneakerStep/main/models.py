@@ -27,8 +27,8 @@ class AssortmentAdding(models.Model):
         return f"ID товара: {str(self.id)}"
 
     class Meta:
-        verbose_name = 'Добавление ассортимента'
-        verbose_name_plural = 'Добавление ассортимента'
+        verbose_name = 'Ассортимент'
+        verbose_name_plural = 'Ассортимент'
 
 
 class Orders(models.Model):
