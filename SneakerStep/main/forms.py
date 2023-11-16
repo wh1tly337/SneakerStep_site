@@ -138,41 +138,35 @@ class RefoundForm(ModelForm):
                 'id': 'first_name',
                 'name': 'first_name',
                 'placeholder': 'Имя',
-                # 'style': 'width: 100%; height: 50px; font-weight: 300;'
             }),
             'last_name': TextInput(attrs={
                 'type': 'text',
                 'id': 'last_name',
                 'name': 'last_name',
                 'placeholder': 'Фамилия',
-                # 'style': 'width: 100%; height: 50px; font-weight: 300;'
             }),
             'phone_number': TextInput(attrs={
                 'type': 'text',
                 'id': 'phone_number',
                 'name': 'phone_number',
-                'placeholder': 'Номер телефона',
-                # 'style': 'width: 100%; height: 150px; font-family: "Poppins", sans-serif; font-weight: 300;'
+                'placeholder': 'Номер телефона'
             }),
             'email': TextInput(attrs={
                 'type': 'text',
                 'id': 'email',
                 'name': 'email',
                 'placeholder': 'Электронная почта',
-                # 'style': 'width: 100%; height: 150px; font-family: "Poppins", sans-serif; font-weight: 300;'
             }),
             'refound_id': TextInput(attrs={
                 'type': 'text',
                 'id': 'refound_id',
                 'name': 'refound_id',
                 'placeholder': 'Номер заказа',
-                # 'style': 'width: 100%; height: 150px; font-family: "Poppins", sans-serif; font-weight: 300;'
             }),
             'refound_description': TextInput(attrs={
                 'type': 'text',
                 'id': 'refound_description',
                 'name': 'refound_description',
                 'placeholder': 'Причина возврата',
-                # 'style': 'width: 100%; height: 150px; font-family: "Poppins", sans-serif; font-weight: 300;'
             }),
         }
