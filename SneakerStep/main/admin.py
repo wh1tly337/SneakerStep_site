@@ -52,7 +52,8 @@ class AdminOrders(admin.ModelAdmin):
     exclude = ('order_id', 'refound_id')
     actions = (
         'set_status_sent', 'set_status_completed',
-        'set_status_cancelled', 'make_csv'
+        'set_status_cancelled', 'make_csv',
+        'make_csv_refound'
     )
 
     list_display = (
@@ -109,18 +110,40 @@ class AdminOrders(admin.ModelAdmin):
 
         writer = csv.writer(response)
         writer.writerow([
-            'ID заказа', 'Статус заказа', 'Причина возврата',
-            'ID заказанных вещей', 'Сумма заказа', 'Имя',
-            'Фамилия', 'Город', 'Почтовый индекс',
-            'Адрес', 'Номер телефона', 'Электронная почта',
-            'Способ оплаты', 'Дата оформления заказа', 'Дата обновления заказа'
+            'ID заказа', 'Статус заказа', 'ID заказанных вещей',
+            'Сумма заказа', 'Имя', 'Фамилия',
+            'Город', 'Способ оплаты', 'Дата оформления заказа',
+            'Дата обновления заказа'
         ])
 
         orders = Orders.objects.all().values_list(
+            'order_id', 'status', 'items',
+            'final_price', 'first_name', 'last_name',
+            'city', 'payment_method', 'start_date',
+            'end_date'
+        )
+        for order in orders:
+            writer.writerow(order)
+
+        return response
+
+    @admin.action(description='Создать CSV отчет по возвратам')
+    def make_csv_refound(self, request, qs: QuerySet):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow([
+            'ID заказа', 'Статус заказа', 'Причина возврата',
+            'ID заказанных вещей', 'Сумма заказа',
+            'Имя', 'Фамилия', 'Город',
+            'Способ оплаты', 'Дата оформления заказа', 'Дата обновления заказа'
+        ])
+
+        orders = Orders.objects.filter(status='Возврат').values_list(
             'order_id', 'status', 'refound_description',
-            'items', 'final_price', 'first_name',
-            'last_name', 'city', 'post_index',
-            'adres', 'phone_number', 'email',
+            'items', 'final_price',
+            'first_name', 'last_name', 'city',
             'payment_method', 'start_date', 'end_date'
         )
         for order in orders:
