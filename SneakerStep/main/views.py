@@ -132,7 +132,9 @@ def contact_us(request):
 def product_card(request, pk):
     item = get_object_or_404(AssortmentAdding, pk=pk)
     form = SizeForm()
+    cart, amount = for_cart()
     error = ''
+    success = ''
 
     if request.method == 'GET':
         try:
@@ -155,17 +157,17 @@ def product_card(request, pk):
                     name=name, size=size,
                     price=price, quantity=1
                 )
+                success = 'Товар добавлен в корзину'
         except Exception:
             pass
-
-    cart, amount = for_cart()
 
     context = {
         'item': item,
         'form': form,
         'error': error,
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'success': success
     }
 
     return render(request, 'main/product_card.html', context)
@@ -179,7 +181,11 @@ def cart(request):
     }
 
     if request.method == 'POST':
-        Cart.objects.filter(item_id=request.POST['deletebtn']).delete()
+        item_id, size = request.POST['deletebtn'].split(' ')
+        Cart.objects.filter(
+            item_id=item_id,
+            size=size
+        ).delete()
 
     return render(request, 'main/cart.html', context)
 

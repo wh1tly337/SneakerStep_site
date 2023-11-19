@@ -58,7 +58,7 @@
                                                 {% csrf_token %}
                                                 <!--<span style=""></span>-->
                                                 <div class="conti" style="margin-right: 25px">
-                                                    <button name="deletebtn" value="{{ el.item_id }}">
+                                                    <button name="deletebtn" value="{{ el.item_id }} {{ el.size }}">
                                                         Удалить
                                                     </button>
                                                 </div>
