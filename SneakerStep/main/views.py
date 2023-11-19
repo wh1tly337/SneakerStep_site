@@ -170,11 +170,14 @@ def chect_out(request):
             form.save()
 
             cart_items = Cart.objects.all()
-            result, final_price = '', 0
+            result_id, result_name, final_price = '', '', 0
             for i in range(len(cart_items)):
                 item_id = cart_items[i].get_id()
+                item_name = cart_items[i].get_name()
                 size = cart_items[i].get_size()
-                result += f"{item_id}({size}) "
+
+                result_id += f"{item_id}({size}) "
+                result_name += f"{item_name} |||"
                 final_price += int(cart_items[i].get_price())
 
                 # Удаление размеров из карточки товара
@@ -198,7 +201,8 @@ def chect_out(request):
                 email=form.cleaned_data['email'],
                 payment_method=form.cleaned_data['payment_method'],
             ).update(
-                items=result,
+                items_id=result_id,
+                items_names=result_name,
                 final_price=final_price
             )
 

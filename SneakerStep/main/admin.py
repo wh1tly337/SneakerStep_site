@@ -110,14 +110,14 @@ class AdminOrders(admin.ModelAdmin):
 
         writer = csv.writer(response)
         writer.writerow([
-            'ID заказа', 'Статус заказа', 'ID заказанных вещей',
+            'ID заказа', 'Статус заказа', 'ID заказанных вещей', 'Наименование заказа',
             'Сумма заказа', 'Имя', 'Фамилия',
             'Город', 'Способ оплаты', 'Дата оформления заказа',
             'Дата обновления заказа'
         ])
 
         orders = Orders.objects.all().values_list(
-            'order_id', 'status', 'items',
+            'order_id', 'status', 'items_id', 'items_names',
             'final_price', 'first_name', 'last_name',
             'city', 'payment_method', 'start_date',
             'end_date'

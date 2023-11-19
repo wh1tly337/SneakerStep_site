@@ -52,7 +52,8 @@ class Orders(models.Model):
     status = models.CharField('Статус заказа', choices=STATUS_CHOICES, max_length=10, default='Оформлен')
     refound_id = models.IntegerField('ID для оформления возврата', blank=True, null=True)
     refound_description = models.TextField('Причина возврата', blank=True, null=True)
-    items = models.CharField('ID заказанных вещей', max_length=100)
+    items_id = models.CharField('ID заказанных вещей', max_length=100, blank=True, null=True)
+    items_names = models.CharField('Наименования заказанных вещей', max_length=1000, blank=True, null=True)
     final_price = models.IntegerField('Сумма заказа', blank=True, null=True)
     first_name = models.CharField('Имя', max_length=50)
     last_name = models.CharField('Фамилия', max_length=50)
@@ -102,11 +103,14 @@ class Cart(models.Model):
     def get_id(self):
         return str(self.item_id)
 
+    def get_name(self):
+        return str(self.name)
+
     def get_size(self):
         return str(self.size)
 
     def get_price(self):
         return str(self.price)
-    
+
 # class HomePageUpdater(models.Model):
 #     id = models.AutoField('ID вещи', primary_key=True)
