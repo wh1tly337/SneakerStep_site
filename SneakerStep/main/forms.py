@@ -1,4 +1,4 @@
-from .models import Orders, ContactUs, Cart
+from .models import Orders, ContactUs, Cart, AssortmentAdding
 from django import forms
 from django.forms import ModelForm, TextInput, RadioSelect
 
@@ -35,7 +35,6 @@ class SizeForm(forms.Form):
         choices=size_choices,
         label=False,
         widget=forms.Select(attrs={
-            # 'onchange': 'submit()',
             'style': 'border-color: white; outline:none; width: 140px'
         })
     )

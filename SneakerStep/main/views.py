@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.utils import timezone
 
 from .forms import (
     OrdersForm, ContactForm,
@@ -78,36 +79,6 @@ def about_us(request):
         'cart': cart
     }
     return render(request, 'main/about_us.html', context)
-
-
-def chect_out(request):
-    if request.method == 'POST':
-        form = OrdersForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('purchase')
-
-    form = OrdersForm()
-    cart, amount = for_cart()
-
-    context = {
-        'form': form,
-        'amount': amount,
-        'cart': cart
-    }
-
-    return render(request, 'main/out_form.html', context)
-
-
-def comming_soon(request):
-    cart, amount = for_cart()
-
-    context = {
-        'amount': amount,
-        'cart': cart
-    }
-
-    return render(request, 'main/comming_soon.html', context)
 
 
 def contact_us(request):
@@ -190,6 +161,62 @@ def cart(request):
     return render(request, 'main/cart.html', context)
 
 
+def chect_out(request):
+    if request.method == 'POST':
+        form = OrdersForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            cart_items = Cart.objects.all()
+            result, final_price = '', 0
+            for i in range(len(cart_items)):
+                item_id = cart_items[i].get_id()
+                size = cart_items[i].get_size()
+                result += f"{item_id}({size}) "
+                final_price += int(cart_items[i].get_price())
+
+                # Удаление размеров из карточки товара
+                assortment = AssortmentAdding.objects.filter(id=item_id)
+                sizes = assortment[0].get_sizes().split(' ')
+                for j in range(len(sizes)):
+                    if sizes[j] == size:
+                        sizes[j] = ''
+                AssortmentAdding.objects.filter(id=item_id).update(
+                    sizes=' '.join(sizes)
+                )
+
+            # Добавление общей суммы, id товаров и их рахмеров в таблицу с заказами
+            Orders.objects.filter(
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
+                city=form.cleaned_data['city'],
+                post_index=form.cleaned_data['post_index'],
+                adres=form.cleaned_data['adres'],
+                phone_number=form.cleaned_data['phone_number'],
+                email=form.cleaned_data['email'],
+                payment_method=form.cleaned_data['payment_method'],
+            ).update(
+                items=result,
+                final_price=final_price
+            )
+
+            # Удаление всех данных из корзины
+            Cart.objects.all().delete()
+
+            return redirect('purchase')
+
+    form = OrdersForm()
+    cart, amount = for_cart()
+
+    context = {
+        'form': form,
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/out_form.html', context)
+
+
 def refound(request):
     if request.method == 'POST':
         form = RefoundForm(request.POST)
@@ -252,3 +279,14 @@ def appeal(request):
     }
 
     return render(request, 'main/appeal.html', context)
+
+
+def comming_soon(request):
+    cart, amount = for_cart()
+
+    context = {
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/comming_soon.html', context)

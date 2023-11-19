@@ -21,10 +21,13 @@ class AssortmentAdding(models.Model):
     third_image = models.ImageField(
         verbose_name='Третье изображение',
         upload_to=user_directory_path)
-    date = models.DateTimeField('Дата добавления')
+    date = models.DateTimeField('Дата добавления', default=timezone.now)
 
     def __str__(self):
         return f"ID товара: {str(self.id)}"
+
+    def get_sizes(self):
+        return str(self.sizes)
 
     class Meta:
         verbose_name = 'Ассортимент'
@@ -96,5 +99,14 @@ class Cart(models.Model):
     def __str__(self):
         return f"{self.item_id} {self.name} {self.size} {self.price} {self.quantity}"
 
+    def get_id(self):
+        return str(self.item_id)
+
+    def get_size(self):
+        return str(self.size)
+
+    def get_price(self):
+        return str(self.price)
+    
 # class HomePageUpdater(models.Model):
 #     id = models.AutoField('ID вещи', primary_key=True)

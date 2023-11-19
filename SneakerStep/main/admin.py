@@ -168,4 +168,3 @@ class AdminContact(admin.ModelAdmin):
 admin.site.register(AssortmentAdding, AdminAssortment)
 admin.site.register(Orders, AdminOrders)
 admin.site.register(ContactUs, AdminContact)
-admin.site.register(Cart)
