@@ -5,7 +5,6 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
-from django.utils import timezone
 
 from .forms import (
     OrdersForm, ContactForm,
@@ -104,40 +103,43 @@ def product_card(request, pk):
     item = get_object_or_404(AssortmentAdding, pk=pk)
     form = SizeForm()
     cart, amount = for_cart()
-    error = ''
-    success = ''
+    error, success = '', ''
 
     if request.method == 'GET':
         try:
             size = request.GET['size_field']
+
             if size == '0':
                 context = {
                     'item': item,
                     'form': form,
                     'error': 'Вы забыли выбрать размер'
                 }
+
                 return render(request, 'main/product_card.html', context)
             else:
                 info = AssortmentAdding.objects.in_bulk()
+
                 image = info[pk].main_image
                 item_id = info[pk].id
                 name = str(info[pk].name)
                 price = info[pk].price
+                success = 'Товар добавлен в корзину'
+
                 Cart.objects.create(
                     item_id=item_id, image=image,
                     name=name, size=size,
                     price=price, quantity=1
                 )
-                success = 'Товар добавлен в корзину'
         except Exception:
             pass
 
     context = {
         'item': item,
         'form': form,
-        'error': error,
-        'amount': amount,
         'cart': cart,
+        'amount': amount,
+        'error': error,
         'success': success
     }
 
