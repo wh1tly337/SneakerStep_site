@@ -40,37 +40,35 @@
                 </div>
                 <div class="col-md-4 col-md-pull-8 col-sm-12 col-xs-12 scr-3">
                     <div class="quick-left">
+                        {% if error %}
+                            <div class="alert alert-danger" role="alert"
+                                 style="width: 100%; margin: -25px auto 30px auto">
+                                Вы забыли выбрать размер обуви
+                            </div>
+                        {% endif %}
                         <h3>{{ item.name }}</h3>
                         <p class="pr-sku">ID: {{ item.id }}</p>
                         <ul class="price price-detail-prd2">
                             <li>₽{{ item.price }}</li>
                         </ul>
-                        <div class="side-product">
-                            <h4>Размер: </h4>
-                            <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-                                    style="border-color: white; outline:none; width: 140px">
-                                <option value="0" selected>Выберете размер</option>
-                                <option value="1">36</option>
-                                <option value="2">37</option>
-                                <option value="3">38</option>
-                                <option value="4">39</option>
-                                <option value="5">40</option>
-                                <option value="6">41</option>
-                                <option value="7">42</option>
-                                <option value="8">43</option>
-                                <option value="9">44</option>
-                                <option value="10">45</option>
-                            </select>
-                        </div>
-                        <!--TODO вставить ссылку на гайд по подбору размера-->
-                        <div style="margin-top: 10px"><a href="">Как узнать свой размер?</a></div>
-                        <div class="add-to-bag" style="margin-top: 55%">
-                            <button type="button" class="add">
-                                <span class="icon icon-ecommerce-basket"></span>
-                                <small class="line1"> </small>
-                                <span style="right: -20%;">Добавить в корзину</span>
-                            </button>
-                        </div>
+
+                        <form method="GET" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <div class="side-product">
+                                <h4>Размер: </h4>
+                                {{ form }}
+                            </div>
+                            <div style="margin-top: 10px">
+                                <a href="https://www.kupirazmer.ru/page/razmer">Как узнать свой размер?</a>
+                            </div>
+                            <div class="add-to-bag" style="margin-top: 55%">
+                                <button class="add" role="button" type="submit">
+                                    <span class="icon icon-ecommerce-basket"></span>
+                                    <small class="line1"> </small>
+                                    <span style="right: -20%;">Добавить в корзину</span>
+                                </button>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>

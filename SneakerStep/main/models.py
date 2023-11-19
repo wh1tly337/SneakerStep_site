@@ -8,7 +8,7 @@ def user_directory_path(instance, filename):
 
 class AssortmentAdding(models.Model):
     id = models.IntegerField('ID товара', primary_key=True)
-    name = models.CharField('Название', max_length=100)
+    name = models.CharField('Название', max_length=255)
     price = models.IntegerField('Цена')
     sizes = models.CharField('Размеры', max_length=50, default='36 37 38 39 40 41 42 43 44 45')
     description = models.TextField('Описание')
@@ -83,6 +83,18 @@ class ContactUs(models.Model):
     class Meta:
         verbose_name = 'Обращение'
         verbose_name_plural = 'Обращения'
+
+
+class Cart(models.Model):
+    item_id = models.IntegerField('ID товара', blank=True, null=True)
+    image = models.CharField('Изображение', max_length=1000, blank=True, null=True)
+    name = models.CharField('Название', max_length=255, blank=True, null=True)
+    size = models.IntegerField('Размер')
+    price = models.IntegerField('Цена')
+    quantity = models.IntegerField('Количество', default=1)
+
+    def __str__(self):
+        return f"{self.item_id} {self.name} {self.size} {self.price} {self.quantity}"
 
 # class HomePageUpdater(models.Model):
 #     id = models.AutoField('ID вещи', primary_key=True)

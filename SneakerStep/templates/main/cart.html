@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Корзина
+    Корзина
 {% endblock %}
 
 {% block banner %}
@@ -23,107 +23,81 @@
                                 <tr>
                                     <th>Товар</th>
                                     <th>Цена</th>
-                                    <th>Количество</th>
+                                    <th>Кол-во</th>
                                     <th>Итого</th>
+                                    <th>Удаление</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td class="product-name">
-                                        <div class="img-prd">
-                                            <a href="#">
-                                                <img src="{% static 'main/images/prd_your_cart.png' %}" alt="">
-                                                <span class="pe-7s-close-circle"></span>
-                                            </a>
-                                        </div>
-                                        <div class="prd-infor">
-                                            <a href="#">** наименование товара **</a>
-                                            <p>Размер: L</p>
-                                        </div>
-                                    </td>
-                                    <td class="product-price">
-                                        <p class="price"><span class="money">₽80.00</span></p>
-                                    </td>
-                                    <td>
-                                        <div class="quantity">
-                                            <button type="button"
-                                                    class="quantity-left-minus btn btn-number js-minus minus-cs"
-                                                    data-type="minus" data-field="" style="top: 0;">
-                                                <span class="minus-icon"><i class="ion-ios-plus-empty"></i></span>
-                                            </button>
-                                            <label>
-                                                <input class="product_quantity_number js-number qty" name="number"
-                                                       type="text" value="1">
-                                            </label>
-                                            <button type="button"
-                                                    class="quantity-right-plus btn btn-number js-plus plus-cs"
-                                                    data-type="plus" data-field="" style="top: 0;">
-                                                <span class="plus-icon"><i class="ion-ios-minus-empty"></i></span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal product-price">
-                                        <p class="price"><span class="money-total">₽80.00</span></p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="product-name">
-                                        <div class="img-prd">
-                                            <a href="#">
-                                                <img src="{% static 'main/images/prd_your_cart1.png' %}" alt="">
-                                                <span class="pe-7s-close-circle"></span>
-                                            </a>
-                                        </div>
-                                        <div class="prd-infor">
-                                            <a href="#">** наименование товара **</a>
-                                            <p>Размер: L</p>
-                                        </div>
-                                    </td>
-                                    <td class="product-price">
-                                        <p class="price"><span class="money">₽80.00</span></p>
-                                    </td>
-                                    <td>
-                                        <div class="quantity">
-                                            <button type="button"
-                                                    class="quantity-left-minus btn btn-number js-minus minus-cs"
-                                                    data-type="minus" data-field="" style="top: 0;">
-                                                <span class="minus-icon"><i class="ion-ios-plus-empty"></i></span>
-                                            </button>
-                                            <label>
-                                                <input class="product_quantity_number js-number qty" name="number"
-                                                       type="text" value="1">
-                                            </label>
-                                            <button type="button"
-                                                    class="quantity-right-plus btn btn-number js-plus plus-cs"
-                                                    data-type="plus" data-field="" style="top: 0;">
-                                                <span class="plus-icon"><i class="ion-ios-minus-empty"></i></span>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal product-price">
-                                        <p class="price"><span class="money-total">₽80.00</span></p>
-                                    </td>
-                                </tr>
+                                {% for el in cart %}
+                                    <tr>
+                                        <td class="product-name">
+                                            <div class="img-prd">
+                                                <a href="product_id={{ el.item_id }}">
+                                                    <img src="{{ el.image }}" alt="" style="width: 200px">
+                                                </a>
+                                            </div>
+                                            <div class="prd-infor">
+                                                <a href="product_id={{ el.item_id }}">{{ el.name }}</a>
+                                                <p>Размер: {{ el.size }}</p>
+                                            </div>
+                                        </td>
+                                        <td class="product-price">
+                                            <p class="price"><span class="money">₽{{ el.price }}</span></p>
+                                        </td>
+                                        <td class="product-subtotal product-price">
+                                            <p class="price"><span style="font-weight: 500; color: black">
+                                            {{ el.quantity }}
+                                            </span></p>
+                                        </td>
+                                        <td class="product-subtotal product-price">
+                                            <p class="price"><span class="money-total">₽{{ el.price }}</span></p>
+                                        </td>
+                                        <td class="product-price">
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <!--<span style=""></span>-->
+                                                <div class="conti" style="margin-right: 25px">
+                                                    <button name="deletebtn" value="{{ el.item_id }}">
+                                                        Удалить
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     </form>
                     <div class="coupon">
                         <label>ㅤ</label> <!--  невидимый символ для создания небольшого отступа на сайте -->
-                        <h3 class="pull-right">Итого: ₽160</h3>
+                        {% if amount %}
+                            <h3 class="pull-right">Итого: ₽{{ amount }}</h3>
+                        {% else %}
+                            <h3 class="pull-right">Итого: ₽0</h3>
+                        {% endif %}
                     </div>
                     <div class="conti">
                         <button onclick="document.location='/catalog'">Продолжить покупки</button>
-                        <button onclick="document.location='/your_cart'">Обновить корзину</button>
+                        <button onclick="document.location='/cart'">Обновить корзину</button>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-total-right">
                         <h3>Итоговая корзина</h3>
-                        <span>Итого: ₽160</span>
-                        <span>Доставка: </span>
+                        {% if amount %}
+                            <span>Итого: ₽{{ amount }}</span>
+                        {% else %}
+                            <span>Итого: ₽0</span>
+                        {% endif %}
+                        <span>Доставка:</span>
                         <p>Стоимость доставки будет рассчитана после того, как вы укажете свой адрес</p>
-                        <h3 style="margin-top: 26px; margin-bottom: 5px;border-bottom: 0;">Итого: ₽160</h3>
+                        {% if amount %}
+                            <h3 style="margin-top: 26px; margin-bottom: 5px;border-bottom: 0;">Итого: ₽{{ amount }}</h3>
+                        {% else %}
+                            <h3 style="margin-top: 26px; margin-bottom: 5px;border-bottom: 0;">Итого: ₽0</h3>
+                        {% endif %}
                         <button onclick="document.location='/chect_out'">Перейти к оформлению заказа</button>
                     </div>
                 </div>

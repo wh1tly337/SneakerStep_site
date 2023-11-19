@@ -2,17 +2,35 @@ from datetime import datetime
 
 import pytz
 from django.core.paginator import Paginator
+from django.db.models import Sum
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView
 
-from .forms import OrdersForm, ContactForm, RefoundForm, CatalogForm
-from .models import AssortmentAdding, Orders
+from .forms import (
+    OrdersForm, ContactForm,
+    RefoundForm, CatalogForm,
+    SizeForm
+)
+from .models import AssortmentAdding, Orders, Cart
+
+
+def for_cart():
+    cart = Cart.objects.all()
+    amount = Cart.objects.aggregate(Sum('price'))['price__sum']
+    return cart, amount
 
 
 def home(request):
     items = AssortmentAdding.objects.all()
+    cart, amount = for_cart()
 
-    return render(request, 'main/home.html', {'items': items})
+    context = {
+        'items': items,
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/home.html', context)
 
 
 def catalog(request):
@@ -32,6 +50,8 @@ def catalog(request):
         form = CatalogForm()
         items = AssortmentAdding.objects.all()
 
+    cart, amount = for_cart()
+
     paginator = Paginator(items, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -40,7 +60,9 @@ def catalog(request):
         'items': items,
         'form': form,
         'temp': temp,
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'amount': amount,
+        'cart': cart
     }
 
     return render(
@@ -49,7 +71,13 @@ def catalog(request):
 
 
 def about_us(request):
-    return render(template_name='main/about_us.html', request=request)
+    cart, amount = for_cart()
+
+    context = {
+        'amount': amount,
+        'cart': cart
+    }
+    return render(request, 'main/about_us.html', context)
 
 
 def chect_out(request):
@@ -60,12 +88,26 @@ def chect_out(request):
             return redirect('purchase')
 
     form = OrdersForm()
+    cart, amount = for_cart()
 
-    return render(request, 'main/out_form.html', {'form': form})
+    context = {
+        'form': form,
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/out_form.html', context)
 
 
 def comming_soon(request):
-    return render(template_name='main/comming_soon.html', request=request)
+    cart, amount = for_cart()
+
+    context = {
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/comming_soon.html', context)
 
 
 def contact_us(request):
@@ -76,18 +118,70 @@ def contact_us(request):
             return redirect('appeal')
 
     form = ContactForm()
+    cart, amount = for_cart()
 
-    return render(request, 'main/contact_us.html', {'form': form})
+    context = {
+        'form': form,
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/contact_us.html', context)
 
 
-class ProductCard(DetailView):
-    model = AssortmentAdding
-    template_name = f"main/product_card.html"
-    context_object_name = 'item'
+def product_card(request, pk):
+    item = get_object_or_404(AssortmentAdding, pk=pk)
+    form = SizeForm()
+    error = ''
+
+    if request.method == 'GET':
+        try:
+            size = request.GET['size_field']
+            if size == '0':
+                context = {
+                    'item': item,
+                    'form': form,
+                    'error': 'Вы забыли выбрать размер'
+                }
+                return render(request, 'main/product_card.html', context)
+            else:
+                info = AssortmentAdding.objects.in_bulk()
+                image = info[pk].main_image
+                item_id = info[pk].id
+                name = str(info[pk].name)
+                price = info[pk].price
+                Cart.objects.create(
+                    item_id=item_id, image=image,
+                    name=name, size=size,
+                    price=price, quantity=1
+                )
+        except Exception:
+            pass
+
+    cart, amount = for_cart()
+
+    context = {
+        'item': item,
+        'form': form,
+        'error': error,
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/product_card.html', context)
 
 
-def your_cart(request):
-    return render(template_name='main/cart.html', request=request)
+def cart(request):
+    cart, amount = for_cart()
+    context = {
+        'amount': amount,
+        'cart': cart
+    }
+
+    if request.method == 'POST':
+        Cart.objects.filter(item_id=request.POST['deletebtn']).delete()
+
+    return render(request, 'main/cart.html', context)
 
 
 def refound(request):
@@ -121,13 +215,34 @@ def refound(request):
         print(form.errors)
 
     form = RefoundForm()
+    cart, amount = for_cart()
 
-    return render(request, 'main/refound.html', {'form': form})
+    context = {
+        'form': form,
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/refound.html', context)
 
 
 def purchase(request):
-    return render(template_name='main/purchase.html', request=request)
+    cart, amount = for_cart()
+
+    context = {
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/purchase.html', context)
 
 
 def appeal(request):
-    return render(template_name='main/appeal.html', request=request)
+    cart, amount = for_cart()
+
+    context = {
+        'amount': amount,
+        'cart': cart
+    }
+
+    return render(request, 'main/appeal.html', context)

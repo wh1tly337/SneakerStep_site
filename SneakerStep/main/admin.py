@@ -11,7 +11,7 @@ from .models import *
 
 class AdminAssortment(admin.ModelAdmin):
     ordering = ('-id',)
-    list_per_page = 8
+    # list_per_page = 8
 
     exclude = ('id',)
     actions = ('make_csv',)
@@ -168,3 +168,4 @@ class AdminContact(admin.ModelAdmin):
 admin.site.register(AssortmentAdding, AdminAssortment)
 admin.site.register(Orders, AdminOrders)
 admin.site.register(ContactUs, AdminContact)
+admin.site.register(Cart)

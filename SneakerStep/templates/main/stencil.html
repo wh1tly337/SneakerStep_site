@@ -61,51 +61,49 @@
                 <div class="col-md-3 icon-header-right item-icon">
                     <ul>
                         <li class="hover-cart-user">
-                            <a class="hover-icon-cart" href="/your_cart">
+                            <a class="hover-icon-cart" href="/cart">
                                 <span class="icon icon-ecommerce-basket"></span>
-                                <p>2</p>
+                                <p>{{ cart|length }}</p>
                             </a>
                             <div class="submenu mini-cart">
-                                <h4 class="account">2 вещи</h4>
+                                {% if cart|length == 0 %}
+                                    <h4 class="account">{{ cart|length }} вещей</h4>
+                                {% elif cart|length == 1 %}
+                                    <h4 class="account">{{ cart|length }} вещь</h4>
+                                {% elif cart|length > 1 and cart|length < 5 %}
+                                    <h4 class="account">{{ cart|length }} вещи</h4>
+                                {% else %}
+                                    <h4 class="account">{{ cart|length }} вещей</h4>
+                                {% endif %}
                                 <div class="product">
-                                    <div class="item clearfix">
-                                        <div class="img-prd">
-                                            <img class="img-responsive"
-                                                 src="{% static 'main/images/product-bag1.png' %}" alt="">
+                                    {% for el in cart %}
+                                        <div class="item clearfix">
+                                            <div class="img-prd">
+                                                <a href="product_id={{ el.item_id }}">
+                                                    <img class="img-responsive" src="{{ el.image }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="title">
+                                                <h4 class="product-name"><a
+                                                    href="product_id={{ el.item_id }}">{{ el.name }}</a></h4>
+                                                <div class="product-price"><p>₽{{ el.price }}</p></div>
+                                            </div>
                                         </div>
-                                        <div class="title">
-                                            <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                                            <div class="product-price"><p>₽3000</p></div>
-                                        </div>
-                                    </div>
-                                    <div class="item clearfix">
-                                        <div class="img-prd">
-                                            <img class="img-responsive"
-                                                 src="{% static 'main/images/product-bag2.png' %}" alt="">
-                                        </div>
-                                        <div class="title">
-                                            <h4 class="product-name"><a href="#">** наименование товара **</a></h4>
-                                            <div class="product-price"><p>₽3000</p></div>
-                                        </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                                 <div class="menu-cart-total">
                                     <div class="list-money">
-                                        <label>Цена:</label>
-                                        <span class="money">₽6000</span>
-                                    </div>
-                                    <div class="list-money">
-                                        <label>Доставка:</label>
-                                        <span class="money">₽300</span>
-                                    </div>
-                                    <div class="list-money">
                                         <label>Итого:</label>
-                                        <span class="money">₽6300</span>
+                                        {% if amount %}
+                                            <span class="money">₽{{ amount }}</span>
+                                        {% else %}
+                                            <span class="money">₽0</span>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="actions">
                                     <a class="btn-checkout" href="/chect_out">Оплатить</a>
-                                    <a class="btn-cart" href="/your_cart">Открыть</a>
+                                    <a class="btn-cart" href="/cart">Открыть</a>
                                 </div>
                             </div>
                         </li>
@@ -166,7 +164,7 @@
                     <ul class="our-ser-pol">
                         <li><a href="/">Главаная</a></li>
                         <li><a href="/catalog">Каталог</a></li>
-                        <li><a href="/your_cart">Корзина</a></li>
+                        <li><a href="/cart">Корзина</a></li>
                         <li><a href="/about_us">О нас</a></li>
                         <li><a href="/contact_us">Контакты</a></li>
                     </ul>

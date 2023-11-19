@@ -54,39 +54,32 @@
                             <h3>Ваш заказ</h3>
                             <table class="cart-table">
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <a href="#"><img src="{% static 'main/images/prd_check_out.png' %}" alt=""></a>
-                                        <div class="prd-infor">
-                                            <a href="#">** наименование товара **</a>
-                                            <p>Размер: L</p>
-                                        </div>
-                                    </td>
-                                    <td><span>x1</span></td>
-                                    <td>
-                                        <p>₽250</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#"><img src="{% static 'main/images/prd_check_out1.png' %}" alt=""></a>
-                                        <div class="prd-infor">
-                                            <a href="#">** наименование товара **</a>
-                                            <p>Размер: L</p>
-                                        </div>
-                                    </td>
-                                    <td><span>x1</span></td>
-                                    <td>
-                                        <p>₽250</p>
-                                    </td>
-                                </tr>
+                                {% for el in cart %}
+                                    <tr>
+                                        <td style="width: 200px">
+                                            <a href="product_id={{ el.item_id }}">
+                                                <img src="{{ el.image }}" alt="" style="width: 100%;margin-left: 10px">
+                                            </a>
+                                            <div class="prd-infor" style="width: 100%; text-align: center">
+                                                <a href="product_id={{ el.item_id }}">{{ el.name }}</a>
+                                                <p>Размер: {{ el.size }}</p>
+                                            </div>
+                                        </td>
+                                        <td><span style="margin-left: 110px">x{{ el.quantity }}</span></td>
+                                        <td><p style="margin: 130px 70px 0 0">₽{{ el.price }}</p></td>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                         <div class="comunication">
                             <div>
                                 <b>Сумма заказа: </b>
-                                <span> ₽500</span>
+                                {% if amount %}
+                                    <span> ₽{{ amount }}</span>
+                                {% else %}
+                                    <span> ₽0</span>
+                                {% endif %}
                             </div>
                             <div>
                                 <b>Доставка: </b>
@@ -97,7 +90,11 @@
                             </div>
                             <div>
                                 <b>Итого: </b>
-                                <span> ₽500</span>
+                                {% if amount %}
+                                    <span> ₽{{ amount }}</span>
+                                {% else %}
+                                    <span> ₽0</span>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
