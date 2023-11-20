@@ -115,12 +115,14 @@ def product_card(request, pk):
             if size == '0':
                 context = {
                     'item': item, 'form': form,
+                    'cart': cart, 'amount': amount,
                     'error': 'Вы забыли выбрать размер'
                 }
                 return render(request, 'main/product_card.html', context)
             elif size == '-1':
                 context = {
                     'item': item, 'form': form,
+                    'cart': cart, 'amount': amount,
                     'error': 'К сожалению пар данного размера нет в ассортименте'
                 }
                 return render(request, 'main/product_card.html', context)
