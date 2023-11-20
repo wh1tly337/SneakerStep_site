@@ -15,6 +15,7 @@ from .models import AssortmentAdding, Orders, Cart
 
 
 def for_cart():
+    # Общий класс для доступа всех вункций к данным корзи
     cart = Cart.objects.all()
     amount = Cart.objects.aggregate(Sum('price'))['price__sum']
     return cart, amount
@@ -35,6 +36,7 @@ def home(request):
 
 def catalog(request):
     try:
+        # Настройка сортровки товаров
         temp = request.GET['sort_field']
         form = CatalogForm(initial={'sort_field': temp})
         choices = {
@@ -81,6 +83,7 @@ def about_us(request):
 
 
 def contact_us(request):
+    # Отправка данных из формы связи
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -130,10 +133,22 @@ def product_card(request, pk):
                 price = info[pk].price
                 success = 'Товар добавлен в корзину'
 
+                # Добавление товара в корзину
                 Cart.objects.create(
                     item_id=item_id, image=image,
                     name=name, size=size,
                     price=price, quantity=1
+                )
+
+                # Удаление размеров из карточки товара
+                assortment = AssortmentAdding.objects.filter(id=item_id)
+                sizes = assortment[0].get_sizes().split(' ')
+                for j in range(len(sizes)):
+                    if sizes[j] == size:
+                        sizes[j] = ''
+                AssortmentAdding.objects.filter(id=item_id).update(
+                    sizes=' '.join(sizes),
+                    update_date=datetime.now(pytz.timezone('Asia/Yekaterinburg')).strftime("%Y-%m-%d %H:%M:%S")
                 )
         except Exception:
             pass
@@ -158,11 +173,25 @@ def cart(request):
     }
 
     if request.method == 'POST':
+        # Удаление товара из корзины
         item_id, size = request.POST['deletebtn'].split(' ')
         Cart.objects.filter(
             item_id=item_id,
             size=size
         ).delete()
+
+        # Добавление товара обратно в ассортимент
+        assortment = AssortmentAdding.objects.filter(id=item_id)
+        sizes = assortment[0].get_sizes().split(' ')
+        counter = 0
+        for j in range(len(sizes)):
+            if int(36 + counter) == int(size):
+                sizes[j] = str(size)
+                AssortmentAdding.objects.filter(id=item_id).update(
+                    sizes=' '.join(sizes),
+                    update_date=None
+                )
+            counter += 1
 
     return render(request, 'main/cart.html', context)
 
@@ -183,17 +212,6 @@ def chect_out(request):
                 result_id += f"{item_id}({size}) "
                 result_name += f"{item_name} |||"
                 final_price += int(cart_items[i].get_price())
-
-                # Удаление размеров из карточки товара
-                assortment = AssortmentAdding.objects.filter(id=item_id)
-                sizes = assortment[0].get_sizes().split(' ')
-                for j in range(len(sizes)):
-                    if sizes[j] == size:
-                        sizes[j] = ''
-                AssortmentAdding.objects.filter(id=item_id).update(
-                    sizes=' '.join(sizes),
-                    update_date=datetime.now(pytz.timezone('Asia/Yekaterinburg')).strftime("%Y-%m-%d %H:%M:%S")
-                )
 
             # Добавление общей суммы, id товаров и их рахмеров в таблицу с заказами
             Orders.objects.filter(
@@ -232,6 +250,7 @@ def refound(request):
     if request.method == 'POST':
         form = RefoundForm(request.POST)
         if form.is_valid():
+            # Проверка на правильность введенных данных для возврата
             info = Orders.objects.in_bulk()
             first_name = info[form.cleaned_data['refound_id']].first_name
             last_name = info[form.cleaned_data['refound_id']].last_name
