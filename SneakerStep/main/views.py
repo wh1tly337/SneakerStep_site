@@ -101,7 +101,7 @@ def contact_us(request):
 
 def product_card(request, pk):
     item = get_object_or_404(AssortmentAdding, pk=pk)
-    form = SizeForm()
+    form = SizeForm(currentid=pk)
     cart, amount = for_cart()
     error, success = '', ''
 
@@ -111,11 +111,15 @@ def product_card(request, pk):
 
             if size == '0':
                 context = {
-                    'item': item,
-                    'form': form,
+                    'item': item, 'form': form,
                     'error': 'Вы забыли выбрать размер'
                 }
-
+                return render(request, 'main/product_card.html', context)
+            elif size == '-1':
+                context = {
+                    'item': item, 'form': form,
+                    'error': 'К сожалению пар данного размера нет в ассортименте'
+                }
                 return render(request, 'main/product_card.html', context)
             else:
                 info = AssortmentAdding.objects.in_bulk()
@@ -187,7 +191,8 @@ def chect_out(request):
                     if sizes[j] == size:
                         sizes[j] = ''
                 AssortmentAdding.objects.filter(id=item_id).update(
-                    sizes=' '.join(sizes)
+                    sizes=' '.join(sizes),
+                    update_date=datetime.now(pytz.timezone('Asia/Yekaterinburg')).strftime("%Y-%m-%d %H:%M:%S")
                 )
 
             # Добавление общей суммы, id товаров и их рахмеров в таблицу с заказами

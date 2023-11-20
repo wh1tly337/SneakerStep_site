@@ -22,22 +22,27 @@ class CatalogForm(forms.Form):
 
 
 class SizeForm(forms.Form):
-    size_choices = (
-        ('0', 'Выберете размер'),
-        ('36', '36'), ('37', '37'),
-        ('38', '38'), ('39', '39'),
-        ('40', '40'), ('41', '41'),
-        ('42', '42'), ('43', '43'),
-        ('44', '44'), ('45', '45'),
-    )
-
     size_field = forms.ChoiceField(
-        choices=size_choices,
+        choices=(),
         label=False,
         widget=forms.Select(attrs={
             'style': 'border-color: white; outline:none; width: 140px'
         })
     )
+
+    def __init__(self, currentid, *args, **kwargs):
+        super(SizeForm, self).__init__(*args, **kwargs)
+
+        sizes = AssortmentAdding.objects.filter(id=currentid)
+        sizes = sizes[0].get_sizes().split(' ')
+        self.fields['size_field'].choices = ('0', 'Выберете размер'),
+        counter = 0
+        for x in range(len(sizes)):
+            if sizes[x] == '':
+                self.fields['size_field'].choices += (-1, f"{36+counter} - размер отсутствует"),
+            else:
+                self.fields['size_field'].choices += (sizes[x], sizes[x]),
+            counter += 1
 
 
 class OrdersForm(ModelForm):

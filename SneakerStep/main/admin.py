@@ -11,14 +11,13 @@ from .models import *
 
 class AdminAssortment(admin.ModelAdmin):
     ordering = ('-id',)
-    # list_per_page = 8
 
     exclude = ('id',)
     actions = ('make_csv',)
 
-    list_display = ('name', 'id', 'price', 'date')
+    list_display = ('name', 'id', 'price', 'add_date', 'update_date')
     search_fields = ('id', 'name', 'price', 'description')
-    list_filter = ('date',)
+    list_filter = ('add_date', 'update_date')
 
     empty_value_display = '-пусто-'
 
@@ -37,7 +36,7 @@ class AdminAssortment(admin.ModelAdmin):
         items = AssortmentAdding.objects.all().values_list(
             'id', 'name', 'price',
             'sizes', 'description', 'main_image',
-            'second_image', 'third_image', 'date'
+            'second_image', 'third_image', 'add_date'
         )
         for item in items:
             writer.writerow(item)

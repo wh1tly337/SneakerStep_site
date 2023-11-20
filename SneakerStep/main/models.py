@@ -21,7 +21,8 @@ class AssortmentAdding(models.Model):
     third_image = models.ImageField(
         verbose_name='Третье изображение',
         upload_to=user_directory_path)
-    date = models.DateTimeField('Дата добавления', default=timezone.now)
+    add_date = models.DateTimeField('Дата добавления', default=timezone.now)
+    update_date = models.DateTimeField('Дата обновления', blank=True, null=True)
 
     def __str__(self):
         return f"ID товара: {str(self.id)}"
