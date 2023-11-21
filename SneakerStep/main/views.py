@@ -158,13 +158,20 @@ def product_card(request, pk):
 
                 return render(request, 'main/product_card.html', context)
             else:
-                info = AssortmentAdding.objects.in_bulk()
+                info_assortment = AssortmentAdding.objects.in_bulk()
 
-                image = info[pk].main_image
-                item_id = info[pk].id
-                name = str(info[pk].name)
-                price = info[pk].price
+                image = info_assortment[pk].main_image
+                item_id = info_assortment[pk].id
+                name = str(info_assortment[pk].name)
+                price = info_assortment[pk].price
                 success = 'Товар добавлен в корзину'
+
+                info_cart = Cart.objects.all()
+                if len(info_cart) > 0:
+                    for element in info_cart:
+                        if int(element.get_id()) == int(item_id):
+                            if int(element.get_size()) == int(size):
+                                return redirect(f"product_id={pk}")
 
                 # Добавление товара в корзину
                 Cart.objects.create(
@@ -186,6 +193,9 @@ def product_card(request, pk):
                     sizes=' '.join(sizes),
                     update_date=datetime.now(pytz.timezone('Asia/Yekaterinburg')).strftime("%Y-%m-%d %H:%M:%S")
                 )
+
+                # Пересоздание формы для обновления информации в ней
+                form = SizeForm(currentid=pk)
 
                 # Оповещение о том что заканчиаются размеры
                 if count_actual_sizes > 4:
@@ -221,25 +231,31 @@ def cart(request):
     cart, amount = for_cart()
 
     if request.method == 'POST':
-        # Удаление товара из корзины
-        item_id, size = request.POST['deletebtn'].split(' ')
-        Cart.objects.filter(
-            item_id=item_id,
-            size=size
-        ).delete()
-
-        # Добавление товара обратно в ассортимент
-        assortment = AssortmentAdding.objects.filter(id=item_id)
-        sizes = assortment[0].get_sizes().split(' ')
-        counter = 0
-        for j in range(len(sizes)):
-            if int(36 + counter) == int(size):
-                sizes[j] = str(size)
-                AssortmentAdding.objects.filter(id=item_id).update(
-                    sizes=' '.join(sizes),
-                    update_date=None
-                )
-            counter += 1
+        try:
+            # Удаление товара из корзины
+            item_id, size = request.POST['deletebtn'].split(' ')
+            Cart.objects.filter(
+                item_id=item_id,
+                size=size
+            ).delete()
+            
+            # Пересоздание элементов для правильного отображение итоговой суммы после удаления
+            cart, amount = for_cart()
+            
+            # Добавление товара обратно в ассортимент
+            assortment = AssortmentAdding.objects.filter(id=item_id)
+            sizes = assortment[0].get_sizes().split(' ')
+            counter = 0
+            for j in range(len(sizes)):
+                if int(36 + counter) == int(size):
+                    sizes[j] = str(size)
+                    AssortmentAdding.objects.filter(id=item_id).update(
+                        sizes=' '.join(sizes),
+                        update_date=None
+                    )
+                counter += 1
+        except Exception:
+            pass
 
     context = {
         'amount': amount,
@@ -410,7 +426,7 @@ def appeal(request):
     return render(request, 'main/appeal.html', context)
 
 
-def comming_soon(request):
+def comming_soon(request, exception):
     cart, amount = for_cart()
 
     context = {
