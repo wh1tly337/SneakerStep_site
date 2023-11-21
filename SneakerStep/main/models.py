@@ -30,6 +30,9 @@ class AssortmentAdding(models.Model):
     def get_sizes(self):
         return str(self.sizes)
 
+    def get_item_name(self):
+        return str(self.name)
+
     class Meta:
         verbose_name = 'Ассортимент'
         verbose_name_plural = 'Ассортимент'

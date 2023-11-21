@@ -25,6 +25,13 @@ SECRET_KEY = 'django-insecure-j$81jxq)zb3-*qea9@1msgx!k5amqvl9!)5wkn(zyq5n6*3c_*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'kokc5005@gmail.com'  # Почта с которой отправляются все письма от ИС
+EMAIL_HOST_PASSWORD = 'dbfu yrer pyvc dzkn'  # Авто-сгенерированный ключ от гугла
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 # Хосты, ссылки на которых может распологаться мой сайт при выкладке в прод
 ALLOWED_HOSTS = []
 

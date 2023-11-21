@@ -1,6 +1,8 @@
 from datetime import datetime
 
 import pytz
+from django.core.mail import send_mail
+from django.conf import settings
 from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
@@ -15,7 +17,9 @@ from .models import AssortmentAdding, Orders, Cart
 
 
 def for_cart():
-    # Общий класс для доступа всех вункций к данным корзи
+    """
+    Общий класс для доступа всех функций к данным корзины
+    """
     cart = Cart.objects.all()
     amount = Cart.objects.aggregate(Sum('price'))['price__sum']
     return cart, amount
@@ -83,8 +87,24 @@ def about_us(request):
 
 
 def contact_us(request):
-    # Отправка данных из формы связи
     if request.method == 'POST':
+        # Оповещение по почте о поступившем сообщении
+        contact_name = request.POST['contact_name']
+        contact_email = request.POST['contact_email']
+        contact_description = request.POST['contact_description']
+        message = 'Заявка обработана ИС "СникерШаг"\nИмя пользователя: ' \
+                  + contact_name + '\nПочта пользователя: ' + contact_email \
+                  + '\nТекст обращения: ' + contact_description
+
+        send_mail(
+            subject='Пришло новое обращение с сайта',
+            message=message,
+            from_email=f"{settings.EMAIL_HOST_USER}",
+            recipient_list=['wh1tly337@gmail.com'],
+            fail_silently=False
+        )
+
+        # Отправка данных из формы связи
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
@@ -106,11 +126,10 @@ def product_card(request, pk):
     item = get_object_or_404(AssortmentAdding, pk=pk)
     form = SizeForm(currentid=pk)
     cart, amount = for_cart()
-    error, success = '', ''
 
-    if request.method == 'GET':
+    if request.method == 'POST':
         try:
-            size = request.GET['size_field']
+            size = request.POST['size_field']
 
             if size == '0':
                 context = {
@@ -145,13 +164,33 @@ def product_card(request, pk):
                 # Удаление размеров из карточки товара
                 assortment = AssortmentAdding.objects.filter(id=item_id)
                 sizes = assortment[0].get_sizes().split(' ')
+                count_actual_sizes = 0
                 for j in range(len(sizes)):
                     if sizes[j] == size:
                         sizes[j] = ''
+                    if sizes[j] == '':
+                        count_actual_sizes += 1
                 AssortmentAdding.objects.filter(id=item_id).update(
                     sizes=' '.join(sizes),
                     update_date=datetime.now(pytz.timezone('Asia/Yekaterinburg')).strftime("%Y-%m-%d %H:%M:%S")
                 )
+
+                # Оповещение о том что заканчиаются размеры
+                if count_actual_sizes > 4:
+                    message = f'Оповещение от ИС "СникерШаг"\
+                    {"\n"}Низкое количество размеров товара.\
+                    {"\n"}ID товара: {item_id}\
+                    {"\n"}Название: {assortment[0].get_item_name()}\
+                    {"\n"}Оставшиеся размеры: {sizes}\
+                    {"\n"}Необходимо дозаказать отсутствующие размеры'
+
+                    send_mail(
+                        subject='У товара заканчиваются размеры',
+                        message=message,
+                        from_email="{settings.EMAIL_HOST_USER}",
+                        recipient_list=['wh1tly337@gmail.com'],
+                        fail_silently=False
+                    )
         except Exception:
             pass
 
@@ -160,8 +199,8 @@ def product_card(request, pk):
         'form': form,
         'cart': cart,
         'amount': amount,
-        'error': error,
-        'success': success
+        'error': '',
+        'success': ''
     }
 
     return render(request, 'main/product_card.html', context)
@@ -201,14 +240,14 @@ def cart(request):
 def chect_out(request):
     form = OrdersForm()
     cart, amount = for_cart()
-    error = ''
-    
+
     if request.method == 'POST':
         form = OrdersForm(request.POST)
         if form.is_valid():
             form.save()
 
             cart_items = Cart.objects.all()
+            # Если корзина пуста, то заказ не оформится
             if len(cart_items) == 0:
                 context = {
                     'form': form,
@@ -217,7 +256,7 @@ def chect_out(request):
                     'error': 'Ваша козина пуста'
                 }
                 return render(request, 'main/out_form.html', context)
-            
+
             result_id, result_name, final_price = '', '', 0
             for i in range(len(cart_items)):
                 item_id = cart_items[i].get_id()
@@ -228,7 +267,7 @@ def chect_out(request):
                 result_name += f"{item_name} |||"
                 final_price += int(cart_items[i].get_price())
 
-            # Добавление общей суммы, id товаров и их рахмеров в таблицу с заказами
+            # Добавление общей суммы, id товаров и их размеров в таблицу с заказами
             Orders.objects.filter(
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
@@ -252,7 +291,8 @@ def chect_out(request):
     context = {
         'form': form,
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'error': ''
     }
 
     return render(request, 'main/out_form.html', context)

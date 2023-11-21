@@ -58,7 +58,8 @@
                             <li>₽{{ item.price }}</li>
                         </ul>
 
-                        <form method="GET" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <form method="POST" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            {% csrf_token %}
                             <div class="side-product">
                                 <h4>Размер: </h4>
                                 {{ form }}
