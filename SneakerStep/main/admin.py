@@ -109,7 +109,7 @@ class AdminOrders(admin.ModelAdmin):
 
         writer = csv.writer(response)
         writer.writerow([
-            'ID заказа', 'Статус заказа', 'ID заказанных вещей', 'Наименование заказа',
+            'ID заказа', 'Статус заказа', 'ID заказанных вещей', 'Наименование заказанной вещи',
             'Сумма заказа', 'Имя', 'Фамилия',
             'Город', 'Способ оплаты', 'Дата оформления заказа',
             'Дата обновления заказа'
@@ -134,14 +134,14 @@ class AdminOrders(admin.ModelAdmin):
         writer = csv.writer(response)
         writer.writerow([
             'ID заказа', 'Статус заказа', 'Причина возврата',
-            'ID заказанных вещей', 'Сумма заказа',
+            'ID заказанных вещей', 'Наименование заказанной вещи', 'Сумма заказа',
             'Имя', 'Фамилия', 'Город',
             'Способ оплаты', 'Дата оформления заказа', 'Дата обновления заказа'
         ])
 
         orders = Orders.objects.filter(status='Возврат').values_list(
             'order_id', 'status', 'refound_description',
-            'items', 'final_price',
+            'items_id', 'items_names', 'final_price',
             'first_name', 'last_name', 'city',
             'payment_method', 'start_date', 'end_date'
         )

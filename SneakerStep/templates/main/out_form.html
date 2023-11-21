@@ -54,6 +54,12 @@
                             <h3>Ваш заказ</h3>
                             <table class="cart-table">
                                 <tbody>
+                                {% if error %}
+                                    <div class="alert alert-danger" role="alert"
+                                         style="width: 100%; margin: 0 auto 0 auto">
+                                        {{ error }}
+                                    </div>
+                                {% endif %}
                                 {% for el in cart %}
                                     <tr>
                                         <td style="width: 200px">

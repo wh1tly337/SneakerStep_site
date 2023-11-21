@@ -199,12 +199,25 @@ def cart(request):
 
 
 def chect_out(request):
+    form = OrdersForm()
+    cart, amount = for_cart()
+    error = ''
+    
     if request.method == 'POST':
         form = OrdersForm(request.POST)
         if form.is_valid():
             form.save()
 
             cart_items = Cart.objects.all()
+            if len(cart_items) == 0:
+                context = {
+                    'form': form,
+                    'amount': amount,
+                    'cart': cart,
+                    'error': 'Ваша козина пуста'
+                }
+                return render(request, 'main/out_form.html', context)
+            
             result_id, result_name, final_price = '', '', 0
             for i in range(len(cart_items)):
                 item_id = cart_items[i].get_id()
@@ -235,9 +248,6 @@ def chect_out(request):
             Cart.objects.all().delete()
 
             return redirect('purchase')
-
-    form = OrdersForm()
-    cart, amount = for_cart()
 
     context = {
         'form': form,
