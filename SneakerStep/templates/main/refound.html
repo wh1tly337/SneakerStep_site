@@ -20,7 +20,7 @@
                 <form class="needs-validation" method="post">
                     {% if error %}
                         <div class="alert alert-danger" role="alert" style="width: 65%; margin: auto auto 30px auto">
-                            Такого заказа нет. Перепроверьте правильность введенных данных.
+                            {{ error }}
                         </div>
                     {% endif %}
                     {% csrf_token %}

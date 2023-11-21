@@ -1,4 +1,4 @@
-from .models import Orders, ContactUs, Cart, AssortmentAdding
+from .models import Orders, ContactUs, AssortmentAdding
 from django import forms
 from django.forms import ModelForm, TextInput, RadioSelect
 
@@ -39,7 +39,7 @@ class SizeForm(forms.Form):
         counter = 0
         for x in range(len(sizes)):
             if sizes[x] == '':
-                self.fields['size_field'].choices += (-1, f"{36+counter} - размер отсутствует"),
+                self.fields['size_field'].choices += (-1, f"{36 + counter} - размер отсутствует"),
             else:
                 self.fields['size_field'].choices += (sizes[x], sizes[x]),
             counter += 1
@@ -65,6 +65,8 @@ class OrdersForm(ModelForm):
                 'id': 'firstname',
                 'name': 'firstname',
                 'placeholder': 'Имя',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 47%; height: 40px; margin: 10px 6px 10px 15px'
             }),
             'last_name': TextInput(attrs={
@@ -72,6 +74,8 @@ class OrdersForm(ModelForm):
                 'id': 'lastname',
                 'name': 'lastname',
                 'placeholder': 'Фамилия',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 47%; height: 40px; margin: 10px 0 10px 6px'
             }),
             'city': TextInput(attrs={
@@ -79,6 +83,8 @@ class OrdersForm(ModelForm):
                 'id': 'city',
                 'name': 'city',
                 'placeholder': 'Город/Населенный пункт',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 97%; height: 40px; margin: 10px 0 10px 15px'
             }),
             'post_index': TextInput(attrs={
@@ -86,6 +92,8 @@ class OrdersForm(ModelForm):
                 'id': 'postcode',
                 'name': 'postcode',
                 'placeholder': 'Почтовый индекс',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 97%; height: 40px; margin: 10px 0 10px 15px'
             }),
             'adres': TextInput(attrs={
@@ -93,6 +101,8 @@ class OrdersForm(ModelForm):
                 'id': 'adres',
                 'name': 'adres',
                 'placeholder': 'Адрес',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 97%; height: 40px; margin: 10px 0 10px 15px'
             }),
             'phone_number': TextInput(attrs={
@@ -100,6 +110,8 @@ class OrdersForm(ModelForm):
                 'id': 'phone',
                 'name': 'phone',
                 'placeholder': 'Номер телефона',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 47%; height: 40px; margin: 10px 6px 10px 15px'
             }),
             'email': TextInput(attrs={
@@ -107,6 +119,8 @@ class OrdersForm(ModelForm):
                 'id': 'email',
                 'name': 'email',
                 'placeholder': 'Электронная почта',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 47%; height: 40px; margin: 10px 0 10px 6px'
             }),
             'payment_method': RadioSelect(attrs={
@@ -129,6 +143,8 @@ class ContactForm(ModelForm):
                 'id': 'contact_name',
                 'name': 'contact_name',
                 'placeholder': 'Имя',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 100%; height: 50px; font-weight: 300;'
             }),
             'contact_email': TextInput(attrs={
@@ -136,6 +152,8 @@ class ContactForm(ModelForm):
                 'id': 'contact_email',
                 'name': 'contact_email',
                 'placeholder': 'Электронная почта',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 100%; height: 50px; font-weight: 300;'
             }),
             'contact_description': TextInput(attrs={
@@ -143,6 +161,8 @@ class ContactForm(ModelForm):
                 'id': 'contact_description',
                 'name': 'contact_description',
                 'placeholder': 'Ваше предложение',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
                 'style': 'width: 100%; height: 150px; font-family: "Poppins", sans-serif; font-weight: 300;'
             }),
         }
@@ -162,35 +182,47 @@ class RefoundForm(ModelForm):
                 'id': 'first_name',
                 'name': 'first_name',
                 'placeholder': 'Имя',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
             }),
             'last_name': TextInput(attrs={
                 'type': 'text',
                 'id': 'last_name',
                 'name': 'last_name',
                 'placeholder': 'Фамилия',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
             }),
             'phone_number': TextInput(attrs={
                 'type': 'text',
                 'id': 'phone_number',
                 'name': 'phone_number',
-                'placeholder': 'Номер телефона'
+                'placeholder': 'Номер телефона',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
             }),
             'email': TextInput(attrs={
                 'type': 'text',
                 'id': 'email',
                 'name': 'email',
                 'placeholder': 'Электронная почта',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
             }),
             'refound_id': TextInput(attrs={
                 'type': 'text',
                 'id': 'refound_id',
                 'name': 'refound_id',
                 'placeholder': 'Номер заказа',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
             }),
             'refound_description': TextInput(attrs={
                 'type': 'text',
                 'id': 'refound_description',
                 'name': 'refound_description',
                 'placeholder': 'Причина возврата',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
             }),
         }

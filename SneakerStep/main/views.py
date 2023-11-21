@@ -17,11 +17,10 @@ from .models import AssortmentAdding, Orders, Cart
 
 
 def for_cart():
-    """
-    Общий класс для доступа всех функций к данным корзины
-    """
+    """ Общий класс для доступа всех функций к данным корзины. """
     cart = Cart.objects.all()
     amount = Cart.objects.aggregate(Sum('price'))['price__sum']
+
     return cart, amount
 
 
@@ -39,24 +38,26 @@ def home(request):
 
 
 def catalog(request):
+    cart, amount = for_cart()
+
     try:
         # Настройка сортровки товаров
-        temp = request.GET['sort_field']
-        form = CatalogForm(initial={'sort_field': temp})
         choices = {
             '1': AssortmentAdding.objects.all(),
             '2': AssortmentAdding.objects.order_by('-price'),
             '3': AssortmentAdding.objects.order_by('price'),
-            '4': AssortmentAdding.objects.order_by('-date'),
+            '4': AssortmentAdding.objects.order_by('-add_date'),
         }
+
+        temp = request.GET['sort_field']
+        form = CatalogForm(initial={'sort_field': temp})
         items = choices.get(temp)
 
     except Exception:
+        # Используется до применения сортировки
         temp = ''
         form = CatalogForm()
         items = AssortmentAdding.objects.all()
-
-    cart, amount = for_cart()
 
     paginator = Paginator(items, 8)
     page_number = request.GET.get('page')
@@ -71,9 +72,7 @@ def catalog(request):
         'cart': cart
     }
 
-    return render(
-        request, 'main/shoe_catalog.html', context
-    )
+    return render(request, 'main/shoe_catalog.html', context)
 
 
 def about_us(request):
@@ -83,40 +82,51 @@ def about_us(request):
         'amount': amount,
         'cart': cart
     }
+
     return render(request, 'main/about_us.html', context)
 
 
 def contact_us(request):
+    form = ContactForm()
+    cart, amount = for_cart()
+
     if request.method == 'POST':
-        # Оповещение по почте о поступившем сообщении
-        contact_name = request.POST['contact_name']
-        contact_email = request.POST['contact_email']
-        contact_description = request.POST['contact_description']
-        message = 'Заявка обработана ИС "СникерШаг"\nИмя пользователя: ' \
-                  + contact_name + '\nПочта пользователя: ' + contact_email \
-                  + '\nТекст обращения: ' + contact_description
-
-        send_mail(
-            subject='Пришло новое обращение с сайта',
-            message=message,
-            from_email=f"{settings.EMAIL_HOST_USER}",
-            recipient_list=['wh1tly337@gmail.com'],
-            fail_silently=False
-        )
-
         # Отправка данных из формы связи
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('appeal')
 
-    form = ContactForm()
-    cart, amount = for_cart()
+            # Оповещение по почте о поступившем сообщении
+            contact_name = request.POST['contact_name']
+            contact_email = request.POST['contact_email']
+            contact_description = request.POST['contact_description']
+            message = 'Заявка обработана ИС "СникерШаг"\nИмя пользователя: ' \
+                      + contact_name + '\nПочта пользователя: ' + contact_email \
+                      + '\nТекст обращения: ' + contact_description
+            send_mail(
+                subject='Пришло новое обращение с сайта',
+                message=message,
+                from_email=f"{settings.EMAIL_HOST_USER}",
+                recipient_list=['wh1tly337@gmail.com'],
+                fail_silently=False
+            )
+
+            return redirect('appeal')
+        else:
+            context = {
+                'form': form,
+                'amount': amount,
+                'cart': cart,
+                'error': 'Введите вреный адрес электронной почты, используя @'
+            }
+
+            return render(request, 'main/contact_us.html', context)
 
     context = {
         'form': form,
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'error': ''
     }
 
     return render(request, 'main/contact_us.html', context)
@@ -126,24 +136,26 @@ def product_card(request, pk):
     item = get_object_or_404(AssortmentAdding, pk=pk)
     form = SizeForm(currentid=pk)
     cart, amount = for_cart()
+    success = ''
 
     if request.method == 'POST':
         try:
             size = request.POST['size_field']
-
             if size == '0':
                 context = {
                     'item': item, 'form': form,
                     'cart': cart, 'amount': amount,
                     'error': 'Вы забыли выбрать размер'
                 }
+
                 return render(request, 'main/product_card.html', context)
             elif size == '-1':
                 context = {
                     'item': item, 'form': form,
                     'cart': cart, 'amount': amount,
-                    'error': 'К сожалению пар данного размера нет в ассортименте'
+                    'error': 'К сожалению, пар данного размера нет в ассортименте'
                 }
+
                 return render(request, 'main/product_card.html', context)
             else:
                 info = AssortmentAdding.objects.in_bulk()
@@ -183,7 +195,6 @@ def product_card(request, pk):
                     {"\n"}Название: {assortment[0].get_item_name()}\
                     {"\n"}Оставшиеся размеры: {sizes}\
                     {"\n"}Необходимо дозаказать отсутствующие размеры'
-
                     send_mail(
                         subject='У товара заканчиваются размеры',
                         message=message,
@@ -200,7 +211,7 @@ def product_card(request, pk):
         'cart': cart,
         'amount': amount,
         'error': '',
-        'success': ''
+        'success': success
     }
 
     return render(request, 'main/product_card.html', context)
@@ -208,10 +219,6 @@ def product_card(request, pk):
 
 def cart(request):
     cart, amount = for_cart()
-    context = {
-        'amount': amount,
-        'cart': cart
-    }
 
     if request.method == 'POST':
         # Удаление товара из корзины
@@ -234,6 +241,11 @@ def cart(request):
                 )
             counter += 1
 
+    context = {
+        'amount': amount,
+        'cart': cart
+    }
+
     return render(request, 'main/cart.html', context)
 
 
@@ -253,8 +265,10 @@ def chect_out(request):
                     'form': form,
                     'amount': amount,
                     'cart': cart,
-                    'error': 'Ваша козина пуста'
+                    'error_form': '',
+                    'error_cart': 'Ваша козина пуста'
                 }
+
                 return render(request, 'main/out_form.html', context)
 
             result_id, result_name, final_price = '', '', 0
@@ -287,55 +301,88 @@ def chect_out(request):
             Cart.objects.all().delete()
 
             return redirect('purchase')
+        else:
+            context = {
+                'form': form,
+                'amount': amount,
+                'cart': cart,
+                'error_form': 'Введите вреный адрес электронной почты, используя @',
+                'error_cart': ''
+            }
+
+            return render(request, 'main/out_form.html', context)
 
     context = {
         'form': form,
         'amount': amount,
         'cart': cart,
-        'error': ''
+        'error_form': '',
+        'error_cart': ''
     }
 
     return render(request, 'main/out_form.html', context)
 
 
 def refound(request):
+    form = RefoundForm()
+    cart, amount = for_cart()
+
     if request.method == 'POST':
         form = RefoundForm(request.POST)
         if form.is_valid():
-            # Проверка на правильность введенных данных для возврата
-            info = Orders.objects.in_bulk()
-            first_name = info[form.cleaned_data['refound_id']].first_name
-            last_name = info[form.cleaned_data['refound_id']].last_name
-            phone = info[form.cleaned_data['refound_id']].phone_number
-            email = info[form.cleaned_data['refound_id']].email
-            if (
-                    phone == form.cleaned_data['phone_number']
-                    and email == form.cleaned_data['email']
-                    and first_name == form.cleaned_data['first_name']
-                    and last_name == form.cleaned_data['last_name']
-            ):
-                Orders.objects.filter(order_id=form.cleaned_data['refound_id']).update(
-                    status=Orders.REFOUND,
-                    refound_description=form.cleaned_data['refound_description'],
-                    end_date=datetime.now(pytz.timezone('Asia/Yekaterinburg')).strftime("%Y-%m-%d %H:%M:%S")
-                )
+            try:
+                # Проверка на правильность введенных данных для возврата
+                info = Orders.objects.in_bulk()
+                first_name = info[form.cleaned_data['refound_id']].first_name
+                last_name = info[form.cleaned_data['refound_id']].last_name
+                phone = info[form.cleaned_data['refound_id']].phone_number
+                email = info[form.cleaned_data['refound_id']].email
+                if (
+                        phone == form.cleaned_data['phone_number']
+                        and email == form.cleaned_data['email']
+                        and first_name == form.cleaned_data['first_name']
+                        and last_name == form.cleaned_data['last_name']
+                ):
+                    Orders.objects.filter(order_id=form.cleaned_data['refound_id']).update(
+                        status=Orders.REFOUND,
+                        refound_description=form.cleaned_data['refound_description'],
+                        end_date=datetime.now(pytz.timezone('Asia/Yekaterinburg')).strftime("%Y-%m-%d %H:%M:%S")
+                    )
 
-                return redirect('appeal')
-            else:
-                return render(request, 'main/refound.html', {
+                    return redirect('appeal')
+                else:
+                    context = {
+                        'form': form,
+                        'amount': amount,
+                        'cart': cart,
+                        'error': 'Такого заказа нет, проверьте правильность введенных данных'
+                    }
+
+                    return render(request, 'main/refound.html', context)
+            except Exception:
+                context = {
                     'form': form,
+                    'amount': amount,
+                    'cart': cart,
                     'error': 'Такого заказа нет, проверьте правильность введенных данных'
-                })
+                }
 
-        print(form.errors)
+                return render(request, 'main/refound.html', context)
+        else:
+            context = {
+                'form': form,
+                'amount': amount,
+                'cart': cart,
+                'error': 'Введите вреный адрес электронной почты, используя @'
+            }
 
-    form = RefoundForm()
-    cart, amount = for_cart()
+            return render(request, 'main/refound.html', context)
 
     context = {
         'form': form,
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'error': ''
     }
 
     return render(request, 'main/refound.html', context)

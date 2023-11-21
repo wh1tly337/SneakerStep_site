@@ -43,6 +43,12 @@
                     </div>
                 </div>
                 <div class="col-md-6">
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert"
+                             style="width: 96%; margin: 0 auto 30px auto">
+                            {{ error }}
+                        </div>
+                    {% endif %}
                     <form class="needs-validation" method="post">
                         {% csrf_token %}
                         <div class="col-md-12 frm">
