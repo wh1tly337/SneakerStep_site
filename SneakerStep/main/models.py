@@ -104,16 +104,16 @@ class Cart(models.Model):
     def __str__(self):
         return f"{self.item_id} {self.name} {self.size} {self.price} {self.quantity}"
 
-    def get_id(self):
+    def get_cart_id(self):
         return str(self.item_id)
 
-    def get_name(self):
+    def get_cart_name(self):
         return str(self.name)
 
-    def get_size(self):
+    def get_cart_size(self):
         return str(self.size)
 
-    def get_price(self):
+    def get_cart_price(self):
         return str(self.price)
 
 # class HomePageUpdater(models.Model):

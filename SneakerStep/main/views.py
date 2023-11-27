@@ -169,8 +169,8 @@ def product_card(request, pk):
                 info_cart = Cart.objects.all()
                 if len(info_cart) > 0:
                     for element in info_cart:
-                        if int(element.get_id()) == int(item_id):
-                            if int(element.get_size()) == int(size):
+                        if int(element.get_cart_id()) == int(item_id):
+                            if int(element.get_cart_size()) == int(size):
                                 return redirect(f"product_id={pk}")
 
                 # Добавление товара в корзину
@@ -289,13 +289,13 @@ def chect_out(request):
 
             result_id, result_name, final_price = '', '', 0
             for i in range(len(cart_items)):
-                item_id = cart_items[i].get_id()
-                item_name = cart_items[i].get_name()
-                size = cart_items[i].get_size()
+                item_id = cart_items[i].get_cart_id()
+                item_name = cart_items[i].get_cart_name()
+                size = cart_items[i].get_cart_size()
 
                 result_id += f"{item_id}({size}) "
-                result_name += f"{item_name} |||"
-                final_price += int(cart_items[i].get_price())
+                result_name += f"{item_name}"
+                final_price += int(cart_items[i].get_cart_price())
 
             # Добавление общей суммы, id товаров и их размеров в таблицу с заказами
             Orders.objects.filter(

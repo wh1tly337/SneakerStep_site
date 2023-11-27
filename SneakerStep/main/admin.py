@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pytz
 from django.contrib import admin
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Count, Sum
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.units import cm
@@ -58,8 +58,8 @@ class AdminOrders(admin.ModelAdmin):
     exclude = ('order_id', 'refound_id')
     actions = (
         'set_status_sent', 'set_status_completed',
-        'set_status_cancelled', 'make_csv',
-        'make_csv_refound'
+        'set_status_cancelled', 'make_pdf',
+        'make_pdf_refound'
     )
 
     list_display = (
@@ -109,87 +109,25 @@ class AdminOrders(admin.ModelAdmin):
             f"Статус 'Отменен' был применен к {count_updateted} записи(ям)"
         )
 
-    @admin.action(description='Создать CSV отчет')
-    def make_csv(self, request, qs: QuerySet):
+    @admin.action(description='Создать PDF отчет')
+    def make_pdf(self, request, qs: QuerySet):
         current_date = datetime.now().strftime("%d/%m/%Y")
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-        # response['Content-Disposition'] = 'attachment; filename="фыв.pdf"'
 
-        # document = canvas.Canvas(response, pagesize=landscape(A4))
         document = canvas.Canvas(response, pagesize=A4)
 
         pdfmetrics.registerFont(TTFont('calibri', os.path.join('static/main/fonts/calibri.ttf')))
 
-        document.setFont("calibri", 16)
-        document.drawString(A4[0] / 15, A4[1] - 50, 'Отчет по заказам "СникерШаг"')
+        document.setFont("calibri", 14)
+        document.drawString(A4[0] / 15, A4[1] - 40, 'Отчет по заказам "СникерШаг"')
 
         document.setFont("calibri", 14)
-        document.drawString(A4[0] / 15, A4[1] - 80, f"Дата формирования: {current_date}")
+        document.drawString(A4[0] / 15, A4[1] - 60, f"Дата формирования: {current_date}")
 
-        page_number = document.getPageNumber()
-        document.setFont("calibri", 14)
-        document.drawString(A4[0] / 1.33, A4[1] - 80, f"Номер страницы: {page_number}")
+        col_widths = [1 * cm, 2 * cm, 2 * cm, 2 * cm, 3 * cm, 2.5 * cm, 2 * cm, 2 * cm, 2 * cm]
 
-        orders = Orders.objects.all()
-
-        data = [[
-            'ID', 'Статус', 'ID вещ\n(разм)',
-            'Сумма', 'Покупатель',
-            'Город', 'Способ\nоплаты', 'Дата\nоформл',
-            'Дата\nобновл'
-        ]]
-        # 'Наименование вещи' order.items_names
-
-        for order in orders:
-            username = str(order.last_name) + '\n' + str(order.first_name)
-
-            try:
-                start_date = (str(order.start_date)[:-13]).split(' ')
-                start_date.append('\n')
-                memory = start_date[1]
-                start_date[1] = start_date[2]
-                start_date[2] = memory
-                start_date = ''.join(start_date)
-            except Exception:
-                start_date = ' '
-            try:
-                update_date = (str(order.end_date)[:-6]).split(' ')
-                update_date.append('\n')
-                memory = update_date[1]
-                update_date[1] = update_date[2]
-                update_date[2] = memory
-                update_date = ''.join(update_date)
-            except Exception:
-                update_date = ' '
-
-            payment_method = str(order.payment_method).split(' ')
-            payment_method.append('\n')
-            if len(payment_method) == 3:
-                memory = payment_method[1]
-                payment_method[1] = payment_method[2]
-                payment_method[2] = memory
-                payment_method = ''.join(payment_method)
-            else:
-                payment_method.append('\n')
-                memory1 = payment_method[1]
-                memory2 = payment_method[2]
-                print(memory1, memory2)
-                payment_method[1] = payment_method[-1]
-                payment_method[2] = memory1
-                payment_method[3] = payment_method[-2]
-                payment_method[4] = memory2
-                payment_method = ''.join(payment_method)
-
-            data.append([
-                order.order_id, order.status, order.items_id,
-                order.final_price, username,
-                order.city, payment_method,
-                start_date, update_date
-            ])
-
-        table = Table(data)
         style = TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), '#D3D3D3'),
             ('TEXTCOLOR', (0, 0), (-1, 0), '#FFFFFF'),
@@ -202,45 +140,183 @@ class AdminOrders(admin.ModelAdmin):
             ('BACKGROUND', (0, 1), (-1, -1), '#ECECEC')
         ])
 
-        table.setStyle(style)
-        table.wrapOn(document, 350, 0)
-        table.drawOn(document, A4[0] / 15, A4[1] - 450)
+        indent = 70
+
+        for status_info in Orders.objects.exclude(status='Возврат').values('status').annotate(total=Count('status')):
+            data = [[
+                'ID', 'Статус', 'ID вещи\n(разм)',
+                'Сумма', 'Покупатель',
+                'Город', 'Способ\nоплаты', 'Дата\nоформл',
+                'Дата\nобновл'
+            ]]
+            status = status_info.get('status')
+            total = status_info.get('total')
+
+            for order in Orders.objects.filter(status=status):
+                username = str(order.last_name) + '\n' + str(order.first_name)
+
+                try:
+                    start_date = str(order.start_date)[:-13]
+                    start_date = start_date.replace(' ', '\n')
+                except Exception:
+                    start_date = ''
+
+                try:
+                    update_date = str(order.end_date)[:-6]
+                    update_date = update_date.replace(' ', '\n')
+                except Exception:
+                    update_date = ''
+
+                try:
+                    payment_method = order.payment_method
+                    payment_method = payment_method.replace(' ', '\n')
+                except Exception:
+                    payment_method = ''
+
+                data.append([
+                    order.order_id, order.status, order.items_id,
+                    order.final_price, username,
+                    order.city, payment_method,
+                    start_date, update_date
+                ])
+
+            final_price = Orders.objects.values('status').filter(status=status).annotate(sum=Sum('final_price'))
+            data.append(['', '', '', '', '', '', '', '', ''])
+            data.append([
+                '', '',
+                'Итого:', final_price[0].get('sum'),
+                '', '', '', '', ''
+            ])
+
+            table = Table(data, col_widths)
+
+            table.setStyle(style)
+            table.wrapOn(document, 350, 0)
+            indent = indent + 60 + (total * 30) + 40
+            table.drawOn(document, A4[0] / 15, A4[1] - indent)
+
+            page_number = document.getPageNumber()
+            document.setFont("calibri", 14)
+            document.drawString(A4[0] / 1.33, A4[1] - 60, f"Номер страницы: {page_number}")
+
+            # document.showPage()
 
         document.setFont("calibri", 14)
-        document.drawString(A4[0] / 15, A4[1] - 800, f"Дата: _____________")
+        document.drawString(A4[0] / 15, A4[1] - 800, f"Подпись: _____________")
 
         document.setFont("calibri", 14)
-        document.drawString(A4[0] / 3, A4[1] - 800, f"Подпись: _____________")
+        document.drawString(A4[0] / 3, A4[1] - 800, f"Расшифровка: _____________")
 
-        document.setFont("calibri", 14)
-        document.drawString(A4[0] / 1.6, A4[1] - 800, f"Расшифровка: _____________")
-
-        document.showPage()
+        # document.showPage()
         document.save()
 
         return response
 
-    @admin.action(description='Создать CSV отчет по возвратам')
-    def make_csv_refound(self, request, qs: QuerySet):
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+    @admin.action(description='Создать PDF отчет по возвратам')
+    def make_pdf_refound(self, request, qs: QuerySet):
+        current_date = datetime.now().strftime("%d/%m/%Y")
 
-        writer = csv.writer(response)
-        writer.writerow([
-            'ID заказа', 'Статус заказа', 'Причина возврата',
-            'ID заказанных вещей', 'Наименование заказанной вещи', 'Сумма заказа',
-            'Имя', 'Фамилия', 'Город',
-            'Способ оплаты', 'Дата оформления заказа', 'Дата обновления заказа'
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="report_refount.pdf"'
+        # response['Content-Disposition'] = 'attachment; filename="фывфыв.pdf"'
+
+        document = canvas.Canvas(response, pagesize=A4)
+
+        pdfmetrics.registerFont(TTFont('calibri', os.path.join('static/main/fonts/calibri.ttf')))
+
+        document.setFont("calibri", 14)
+        document.drawString(A4[0] / 15, A4[1] - 40, 'Отчет по возвратам "СникерШаг"')
+
+        document.setFont("calibri", 14)
+        document.drawString(A4[0] / 15, A4[1] - 60, f"Дата формирования: {current_date}")
+
+        col_widths = [1 * cm, 2 * cm, 2 * cm, 2 * cm, 3 * cm, 2.5 * cm, 2 * cm, 2 * cm, 2 * cm]
+
+        style = TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), '#D3D3D3'),
+            ('TEXTCOLOR', (0, 0), (-1, 0), '#FFFFFF'),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'calibri'),
+            ('FONTNAME', (0, 1), (-1, -1), 'calibri'),
+            ('FONTSIZE', (0, 0), (-1, -1), 16),
+            ('FONTSIZE', (0, 1), (-1, -1), 11),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 14),
+            ('BACKGROUND', (0, 1), (-1, -1), '#ECECEC')
         ])
 
-        orders = Orders.objects.filter(status='Возврат').values_list(
-            'order_id', 'status', 'refound_description',
-            'items_id', 'items_names', 'final_price',
-            'first_name', 'last_name', 'city',
-            'payment_method', 'start_date', 'end_date'
-        )
-        for order in orders:
-            writer.writerow(order)
+        indent = 70
+
+        data = [[
+            'ID', 'Причина\nвозрата', 'ID вещи\n(разм)',
+            'Сумма', 'Покупатель',
+            'Город', 'Способ\nоплаты', 'Дата\nоформл',
+            'Дата\nобновл'
+        ]]
+        status_info = Orders.objects.filter(status='Возврат').values('status').annotate(total=Count('status'))
+        status = status_info[0].get('status')
+        total = status_info[0].get('total')
+
+        for order in Orders.objects.filter(status=status):
+            username = str(order.last_name) + '\n' + str(order.first_name)
+
+            try:
+                start_date = str(order.start_date)[:-13]
+                start_date = start_date.replace(' ', '\n')
+            except Exception:
+                start_date = ''
+
+            try:
+                update_date = str(order.end_date)[:-6]
+                update_date = update_date.replace(' ', '\n')
+            except Exception:
+                update_date = ''
+
+            try:
+                payment_method = order.payment_method
+                payment_method = payment_method.replace(' ', '\n')
+            except Exception:
+                payment_method = ''
+
+            try:
+                refound_description = order.refound_description
+                refound_description = refound_description.replace(' ', '\n')
+            except Exception:
+                refound_description = ''
+
+            data.append([
+                order.order_id, refound_description, order.items_id,
+                order.final_price, username,
+                order.city, payment_method,
+                start_date, update_date
+            ])
+
+        final_price = Orders.objects.values('status').filter(status=status).annotate(sum=Sum('final_price'))
+        data.append(['', '', '', '', '', '', '', '', ''])
+        data.append([
+            '', '',
+            'Итого:', final_price[0].get('sum'),
+            '', '', '', '', ''
+        ])
+
+        table = Table(data, col_widths)
+
+        table.setStyle(style)
+        table.wrapOn(document, 350, 0)
+        indent = indent + 60 + (total * 30) + 40
+        table.drawOn(document, A4[0] / 15, A4[1] - indent)
+
+        page_number = document.getPageNumber()
+        document.setFont("calibri", 14)
+        document.drawString(A4[0] / 1.33, A4[1] - 60, f"Номер страницы: {page_number}")
+
+        document.setFont("calibri", 14)
+        document.drawString(A4[0] / 15, A4[1] - 800, f"Подпись: _____________")
+
+        document.setFont("calibri", 14)
+        document.drawString(A4[0] / 3, A4[1] - 800, f"Расшифровка: _____________")
+
+        # document.showPage()
+        document.save()
 
         return response
 
