@@ -115,6 +115,7 @@ class AdminOrders(admin.ModelAdmin):
 
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        # response['Content-Disposition'] = 'attachment; filename="фывфыв.pdf"'
 
         document = canvas.Canvas(response, pagesize=A4)
 
@@ -126,7 +127,7 @@ class AdminOrders(admin.ModelAdmin):
         document.setFont("calibri", 14)
         document.drawString(A4[0] / 15, A4[1] - 60, f"Дата формирования: {current_date}")
 
-        col_widths = [1 * cm, 2 * cm, 2 * cm, 2 * cm, 3 * cm, 2.5 * cm, 2 * cm, 2 * cm, 2 * cm]
+        col_widths = [1 * cm, 2 * cm, 2 * cm, 1.5 * cm, 3 * cm, 2.5 * cm, 1.1 * cm, 2 * cm, 2 * cm, 2 * cm]
 
         style = TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), '#D3D3D3'),
@@ -144,8 +145,8 @@ class AdminOrders(admin.ModelAdmin):
 
         for status_info in Orders.objects.exclude(status='Возврат').values('status').annotate(total=Count('status')):
             data = [[
-                'ID', 'Статус', 'ID вещи\n(разм)',
-                'Сумма', 'Покупатель',
+                'ID', 'Статус', 'ID вещи\n(разм)', 'Наимен',
+                'Сумма', 'Покуп',
                 'Город', 'Способ\nоплаты', 'Дата\nоформл',
                 'Дата\nобновл'
             ]]
@@ -173,17 +174,32 @@ class AdminOrders(admin.ModelAdmin):
                 except Exception:
                     payment_method = ''
 
+                try:
+                    if order.city == 'Екатеринбург':
+                        city = 'ЕКБ'
+                    else:
+                        city = 'noname'
+                except Exception:
+                    city = 'noname'
+
+                try:
+                    name = order.items_names
+                    name = name.split(' ')
+                    name = '\n'.join(name[:4])
+                except Exception:
+                    name = ''
+
                 data.append([
-                    order.order_id, order.status, order.items_id,
+                    order.order_id, order.status, order.items_id, name,
                     order.final_price, username,
-                    order.city, payment_method,
+                    city, payment_method,
                     start_date, update_date
                 ])
 
             final_price = Orders.objects.values('status').filter(status=status).annotate(sum=Sum('final_price'))
-            data.append(['', '', '', '', '', '', '', '', ''])
+            data.append(['', '', '', '', '', '', '', '', '', ''])
             data.append([
-                '', '',
+                '', '', '',
                 'Итого:', final_price[0].get('sum'),
                 '', '', '', '', ''
             ])
@@ -192,20 +208,41 @@ class AdminOrders(admin.ModelAdmin):
 
             table.setStyle(style)
             table.wrapOn(document, 350, 0)
-            indent = indent + 60 + (total * 30) + 40
+            indent = indent + 60 + (total * 50) + 40
             table.drawOn(document, A4[0] / 15, A4[1] - indent)
 
             page_number = document.getPageNumber()
             document.setFont("calibri", 14)
             document.drawString(A4[0] / 1.33, A4[1] - 60, f"Номер страницы: {page_number}")
 
-            # document.showPage()
+        data = [[]]
+        final_price_sum = Orders.objects.exclude(status='Возврат').aggregate(sum=Sum('final_price')).get('sum')
+        data.append([
+            '', '', 'Итого по всем заказам:',
+            '', final_price_sum,
+            '', '', '', '', ''
+        ])
+        style = TableStyle([
+            ('TEXTCOLOR', (0, 0), (-1, 0), '#FFFFFF'),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'calibri'),
+            ('FONTNAME', (0, 1), (-1, -1), 'calibri'),
+            ('FONTSIZE', (0, 0), (-1, -1), 16),
+            ('FONTSIZE', (0, 1), (-1, -1), 11),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 14),
+            ('BACKGROUND', (0, 1), (-1, -1), '#ECECEC')
+        ])
+        table = Table(data, col_widths)
+        table.setStyle(style)
+        table.wrapOn(document, 350, 0)
+        indent = indent + 40
+        table.drawOn(document, A4[0] / 15, A4[1] - indent)
 
         document.setFont("calibri", 14)
-        document.drawString(A4[0] / 15, A4[1] - 800, f"Подпись: _____________")
+        document.drawString(A4[0] / 15, A4[1] - 800, f"Должность: _____________")
 
         document.setFont("calibri", 14)
-        document.drawString(A4[0] / 3, A4[1] - 800, f"Расшифровка: _____________")
+        document.drawString(A4[0] / 3, A4[1] - 800, f"      _____________         Расшифровка: _____________")
 
         # document.showPage()
         document.save()
@@ -230,7 +267,7 @@ class AdminOrders(admin.ModelAdmin):
         document.setFont("calibri", 14)
         document.drawString(A4[0] / 15, A4[1] - 60, f"Дата формирования: {current_date}")
 
-        col_widths = [1 * cm, 2 * cm, 2 * cm, 2 * cm, 3 * cm, 2.5 * cm, 2 * cm, 2 * cm, 2 * cm]
+        col_widths = [1 * cm, 2 * cm, 2 * cm, 1.5 * cm, 3 * cm, 2.5 * cm, 1.1 * cm, 2 * cm, 2 * cm, 2 * cm]
 
         style = TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), '#D3D3D3'),
@@ -283,17 +320,32 @@ class AdminOrders(admin.ModelAdmin):
             except Exception:
                 refound_description = ''
 
+            try:
+                if order.city == 'Екатеринбург':
+                    city = 'ЕКБ'
+                else:
+                    city = 'noname'
+            except Exception:
+                city = 'noname'
+
+            try:
+                name = order.items_names
+                name = name.split(' ')
+                name = '\n'.join(name[:4])
+            except Exception:
+                name = ''
+
             data.append([
-                order.order_id, refound_description, order.items_id,
+                order.order_id, refound_description, order.items_id,name,
                 order.final_price, username,
-                order.city, payment_method,
+                city, payment_method,
                 start_date, update_date
             ])
 
         final_price = Orders.objects.values('status').filter(status=status).annotate(sum=Sum('final_price'))
-        data.append(['', '', '', '', '', '', '', '', ''])
+        data.append(['', '', '', '', '', '', '', '', '', ''])
         data.append([
-            '', '',
+            '', '','',
             'Итого:', final_price[0].get('sum'),
             '', '', '', '', ''
         ])
@@ -302,7 +354,7 @@ class AdminOrders(admin.ModelAdmin):
 
         table.setStyle(style)
         table.wrapOn(document, 350, 0)
-        indent = indent + 60 + (total * 30) + 40
+        indent = indent + 60 + (total * 50) + 40
         table.drawOn(document, A4[0] / 15, A4[1] - indent)
 
         page_number = document.getPageNumber()
@@ -310,10 +362,10 @@ class AdminOrders(admin.ModelAdmin):
         document.drawString(A4[0] / 1.33, A4[1] - 60, f"Номер страницы: {page_number}")
 
         document.setFont("calibri", 14)
-        document.drawString(A4[0] / 15, A4[1] - 800, f"Подпись: _____________")
+        document.drawString(A4[0] / 15, A4[1] - 800, f"Должность: _____________")
 
         document.setFont("calibri", 14)
-        document.drawString(A4[0] / 3, A4[1] - 800, f"Расшифровка: _____________")
+        document.drawString(A4[0] / 3, A4[1] - 800, f"      _____________         Расшифровка: _____________")
 
         # document.showPage()
         document.save()
