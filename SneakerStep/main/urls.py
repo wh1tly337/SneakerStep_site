@@ -15,5 +15,6 @@ urlpatterns = [
     path('appeal', views.appeal, name='appeal'),
     path('entrance', views.entrance, name='entrance'),
     path('registration', views.registration, name='registration'),
-    path('logout', views.logout, name='logout')
+    path('logout', views.logout, name='logout'),
+    path('account_deleting', views.account_deleting, name='account_deleting')
 ]

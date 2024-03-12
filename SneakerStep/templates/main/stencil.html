@@ -77,7 +77,11 @@
                                     {% endif %}
                                 </li>
                                 <li>
-                                    <a href="/registration" title="">Регистрация</a>
+                                    {% if login %}
+                                        <a href="/account_deleting" title="">Удалить аккаунт</a>
+                                    {% else %}
+                                        <a href="/registration" title="">Регистрация</a>
+                                    {% endif %}
                                 </li>
                             </ul>
                         </li>

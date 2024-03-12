@@ -529,9 +529,6 @@ def entrance(request):
                 # Проверка на правильность введенных данных при входе
                 info = Users.objects.filter(email=form.cleaned_data['email'])
 
-                # TODO Добавить кнопку удаление аккаунта
-                # TODO Сделать новые кнопки и формы покрасивше
-
                 if info[0].password == form.cleaned_data['password']:
                     Users.objects.filter(email=form.cleaned_data['email']).update(status="True")
 
@@ -628,5 +625,38 @@ def registration(request):
 
 def logout(request):
     Users.objects.update(status=False)
+
+    return redirect('home')
+
+
+def account_deleting(request):
+    login, user_id, username = for_login()
+
+    try:
+        # Добавление товара обратно в ассортимент
+        for item in Cart.objects.filter(user_id=user_id):
+            item_id = item.item_id
+            size = item.size
+            assortment = AssortmentAdding.objects.filter(id=item_id)
+            sizes = assortment[0].get_sizes().split(' ')
+            counter = 0
+            for j in range(len(sizes)):
+                if int(36 + counter) == int(size):
+                    sizes[j] = str(size)
+                    AssortmentAdding.objects.filter(id=item_id).update(
+                        sizes=' '.join(sizes),
+                        update_date=None
+                    )
+                counter += 1
+    except Exception:
+        pass
+
+    try:
+        # Удаление товара из корзины
+        Cart.objects.filter(user_id=user_id).delete()
+        # Удаление пользователя из бд
+        Users.objects.filter(user_id=user_id).delete()
+    except Exception:
+        pass
 
     return redirect('home')
