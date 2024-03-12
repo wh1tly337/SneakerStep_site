@@ -17,10 +17,10 @@ from .forms import (
 from .models import AssortmentAdding, Orders, Cart, Users
 
 
-def for_cart():
+def for_cart(user_id):
     """ Общий класс для доступа всех функций к данным корзины. """
-    cart = Cart.objects.all()
-    amount = Cart.objects.aggregate(Sum('price'))['price__sum']
+    cart = Cart.objects.filter(user_id=user_id)
+    amount = Cart.objects.filter(user_id=user_id).aggregate(Sum('price'))['price__sum']
 
     return cart, amount
 
@@ -28,28 +28,33 @@ def for_cart():
 def for_login():
     """ Общий класс для доступа всех функций к данным логина. """
     login = Users.objects.filter(status=True).exists()
+    user_id = Users.objects.filter(status=True)[0].user_id if login else None
+    username = Users.objects.filter(status=True)[0].first_name if login else None
 
-    return login
+    return login, user_id, username
 
 
 def home(request):
     items = AssortmentAdding.objects.all()
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     context = {
         'items': items,
         'amount': amount,
         'cart': cart,
-        'login': login
+        'login': login,
+        'user_id': user_id,
+        'username': username,
+        'username': username
     }
 
     return render(request, 'main/home.html', context)
 
 
 def catalog(request):
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     try:
         # Настройка сортровки товаров
@@ -81,20 +86,24 @@ def catalog(request):
         'page_obj': page_obj,
         'amount': amount,
         'cart': cart,
-        'login': login
+        'login': login,
+        'user_id': user_id,
+        'username': username,
     }
 
     return render(request, 'main/shoe_catalog.html', context)
 
 
 def about_us(request):
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     context = {
         'amount': amount,
         'cart': cart,
-        'login': login
+        'login': login,
+        'user_id': user_id,
+        'username': username,
     }
 
     return render(request, 'main/about_us.html', context)
@@ -102,8 +111,8 @@ def about_us(request):
 
 def contact_us(request):
     form = ContactForm()
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     if request.method == 'POST':
         # Отправка данных из формы связи
@@ -133,6 +142,8 @@ def contact_us(request):
                 'amount': amount,
                 'cart': cart,
                 'login': login,
+                'user_id': user_id,
+                'username': username,
                 'error': 'Введите вреный адрес электронной почты, используя @'
             }
 
@@ -143,6 +154,8 @@ def contact_us(request):
         'amount': amount,
         'cart': cart,
         'login': login,
+        'user_id': user_id,
+        'username': username,
         'error': ''
     }
 
@@ -152,8 +165,8 @@ def contact_us(request):
 def product_card(request, pk):
     item = get_object_or_404(AssortmentAdding, pk=pk)
     form = SizeForm(currentid=pk)
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
     success = ''
 
     if request.method == 'POST':
@@ -164,6 +177,8 @@ def product_card(request, pk):
                     'item': item, 'form': form,
                     'cart': cart, 'amount': amount,
                     'login': login,
+                    'user_id': user_id,
+                    'username': username,
                     'error': 'Вы забыли выбрать размер'
                 }
 
@@ -173,6 +188,8 @@ def product_card(request, pk):
                     'item': item, 'form': form,
                     'cart': cart, 'amount': amount,
                     'login': login,
+                    'user_id': user_id,
+                    'username': username,
                     'error': 'К сожалению, пар данного размера нет в ассортименте'
                 }
 
@@ -195,7 +212,7 @@ def product_card(request, pk):
 
                 # Добавление товара в корзину
                 Cart.objects.create(
-                    item_id=item_id, image=image,
+                    item_id=item_id, user_id=user_id, image=image,
                     name=name, size=size,
                     price=price, quantity=1
                 )
@@ -241,6 +258,8 @@ def product_card(request, pk):
         'amount': amount,
         'cart': cart,
         'login': login,
+        'user_id': user_id,
+        'username': username,
         'error': '',
         'success': success
     }
@@ -249,8 +268,8 @@ def product_card(request, pk):
 
 
 def cart(request):
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     if request.method == 'POST':
         try:
@@ -262,7 +281,7 @@ def cart(request):
             ).delete()
 
             # Пересоздание элементов для правильного отображение итоговой суммы после удаления
-            cart, amount = for_cart()
+            cart, amount = for_cart(user_id)
 
             # Добавление товара обратно в ассортимент
             assortment = AssortmentAdding.objects.filter(id=item_id)
@@ -282,7 +301,9 @@ def cart(request):
     context = {
         'amount': amount,
         'cart': cart,
-        'login': login
+        'login': login,
+        'user_id': user_id,
+        'username': username,
     }
 
     return render(request, 'main/cart.html', context)
@@ -290,8 +311,8 @@ def cart(request):
 
 def chect_out(request):
     form = OrdersForm()
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     if request.method == 'POST':
         form = OrdersForm(request.POST)
@@ -306,6 +327,8 @@ def chect_out(request):
                     'amount': amount,
                     'cart': cart,
                     'login': login,
+                    'user_id': user_id,
+                    'username': username,
                     'error_form': '',
                     'error_cart': 'Ваша козина пуста'
                 }
@@ -348,6 +371,8 @@ def chect_out(request):
                 'amount': amount,
                 'cart': cart,
                 'login': login,
+                'user_id': user_id,
+                'username': username,
                 'error_form': 'Введите вреный адрес электронной почты, используя @',
                 'error_cart': ''
             }
@@ -359,6 +384,8 @@ def chect_out(request):
         'amount': amount,
         'cart': cart,
         'login': login,
+        'user_id': user_id,
+        'username': username,
         'error_form': '',
         'error_cart': ''
     }
@@ -368,8 +395,8 @@ def chect_out(request):
 
 def refound(request):
     form = RefoundForm()
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     if request.method == 'POST':
         form = RefoundForm(request.POST)
@@ -400,6 +427,8 @@ def refound(request):
                         'amount': amount,
                         'cart': cart,
                         'login': login,
+                        'user_id': user_id,
+                        'username': username,
                         'error': 'Такого заказа нет, проверьте правильность введенных данных'
                     }
 
@@ -410,6 +439,8 @@ def refound(request):
                     'amount': amount,
                     'cart': cart,
                     'login': login,
+                    'user_id': user_id,
+                    'username': username,
                     'error': 'Такого заказа нет, проверьте правильность введенных данных'
                 }
 
@@ -420,6 +451,8 @@ def refound(request):
                 'amount': amount,
                 'cart': cart,
                 'login': login,
+                'user_id': user_id,
+                'username': username,
                 'error': 'Введите вреный адрес электронной почты, используя @'
             }
 
@@ -430,6 +463,8 @@ def refound(request):
         'amount': amount,
         'cart': cart,
         'login': login,
+        'user_id': user_id,
+        'username': username,
         'error': ''
     }
 
@@ -437,39 +472,45 @@ def refound(request):
 
 
 def purchase(request):
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     context = {
         'amount': amount,
         'cart': cart,
-        'login': login
+        'login': login,
+        'user_id': user_id,
+        'username': username,
     }
 
     return render(request, 'main/purchase.html', context)
 
 
 def appeal(request):
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     context = {
         'amount': amount,
         'cart': cart,
-        'login': login
+        'login': login,
+        'user_id': user_id,
+        'username': username,
     }
 
     return render(request, 'main/appeal.html', context)
 
 
 def comming_soon(request, exception):
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     context = {
         'amount': amount,
         'cart': cart,
-        'login': login
+        'login': login,
+        'user_id': user_id,
+        'username': username,
     }
 
     return render(request, 'main/comming_soon.html', context)
@@ -477,8 +518,8 @@ def comming_soon(request, exception):
 
 def entrance(request):
     form = UsersEnteranceForm()
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     if request.method == 'POST':
         # Отправка данных из формы входа
@@ -488,8 +529,6 @@ def entrance(request):
                 # Проверка на правильность введенных данных при входе
                 info = Users.objects.filter(email=form.cleaned_data['email'])
 
-                # TODO Добавить добавление в корзину по id пользователя (в целом работу id с корзиной)
-                # TODO Добавить вывод имени аккаунта куда-то в header
                 # TODO Добавить кнопку удаление аккаунта
                 # TODO Сделать новые кнопки и формы покрасивше
 
@@ -503,6 +542,8 @@ def entrance(request):
                         'amount': amount,
                         'cart': cart,
                         'login': login,
+                        'user_id': user_id,
+                        'username': username,
                         'error': 'Такого аккаунта нет или данные введены неверно'
                     }
 
@@ -513,6 +554,8 @@ def entrance(request):
                     'amount': amount,
                     'cart': cart,
                     'login': login,
+                    'user_id': user_id,
+                    'username': username,
                     'error': 'Такого аккаунта нет или данные введены неверно'
                 }
 
@@ -523,6 +566,8 @@ def entrance(request):
                 'amount': amount,
                 'cart': cart,
                 'login': login,
+                'user_id': user_id,
+                'username': username,
                 'error': 'Введите вреный адрес электронной почты, используя @'
             }
 
@@ -533,6 +578,8 @@ def entrance(request):
         'amount': amount,
         'cart': cart,
         'login': login,
+        'user_id': user_id,
+        'username': username,
         'error': ''
     }
 
@@ -541,8 +588,8 @@ def entrance(request):
 
 def registration(request):
     form = UsersRegisterForm()
-    login = for_login()
-    cart, amount = for_cart()
+    login, user_id, username = for_login()
+    cart, amount = for_cart(user_id)
 
     if request.method == 'POST':
         # Отправка данных из формы регистрации
@@ -559,6 +606,8 @@ def registration(request):
                 'amount': amount,
                 'cart': cart,
                 'login': login,
+                'user_id': user_id,
+                'username': username,
                 'error': 'Введите вреный адрес электронной почты, используя @'
             }
 
@@ -569,6 +618,8 @@ def registration(request):
         'amount': amount,
         'cart': cart,
         'login': login,
+        'user_id': user_id,
+        'username': username,
         'error': ''
     }
 

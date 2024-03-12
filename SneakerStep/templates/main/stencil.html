@@ -61,6 +61,10 @@
                 <div class="col-md-3 icon-header-right item-icon">
                     <ul>
                         <li class="hover-cart-user">
+                            {% if login %}
+                                <span>{{ username }}</span>
+                            {% else %}
+                            {% endif %}
                             <a class="click-hover-user" href="#">
                                 <span class="pe-7s-user"></span>
                             </a>
