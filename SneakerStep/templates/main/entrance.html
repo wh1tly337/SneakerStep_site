@@ -1,0 +1,47 @@
+{% extends 'main/stencil.html' %}
+{% load static %}
+
+{% block title %}
+    Вход
+{% endblock %}
+
+{% block banner %}
+    <section class="banner-top-v1 banner-blog  banner-checkout banner-about">
+        <h3>Вход в Ваш аккаунт</h3>
+    </section>
+{% endblock %}
+
+{% block body %}
+    <!-- contact -->
+    <section class="title-contact"></section>
+    <!-- contact -->
+    <!-- information -->
+    <div class="textbox-information">
+        <div class="container">
+            <div class="row">
+                <form class="needs-validation" method="post">
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert" style="width: 65%; margin: auto auto 30px auto">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+                    {% csrf_token %}
+                    <div class="col-md-10" style="margin: 0 117px">
+                        <div class="col-md-10 frm-ip" style="margin: 0 60px">
+                            {{ form.email }}
+                        </div>
+                        <div class="col-md-10 frm-txt" style="margin: 30px 60px">
+                            {{ form.password }}
+                        </div>
+                        <div class="col-md-12" style="margin: 0 0 0 60px">
+                            <button class="button-57" role="button" type="submit">
+                                <span class="text">Войти</span>
+                                <span>Добро пожаловать!</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

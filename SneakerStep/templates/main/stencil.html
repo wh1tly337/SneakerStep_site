@@ -61,6 +61,23 @@
                 <div class="col-md-3 icon-header-right item-icon">
                     <ul>
                         <li class="hover-cart-user">
+                            <a class="click-hover-user" href="#">
+                                <span class="pe-7s-user"></span>
+                            </a>
+                            <ul class="submenu submenu_user">
+                                <li>
+                                    {% if login %}
+                                        <a href="/logout" title="">Выход</a>
+                                    {% else %}
+                                        <a href="/entrance" title="">Вход</a>
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    <a href="/registration" title="">Регистрация</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="hover-cart-user">
                             <a class="hover-icon-cart" href="/cart">
                                 <span class="icon icon-ecommerce-basket"></span>
                                 <p>{{ cart|length }}</p>

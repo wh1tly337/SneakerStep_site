@@ -95,6 +95,7 @@ class ContactUs(models.Model):
 
 class Cart(models.Model):
     item_id = models.IntegerField('ID товара', blank=True, null=True)
+    user_id = models.CharField('ID пользователя', max_length=50, blank=True, null=True)
     image = models.CharField('Изображение', max_length=1000, blank=True, null=True)
     name = models.CharField('Название', max_length=255, blank=True, null=True)
     size = models.IntegerField('Размер')
@@ -116,5 +117,18 @@ class Cart(models.Model):
     def get_cart_price(self):
         return str(self.price)
 
-# class HomePageUpdater(models.Model):
-#     id = models.AutoField('ID вещи', primary_key=True)
+
+class Users(models.Model):
+    user_id = models.IntegerField('ID пользователя', primary_key=True)
+    status = models.BooleanField('Статус входа', default=False)
+    first_name = models.CharField('Имя', max_length=50)
+    last_name = models.CharField('Фамилия', max_length=50)
+    email = models.EmailField('Электронная почта')
+    password = models.CharField('Пароль', max_length=50)
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
+    def __str__(self):
+        return f"{self.user_id} {self.status} {self.first_name} {self.last_name} {self.email} {self.password}"

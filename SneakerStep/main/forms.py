@@ -1,4 +1,4 @@
-from .models import Orders, ContactUs, AssortmentAdding
+from .models import Orders, ContactUs, AssortmentAdding, Users
 from django import forms
 from django.forms import ModelForm, TextInput, RadioSelect
 
@@ -222,6 +222,76 @@ class RefoundForm(ModelForm):
                 'id': 'refound_description',
                 'name': 'refound_description',
                 'placeholder': 'Причина возврата',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
+            }),
+        }
+
+
+class UsersRegisterForm(ModelForm):
+    class Meta:
+        model = Users
+        fields = [
+            'first_name', 'last_name', 'email', 'password'
+        ]
+
+        widgets = {
+            'first_name': TextInput(attrs={
+                'type': 'text',
+                'id': 'first_name',
+                'name': 'first_name',
+                'placeholder': 'Имя',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
+            }),
+            'last_name': TextInput(attrs={
+                'type': 'text',
+                'id': 'last_name',
+                'name': 'last_name',
+                'placeholder': 'Фамилия',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
+            }),
+            'email': TextInput(attrs={
+                'type': 'text',
+                'id': 'email',
+                'name': 'email',
+                'placeholder': 'Электронная почта',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
+            }),
+            'password': TextInput(attrs={
+                'type': 'text',
+                'id': 'password',
+                'name': 'password',
+                'placeholder': 'Пароль',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')"
+            }),
+        }
+
+
+class UsersEnteranceForm(ModelForm):
+    class Meta:
+        model = Users
+        fields = [
+            'email', 'password'
+        ]
+
+        widgets = {
+            'email': TextInput(attrs={
+                'type': 'text',
+                'id': 'email',
+                'name': 'email',
+                'placeholder': 'Электронная почта',
+                'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
+                'oninput': "setCustomValidity('')",
+            }),
+            'password': TextInput(attrs={
+                'type': 'text',
+                'id': 'password',
+                'name': 'password',
+                'placeholder': 'Пароль',
                 'oninvalid': "this.setCustomValidity('Необходимо заполнить это поле')",
                 'oninput': "setCustomValidity('')"
             }),

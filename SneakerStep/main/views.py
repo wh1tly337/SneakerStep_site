@@ -11,9 +11,10 @@ from django.shortcuts import render, redirect
 from .forms import (
     OrdersForm, ContactForm,
     RefoundForm, CatalogForm,
-    SizeForm
+    SizeForm, UsersRegisterForm,
+    UsersEnteranceForm
 )
-from .models import AssortmentAdding, Orders, Cart
+from .models import AssortmentAdding, Orders, Cart, Users
 
 
 def for_cart():
@@ -24,20 +25,30 @@ def for_cart():
     return cart, amount
 
 
+def for_login():
+    """ Общий класс для доступа всех функций к данным логина. """
+    login = Users.objects.filter(status=True).exists()
+
+    return login
+
+
 def home(request):
     items = AssortmentAdding.objects.all()
+    login = for_login()
     cart, amount = for_cart()
 
     context = {
         'items': items,
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'login': login
     }
 
     return render(request, 'main/home.html', context)
 
 
 def catalog(request):
+    login = for_login()
     cart, amount = for_cart()
 
     try:
@@ -69,18 +80,21 @@ def catalog(request):
         'temp': temp,
         'page_obj': page_obj,
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'login': login
     }
 
     return render(request, 'main/shoe_catalog.html', context)
 
 
 def about_us(request):
+    login = for_login()
     cart, amount = for_cart()
 
     context = {
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'login': login
     }
 
     return render(request, 'main/about_us.html', context)
@@ -88,6 +102,7 @@ def about_us(request):
 
 def contact_us(request):
     form = ContactForm()
+    login = for_login()
     cart, amount = for_cart()
 
     if request.method == 'POST':
@@ -117,6 +132,7 @@ def contact_us(request):
                 'form': form,
                 'amount': amount,
                 'cart': cart,
+                'login': login,
                 'error': 'Введите вреный адрес электронной почты, используя @'
             }
 
@@ -126,6 +142,7 @@ def contact_us(request):
         'form': form,
         'amount': amount,
         'cart': cart,
+        'login': login,
         'error': ''
     }
 
@@ -135,6 +152,7 @@ def contact_us(request):
 def product_card(request, pk):
     item = get_object_or_404(AssortmentAdding, pk=pk)
     form = SizeForm(currentid=pk)
+    login = for_login()
     cart, amount = for_cart()
     success = ''
 
@@ -145,6 +163,7 @@ def product_card(request, pk):
                 context = {
                     'item': item, 'form': form,
                     'cart': cart, 'amount': amount,
+                    'login': login,
                     'error': 'Вы забыли выбрать размер'
                 }
 
@@ -153,6 +172,7 @@ def product_card(request, pk):
                 context = {
                     'item': item, 'form': form,
                     'cart': cart, 'amount': amount,
+                    'login': login,
                     'error': 'К сожалению, пар данного размера нет в ассортименте'
                 }
 
@@ -218,8 +238,9 @@ def product_card(request, pk):
     context = {
         'item': item,
         'form': form,
-        'cart': cart,
         'amount': amount,
+        'cart': cart,
+        'login': login,
         'error': '',
         'success': success
     }
@@ -228,6 +249,7 @@ def product_card(request, pk):
 
 
 def cart(request):
+    login = for_login()
     cart, amount = for_cart()
 
     if request.method == 'POST':
@@ -238,10 +260,10 @@ def cart(request):
                 item_id=item_id,
                 size=size
             ).delete()
-            
+
             # Пересоздание элементов для правильного отображение итоговой суммы после удаления
             cart, amount = for_cart()
-            
+
             # Добавление товара обратно в ассортимент
             assortment = AssortmentAdding.objects.filter(id=item_id)
             sizes = assortment[0].get_sizes().split(' ')
@@ -259,7 +281,8 @@ def cart(request):
 
     context = {
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'login': login
     }
 
     return render(request, 'main/cart.html', context)
@@ -267,6 +290,7 @@ def cart(request):
 
 def chect_out(request):
     form = OrdersForm()
+    login = for_login()
     cart, amount = for_cart()
 
     if request.method == 'POST':
@@ -281,6 +305,7 @@ def chect_out(request):
                     'form': form,
                     'amount': amount,
                     'cart': cart,
+                    'login': login,
                     'error_form': '',
                     'error_cart': 'Ваша козина пуста'
                 }
@@ -322,6 +347,7 @@ def chect_out(request):
                 'form': form,
                 'amount': amount,
                 'cart': cart,
+                'login': login,
                 'error_form': 'Введите вреный адрес электронной почты, используя @',
                 'error_cart': ''
             }
@@ -332,6 +358,7 @@ def chect_out(request):
         'form': form,
         'amount': amount,
         'cart': cart,
+        'login': login,
         'error_form': '',
         'error_cart': ''
     }
@@ -341,6 +368,7 @@ def chect_out(request):
 
 def refound(request):
     form = RefoundForm()
+    login = for_login()
     cart, amount = for_cart()
 
     if request.method == 'POST':
@@ -371,6 +399,7 @@ def refound(request):
                         'form': form,
                         'amount': amount,
                         'cart': cart,
+                        'login': login,
                         'error': 'Такого заказа нет, проверьте правильность введенных данных'
                     }
 
@@ -380,6 +409,7 @@ def refound(request):
                     'form': form,
                     'amount': amount,
                     'cart': cart,
+                    'login': login,
                     'error': 'Такого заказа нет, проверьте правильность введенных данных'
                 }
 
@@ -389,6 +419,7 @@ def refound(request):
                 'form': form,
                 'amount': amount,
                 'cart': cart,
+                'login': login,
                 'error': 'Введите вреный адрес электронной почты, используя @'
             }
 
@@ -398,6 +429,7 @@ def refound(request):
         'form': form,
         'amount': amount,
         'cart': cart,
+        'login': login,
         'error': ''
     }
 
@@ -405,33 +437,145 @@ def refound(request):
 
 
 def purchase(request):
+    login = for_login()
     cart, amount = for_cart()
 
     context = {
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'login': login
     }
 
     return render(request, 'main/purchase.html', context)
 
 
 def appeal(request):
+    login = for_login()
     cart, amount = for_cart()
 
     context = {
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'login': login
     }
 
     return render(request, 'main/appeal.html', context)
 
 
 def comming_soon(request, exception):
+    login = for_login()
     cart, amount = for_cart()
 
     context = {
         'amount': amount,
-        'cart': cart
+        'cart': cart,
+        'login': login
     }
 
     return render(request, 'main/comming_soon.html', context)
+
+
+def entrance(request):
+    form = UsersEnteranceForm()
+    login = for_login()
+    cart, amount = for_cart()
+
+    if request.method == 'POST':
+        # Отправка данных из формы входа
+        form = UsersEnteranceForm(request.POST)
+        if form.is_valid():
+            try:
+                # Проверка на правильность введенных данных при входе
+                info = Users.objects.filter(email=form.cleaned_data['email'])
+
+                # TODO Добавить добавление в корзину по id пользователя (в целом работу id с корзиной)
+                # TODO Добавить вывод имени аккаунта куда-то в header
+                # TODO Добавить кнопку удаление аккаунта
+                # TODO Сделать новые кнопки и формы покрасивше
+
+                if info[0].password == form.cleaned_data['password']:
+                    Users.objects.filter(email=form.cleaned_data['email']).update(status="True")
+
+                    return redirect('home')
+                else:
+                    context = {
+                        'form': form,
+                        'amount': amount,
+                        'cart': cart,
+                        'login': login,
+                        'error': 'Такого аккаунта нет или данные введены неверно'
+                    }
+
+                    return render(request, 'main/entrance.html', context)
+            except Exception:
+                context = {
+                    'form': form,
+                    'amount': amount,
+                    'cart': cart,
+                    'login': login,
+                    'error': 'Такого аккаунта нет или данные введены неверно'
+                }
+
+                return render(request, 'main/entrance.html', context)
+        else:
+            context = {
+                'form': form,
+                'amount': amount,
+                'cart': cart,
+                'login': login,
+                'error': 'Введите вреный адрес электронной почты, используя @'
+            }
+
+            return render(request, 'main/entrance.html', context)
+
+    context = {
+        'form': form,
+        'amount': amount,
+        'cart': cart,
+        'login': login,
+        'error': ''
+    }
+
+    return render(request, 'main/entrance.html', context)
+
+
+def registration(request):
+    form = UsersRegisterForm()
+    login = for_login()
+    cart, amount = for_cart()
+
+    if request.method == 'POST':
+        # Отправка данных из формы регистрации
+        form = UsersRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            Users.objects.filter(email=form.cleaned_data['email']).update(status="True")
+
+            return redirect('home')
+        else:
+            context = {
+                'form': form,
+                'amount': amount,
+                'cart': cart,
+                'login': login,
+                'error': 'Введите вреный адрес электронной почты, используя @'
+            }
+
+            return render(request, 'main/registration.html', context)
+
+    context = {
+        'form': form,
+        'amount': amount,
+        'cart': cart,
+        'login': login,
+        'error': ''
+    }
+
+    return render(request, 'main/registration.html', context)
+
+
+def logout(request):
+    Users.objects.update(status=False)
+
+    return redirect('home')

@@ -336,7 +336,7 @@ class AdminOrders(admin.ModelAdmin):
                 name = ''
 
             data.append([
-                order.order_id, refound_description, order.items_id,name,
+                order.order_id, refound_description, order.items_id, name,
                 order.final_price, username,
                 city, payment_method,
                 start_date, update_date
@@ -345,7 +345,7 @@ class AdminOrders(admin.ModelAdmin):
         final_price = Orders.objects.values('status').filter(status=status).annotate(sum=Sum('final_price'))
         data.append(['', '', '', '', '', '', '', '', '', ''])
         data.append([
-            '', '','',
+            '', '', '',
             'Итого:', final_price[0].get('sum'),
             '', '', '', '', ''
         ])
@@ -386,6 +386,20 @@ class AdminContact(admin.ModelAdmin):
     empty_value_display = '-пусто-'
 
 
+class UsersContact(admin.ModelAdmin):
+    ordering = ('-user_id',)
+    list_per_page = 10
+
+    exclude = ('user_id',)
+
+    list_display = ('user_id', 'status', 'first_name', 'last_name', 'email', 'password')
+    search_fields = ('user_id', 'status', 'first_name', 'last_name', 'email', 'password')
+    list_filter = ('user_id', 'status',)
+
+    empty_value_display = '-пусто-'
+
+
 admin.site.register(AssortmentAdding, AdminAssortment)
 admin.site.register(Orders, AdminOrders)
 admin.site.register(ContactUs, AdminContact)
+admin.site.register(Users, UsersContact)

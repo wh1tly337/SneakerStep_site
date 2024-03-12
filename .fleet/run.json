@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "django",
+            "name": "runserver",
+            "command": "runserver",
+            "manageFilePath": "SneakerStep/manage.py",
+        },
+        
+    ]
+}

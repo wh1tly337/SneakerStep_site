@@ -12,5 +12,8 @@ urlpatterns = [
     path('cart', views.cart, name='cart'),
     path('refound', views.refound, name='refound'),
     path('purchase', views.purchase, name='purchase'),
-    path('appeal', views.appeal, name='appeal')
+    path('appeal', views.appeal, name='appeal'),
+    path('entrance', views.entrance, name='entrance'),
+    path('registration', views.registration, name='registration'),
+    path('logout', views.logout, name='logout')
 ]
