@@ -53,6 +53,7 @@ class Orders(models.Model):
     )
 
     order_id = models.IntegerField('ID заказа', primary_key=True)
+    user_id = models.IntegerField('ID пользователя', blank=True, null=True)
     status = models.CharField('Статус заказа', choices=STATUS_CHOICES, max_length=10, default='Оформлен')
     refound_id = models.IntegerField('ID для оформления возврата', blank=True, null=True)
     refound_description = models.TextField('Причина возврата', blank=True, null=True)

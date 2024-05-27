@@ -358,7 +358,8 @@ def chect_out(request):
             ).update(
                 items_id=result_id,
                 items_names=result_name,
-                final_price=final_price
+                final_price=final_price,
+                user_id=user_id
             )
 
             # Удаление всех данных из корзины

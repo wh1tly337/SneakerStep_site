@@ -63,12 +63,12 @@ class AdminOrders(admin.ModelAdmin):
     )
 
     list_display = (
-        'order_id', 'status', 'first_name',
+        'order_id', 'user_id', 'status', 'first_name',
         'last_name', 'email', 'start_date',
         'end_date'
     )
     search_fields = (
-        'order_id', 'items', 'first_name',
+        'order_id', 'user_id', 'items', 'first_name',
         'last_name', 'city', 'post_index',
         'adres', 'phone_number', 'email'
     )
